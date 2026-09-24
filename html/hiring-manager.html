@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Hiring Manager (HM) | Ecosistema de Atracción de Talento</title>
+    <title>Hiring Manager (HM) | EDAT</title>
 
     <link rel="stylesheet" href="../css/hm-styles.css">
 
@@ -28,7 +28,7 @@
             <div class="hm-brand">
                 <span class="hm-brand__mark"><img class="talento-logo-image" src="../recursos/el-puerto-de-liverpool-sab-de-cv--600.png" alt="Liverpool"></span>
                 <span class="hm-brand__name">
-                    <strong>Talento</strong>
+                    <strong>EDAT</strong>
                     <span>HIRING MANAGER</span>
                 </span>
             </div>
@@ -49,7 +49,10 @@
             </nav>
 
             <div class="hm-sidebar__user">
-                <span class="hm-avatar hm-avatar--sm" id="hm-user-initials">DR</span>
+                <button class="hm-avatar hm-avatar--sm" id="hm-user-initials" type="button" aria-label="Abrir opciones de sesión" aria-expanded="false" aria-controls="hm-session-panel">DR</button>
+                <div id="hm-session-panel" class="hm-session-panel" hidden>
+                    <button id="hm-logout-button" type="button">Cerrar sesión</button>
+                </div>
                 <span>
                     <strong id="hm-user-name">Daniel Ramírez</strong>
                     <small id="hm-user-role">Hiring Manager</small>
@@ -260,6 +263,41 @@
 
     <div class="hm-toast" id="hm-toast"></div>
 
+<script>
+// EDAT: opciones de sesión del Hiring Manager.
+(() => {
+  const trigger = document.getElementById('hm-user-initials');
+  const panel = document.getElementById('hm-session-panel');
+  const logout = document.getElementById('hm-logout-button');
+  if (!trigger || !panel || !logout) return;
+  function close(restoreFocus = false) {
+    panel.hidden = true;
+    trigger.setAttribute('aria-expanded', 'false');
+    if (restoreFocus) trigger.focus();
+  }
+  trigger.addEventListener('click', () => {
+    const open = panel.hidden;
+    panel.hidden = !open;
+    trigger.setAttribute('aria-expanded', String(open));
+    if (open) logout.focus();
+  });
+  document.addEventListener('click', event => {
+    if (!panel.contains(event.target) && !trigger.contains(event.target)) close();
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && !panel.hidden) close(true);
+  });
+  document.addEventListener('focusin', event => {
+    if (!panel.contains(event.target) && !trigger.contains(event.target)) close();
+  });
+  logout.addEventListener('click', () => {
+    try { localStorage.removeItem('talentoSession'); } catch (_) {}
+    try { sessionStorage.removeItem('talentoSession'); } catch (_) {}
+    window.location.replace('login.html');
+  });
+})();
+
+</script>
 </body>
 
 </html>

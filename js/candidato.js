@@ -689,3 +689,36 @@ document
 
         }
     );
+;
+// EDAT: opciones de sesión del portal de candidatos.
+(() => {
+  const trigger = document.getElementById('edatAccountButton');
+  const panel = document.getElementById('edatAccountPanel');
+  const logout = document.getElementById('edatLogoutButton');
+  if (!trigger || !panel || !logout) return;
+  function close(restoreFocus = false) {
+    panel.hidden = true;
+    trigger.setAttribute('aria-expanded', 'false');
+    if (restoreFocus) trigger.focus();
+  }
+  trigger.addEventListener('click', () => {
+    const open = panel.hidden;
+    panel.hidden = !open;
+    trigger.setAttribute('aria-expanded', String(open));
+    if (open) logout.focus();
+  });
+  document.addEventListener('click', event => {
+    if (!panel.contains(event.target) && !trigger.contains(event.target)) close();
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && !panel.hidden) close(true);
+  });
+  document.addEventListener('focusin', event => {
+    if (!panel.contains(event.target) && !trigger.contains(event.target)) close();
+  });
+  logout.addEventListener('click', () => {
+    try { localStorage.removeItem('talentoSession'); } catch (_) {}
+    try { sessionStorage.removeItem('talentoSession'); } catch (_) {}
+    window.location.replace('login.html');
+  });
+})();
