@@ -216,8 +216,7 @@ button {
     background:
         var(--pink);
 
-    font-size:
-        13px;
+    font-size: 13px;
 
     font-weight:
         800;
@@ -239,8 +238,7 @@ button {
 
 .puerto-copy strong {
 
-    font-size:
-        9px;
+    font-size: 10px;
 
 }
 
@@ -253,8 +251,7 @@ button {
     color:
         var(--pink);
 
-    font-size:
-        6px;
+    font-size: 6px;
 
     letter-spacing:
         .7px;
@@ -264,8 +261,7 @@ button {
 
 .talento-wordmark strong {
 
-    font-size:
-        16px;
+    font-size: 16px;
 
     line-height:
         .9;
@@ -281,8 +277,7 @@ button {
     margin-top:
         4px;
 
-    font-size:
-        8px;
+    font-size: 8px;
 
     letter-spacing:
         1.7px;
@@ -324,8 +319,7 @@ button {
     background:
         transparent;
 
-    font-size:
-        11px;
+    font-size: 11px;
 
 }
 
@@ -379,8 +373,7 @@ button {
 
 .nav-user-copy strong {
 
-    font-size:
-        10px;
+    font-size: 10px;
 
 }
 
@@ -393,8 +386,7 @@ button {
     color:
         var(--text-soft);
 
-    font-size:
-        8px;
+    font-size: 8px;
 
 }
 
@@ -425,8 +417,7 @@ button {
     background:
         var(--pink);
 
-    font-size:
-        11px;
+    font-size: 11px;
 
     font-weight:
         700;
@@ -527,16 +518,14 @@ button {
     color:
         var(--pink);
 
-    font-size:
-        10px;
+    font-size: 10px;
 
 }
 
 
 .welcome-copy h1 {
 
-    font-size:
-        36px;
+    font-size: 36px;
 
     line-height:
         1.05;
@@ -558,8 +547,7 @@ button {
     color:
         var(--text-soft);
 
-    font-size:
-        13px;
+    font-size: 13px;
 
     line-height:
         1.65;
@@ -604,8 +592,7 @@ button {
     color:
         var(--text-soft);
 
-    font-size:
-        9px;
+    font-size: 10px;
 
     letter-spacing:
         .8px;
@@ -618,8 +605,7 @@ button {
     margin-top:
         6px;
 
-    font-size:
-        25px;
+    font-size: 24px;
 
 }
 
@@ -632,8 +618,7 @@ button {
     color:
         #837b83;
 
-    font-size:
-        9px;
+    font-size: 10px;
 
 }
 
@@ -714,8 +699,7 @@ button {
     border-radius:
         999px;
 
-    font-size:
-        9px;
+    font-size: 10px;
 
 }
 
@@ -744,8 +728,7 @@ button {
 
 .job-header h2 {
 
-    font-size:
-        22px;
+    font-size: 24px;
 
     letter-spacing:
         -.7px;
@@ -770,8 +753,7 @@ button {
     color:
         #6b646b;
 
-    font-size:
-        9px;
+    font-size: 10px;
 
 }
 
@@ -796,8 +778,7 @@ button {
     box-shadow:
         0 5px 13px rgba(198, 0, 126, .18);
 
-    font-size:
-        10px;
+    font-size: 10px;
 
     font-weight:
         600;
@@ -847,8 +828,7 @@ button {
     color:
         #716a70;
 
-    font-size:
-        8px;
+    font-size: 8px;
 
 }
 
@@ -861,8 +841,7 @@ button {
     margin-top:
         6px;
 
-    font-size:
-        17px;
+    font-size: 18px;
 
 }
 
@@ -878,8 +857,7 @@ button {
     color:
         #7d767c;
 
-    font-size:
-        8px;
+    font-size: 8px;
 
 }
 
@@ -909,8 +887,7 @@ button {
     color:
         var(--pink);
 
-    font-size:
-        8px;
+    font-size: 8px;
 
     font-weight:
         700;
@@ -957,8 +934,7 @@ button {
     margin-top:
         6px;
 
-    font-size:
-        18px;
+    font-size: 18px;
 
 }
 
@@ -968,8 +944,7 @@ button {
     color:
         #918a91;
 
-    font-size:
-        8px;
+    font-size: 8px;
 
 }
 
@@ -1062,8 +1037,7 @@ button {
     border-radius:
         50%;
 
-    font-size:
-        12px;
+    font-size: 12px;
 
     font-weight:
         700;
@@ -1152,8 +1126,7 @@ button {
 
 .timeline-title-row strong {
 
-    font-size:
-        13px;
+    font-size: 13px;
 
 }
 
@@ -1166,8 +1139,7 @@ button {
     color:
         #797279;
 
-    font-size:
-        9px;
+    font-size: 10px;
 
     line-height:
         1.55;
@@ -1180,8 +1152,7 @@ button {
     color:
         #558829;
 
-    font-size:
-        8px;
+    font-size: 8px;
 
 }
 
@@ -1200,8 +1171,7 @@ button {
     color:
         #54812e;
 
-    font-size:
-        11px;
+    font-size: 11px;
 
 }
 
@@ -1258,8 +1228,7 @@ button {
     background:
         var(--pink);
 
-    font-size:
-        7px;
+    font-size: 7px;
 
     font-weight:
         700;
@@ -1272,8 +1241,7 @@ button {
     color:
         var(--pink);
 
-    font-size:
-        8px;
+    font-size: 8px;
 
 }
 
@@ -1303,8 +1271,7 @@ button {
     border-radius:
         6px;
 
-    font-size:
-        8px;
+    font-size: 8px;
 
 }
 
@@ -1342,8 +1309,7 @@ button {
     color:
         #90898f;
 
-    font-size:
-        8px;
+    font-size: 8px;
 
 }
 
@@ -1362,8 +1328,7 @@ button {
     color:
         #898388;
 
-    font-size:
-        8px;
+    font-size: 8px;
 
 }
 
@@ -1430,8 +1395,7 @@ button {
 
 .title-with-icon h2 {
 
-    font-size:
-        16px;
+    font-size: 16px;
 
 }
 
@@ -1444,8 +1408,7 @@ button {
     color:
         var(--text-soft);
 
-    font-size:
-        8px;
+    font-size: 8px;
 
 }
 
@@ -1519,8 +1482,7 @@ button {
     background:
         #f0fbdc;
 
-    font-size:
-        8px;
+    font-size: 8px;
 
 }
 
@@ -1592,8 +1554,7 @@ button {
     color:
         var(--pink);
 
-    font-size:
-        7px;
+    font-size: 7px;
 
     font-weight:
         700;
@@ -1606,8 +1567,7 @@ button {
     margin-top:
         3px;
 
-    font-size:
-        17px;
+    font-size: 18px;
 
 }
 
@@ -1625,8 +1585,7 @@ button {
 
 .interview-time strong {
 
-    font-size:
-        11px;
+    font-size: 11px;
 
 }
 
@@ -1639,8 +1598,7 @@ button {
     color:
         var(--text-soft);
 
-    font-size:
-        8px;
+    font-size: 8px;
 
 }
 
@@ -1650,8 +1608,7 @@ button {
     color:
         var(--pink);
 
-    font-size:
-        8px;
+    font-size: 8px;
 
 }
 
@@ -1667,8 +1624,7 @@ button {
     color:
         #6b656a;
 
-    font-size:
-        7px;
+    font-size: 7px;
 
     font-weight:
         700;
@@ -1739,8 +1695,7 @@ button {
     color:
         white;
 
-    font-size:
-        9px;
+    font-size: 10px;
 
     font-weight:
         700;
@@ -1777,8 +1732,7 @@ button {
     display:
         block;
 
-    font-size:
-        9px;
+    font-size: 10px;
 
 }
 
@@ -1794,8 +1748,7 @@ button {
     color:
         var(--text-soft);
 
-    font-size:
-        7px;
+    font-size: 7px;
 
 }
 
@@ -1825,8 +1778,7 @@ button {
     color:
         #56832d;
 
-    font-size:
-        8px;
+    font-size: 8px;
 
 }
 
@@ -1848,8 +1800,7 @@ button {
     background:
         #f3f0f0;
 
-    font-size:
-        8px;
+    font-size: 8px;
 
 }
 
@@ -1924,8 +1875,7 @@ button {
     background:
         var(--pink-soft);
 
-    font-size:
-        8px;
+    font-size: 8px;
 
     font-weight:
         700;
@@ -1935,8 +1885,7 @@ button {
 
 .tip-item strong {
 
-    font-size:
-        9px;
+    font-size: 10px;
 
 }
 
@@ -1949,8 +1898,7 @@ button {
     color:
         #766f76;
 
-    font-size:
-        7px;
+    font-size: 7px;
 
     line-height:
         1.55;
@@ -1986,8 +1934,7 @@ button {
     color:
         #6e666d;
 
-    font-size:
-        7px;
+    font-size: 7px;
 
     line-height:
         1.5;
@@ -2016,8 +1963,7 @@ button {
     background:
         white;
 
-    font-size:
-        8px;
+    font-size: 8px;
 
 }
 
@@ -2085,8 +2031,7 @@ button {
     display:
         block;
 
-    font-size:
-        9px;
+    font-size: 10px;
 
 }
 
@@ -2102,8 +2047,7 @@ button {
     color:
         var(--text-soft);
 
-    font-size:
-        7px;
+    font-size: 7px;
 
 }
 
@@ -2178,8 +2122,7 @@ button {
     color:
         #918a90;
 
-    font-size:
-        7px;
+    font-size: 7px;
 
 }
 
@@ -2192,8 +2135,7 @@ button {
     margin-top:
         5px;
 
-    font-size:
-        8px;
+    font-size: 8px;
 
     line-height:
         1.4;
@@ -2209,8 +2151,7 @@ button {
     color:
         #7d767c;
 
-    font-size:
-        7px;
+    font-size: 7px;
 
 }
 
@@ -2275,8 +2216,7 @@ button {
             #e0c5ad
         );
 
-    font-size:
-        10px;
+    font-size: 10px;
 
     font-weight:
         700;
@@ -2289,8 +2229,7 @@ button {
     display:
         block;
 
-    font-size:
-        10px;
+    font-size: 10px;
 
 }
 
@@ -2306,8 +2245,7 @@ button {
     color:
         var(--pink);
 
-    font-size:
-        8px;
+    font-size: 8px;
 
 }
 
@@ -2323,8 +2261,7 @@ button {
     color:
         var(--text-soft);
 
-    font-size:
-        7px;
+    font-size: 7px;
 
 }
 
@@ -2337,8 +2274,7 @@ button {
     color:
         #6f686f;
 
-    font-size:
-        8px;
+    font-size: 8px;
 
     line-height:
         1.7;
@@ -2371,8 +2307,7 @@ button {
     border-radius:
         6px;
 
-    font-size:
-        8px;
+    font-size: 8px;
 
 }
 
@@ -2431,8 +2366,7 @@ button {
     background:
         var(--green-soft);
 
-    font-size:
-        7px;
+    font-size: 7px;
 
 }
 
@@ -2494,8 +2428,7 @@ button {
     margin-top:
         9px;
 
-    font-size:
-        17px;
+    font-size: 18px;
 
     line-height:
         1.4;
@@ -2514,8 +2447,7 @@ button {
     color:
         var(--text-soft);
 
-    font-size:
-        8px;
+    font-size: 8px;
 
     line-height:
         1.6;
@@ -2540,8 +2472,7 @@ button {
     background:
         white;
 
-    font-size:
-        8px;
+    font-size: 8px;
 
 }
 
@@ -2593,8 +2524,7 @@ button {
     color:
         #756e74;
 
-    font-size:
-        8px;
+    font-size: 8px;
 
 }
 
@@ -2629,8 +2559,7 @@ button {
     background:
         transparent;
 
-    font-size:
-        8px;
+    font-size: 8px;
 
 }
 
@@ -2746,8 +2675,7 @@ button {
     background:
         #f7f3f5;
 
-    font-size:
-        19px;
+    font-size: 18px;
 
 }
 
@@ -2757,8 +2685,7 @@ button {
     padding-right:
         30px;
 
-    font-size:
-        19px;
+    font-size: 18px;
 
 }
 
@@ -2771,8 +2698,7 @@ button {
     color:
         var(--text-soft);
 
-    font-size:
-        11px;
+    font-size: 11px;
 
     line-height:
         1.7;
@@ -2802,8 +2728,7 @@ button {
     display:
         block;
 
-    font-size:
-        11px;
+    font-size: 11px;
 
 }
 
@@ -2819,8 +2744,7 @@ button {
     color:
         var(--text-soft);
 
-    font-size:
-        9px;
+    font-size: 10px;
 
 }
 
@@ -2870,8 +2794,7 @@ button {
     box-shadow:
         0 10px 30px rgba(0, 0, 0, .15);
 
-    font-size:
-        10px;
+    font-size: 10px;
 
     transition:
         .2s ease;
@@ -2995,8 +2918,7 @@ button {
         padding:
             8px 9px;
 
-        font-size:
-            9px;
+        font-size: 10px;
 
     }
 
@@ -3020,8 +2942,7 @@ button {
 
     .welcome-copy h1 {
 
-        font-size:
-            29px;
+        font-size: 28px;
 
     }
 
@@ -3168,3 +3089,30 @@ button {
     }
 
 }
+
+/* Identidad visual compartida, basada en login. No cambia la distribución. */
+:root {
+  --talento-font: "Inter", Arial, Helvetica, sans-serif;
+  --brand-pink: #d90873;
+  --brand-dark: #2b1830;
+  --liverpool: #d90873; --liverpool-dark: #c40768; --liverpool-soft: #fff0f6;
+  --hm-liverpool: #d90873; --hm-liverpool-dark: #c40768; --hm-liverpool-soft: #fff0f6;
+  --pink: #d90873; --pink-dark: #c40768; --pink-soft: #fff0f6;
+  --grape: #2b1830; --hm-grape: #2b1830;
+  --text: #202033; --hm-text: #202033;
+  --text-secondary: #737181; --text-soft: #737181; --hm-text-soft: #737181;
+  --border: #e3e0e9; --hm-border: #e3e0e9;
+}
+body, button, input, select, textarea { font-family: var(--talento-font); }
+.talento-icon {
+  display: inline-block; width: 1em; height: 1em; min-width: 1em;
+  vertical-align: -0.125em; flex-shrink: 0; pointer-events: none;
+}
+.talento-logo-image {
+  display: block; width: 100%; height: 100%; object-fit: contain; padding: 5px;
+}
+.puerto-icon { background: var(--brand-pink); overflow: hidden; }
+.puerto-copy strong, .talento-wordmark strong { font-size: 24px; font-weight: 800; }
+.puerto-copy span, .talento-wordmark span { font-size: 11px; font-weight: 700; letter-spacing: 1.8px; }
+.welcome-copy h1, .job-header h2 { font-size: 28px; }
+.card-title-row h2 { font-size: 18px; }

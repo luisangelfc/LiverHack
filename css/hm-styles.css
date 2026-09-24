@@ -111,12 +111,20 @@ h3 {
 }
 
 .hm-brand__name strong {
+<<<<<<< HEAD
     font-size: 15px;
+=======
+    font-size: 14px;
+>>>>>>> c82a5cf816a3f691c2ace6db0e3a876efd76405b
 }
 
 .hm-brand__name span {
     color: var(--hm-text-soft);
+<<<<<<< HEAD
     font-size: 9px;
+=======
+    font-size: 10px;
+>>>>>>> c82a5cf816a3f691c2ace6db0e3a876efd76405b
     font-weight: 700;
     letter-spacing: 1.4px;
 }
@@ -240,14 +248,22 @@ h3 {
 .hm-eyebrow {
     display: block;
     color: var(--hm-liverpool);
+<<<<<<< HEAD
     font-size: 9px;
+=======
+    font-size: 10px;
+>>>>>>> c82a5cf816a3f691c2ace6db0e3a876efd76405b
     font-weight: 800;
     letter-spacing: 1.4px;
 }
 
 .hm-topbar__title h1 {
     margin-top: 4px;
+<<<<<<< HEAD
     font-size: 21px;
+=======
+    font-size: 24px;
+>>>>>>> c82a5cf816a3f691c2ace6db0e3a876efd76405b
 }
 
 .hm-topbar__title p {
@@ -311,7 +327,11 @@ h3 {
     border: none;
     background: transparent;
     color: var(--hm-text-soft);
+<<<<<<< HEAD
     font-size: 20px;
+=======
+    font-size: 18px;
+>>>>>>> c82a5cf816a3f691c2ace6db0e3a876efd76405b
     line-height: 1;
 }
 
@@ -395,7 +415,11 @@ h3 {
     border: none;
     background: transparent;
     color: #a9622c;
+<<<<<<< HEAD
     font-size: 20px;
+=======
+    font-size: 18px;
+>>>>>>> c82a5cf816a3f691c2ace6db0e3a876efd76405b
     line-height: 1;
 }
 
@@ -427,7 +451,11 @@ h3 {
 }
 
 .hm-card__head h2 {
+<<<<<<< HEAD
     font-size: 15px;
+=======
+    font-size: 14px;
+>>>>>>> c82a5cf816a3f691c2ace6db0e3a876efd76405b
 }
 
 .hm-card__head p {
@@ -558,7 +586,11 @@ h3 {
     border-radius: 999px;
     color: var(--hm-liverpool-dark);
     background: var(--hm-liverpool-soft);
+<<<<<<< HEAD
     font-size: 9px;
+=======
+    font-size: 10px;
+>>>>>>> c82a5cf816a3f691c2ace6db0e3a876efd76405b
     font-weight: 700;
 }
 
@@ -670,7 +702,11 @@ h3 {
     margin-top: 12px;
     padding: 4px 9px;
     border-radius: 999px;
+<<<<<<< HEAD
     font-size: 9px;
+=======
+    font-size: 10px;
+>>>>>>> c82a5cf816a3f691c2ace6db0e3a876efd76405b
     font-weight: 700;
 }
 
@@ -750,7 +786,11 @@ h3 {
 .hm-chip {
     padding: 4px 8px;
     border-radius: 999px;
+<<<<<<< HEAD
     font-size: 9px;
+=======
+    font-size: 10px;
+>>>>>>> c82a5cf816a3f691c2ace6db0e3a876efd76405b
     font-weight: 700;
 }
 
@@ -1057,7 +1097,11 @@ h3 {
     padding: 4px 9px;
     border-radius: 999px;
     background: rgba(255, 255, 255, .2);
+<<<<<<< HEAD
     font-size: 9px;
+=======
+    font-size: 10px;
+>>>>>>> c82a5cf816a3f691c2ace6db0e3a876efd76405b
     font-weight: 600;
 }
 
@@ -1369,3 +1413,34 @@ h3 {
         max-width: none;
     }
 }
+<<<<<<< HEAD
+=======
+
+
+/* Identidad visual compartida, basada en login. No cambia la distribución. */
+:root {
+  --talento-font: "Inter", Arial, Helvetica, sans-serif;
+  --brand-pink: #d90873;
+  --brand-dark: #2b1830;
+  --liverpool: #d90873; --liverpool-dark: #c40768; --liverpool-soft: #fff0f6;
+  --hm-liverpool: #d90873; --hm-liverpool-dark: #c40768; --hm-liverpool-soft: #fff0f6;
+  --pink: #d90873; --pink-dark: #c40768; --pink-soft: #fff0f6;
+  --grape: #2b1830; --hm-grape: #2b1830;
+  --text: #202033; --hm-text: #202033;
+  --text-secondary: #737181; --text-soft: #737181; --hm-text-soft: #737181;
+  --border: #e3e0e9; --hm-border: #e3e0e9;
+}
+body, button, input, select, textarea { font-family: var(--talento-font); }
+.talento-icon {
+  display: inline-block; width: 1em; height: 1em; min-width: 1em;
+  vertical-align: -0.125em; flex-shrink: 0; pointer-events: none;
+}
+.talento-logo-image {
+  display: block; width: 100%; height: 100%; object-fit: contain; padding: 5px;
+}
+.hm-brand__mark { background: var(--brand-pink); overflow: hidden; }
+.hm-brand__name strong { font-size: 24px; font-weight: 800; }
+.hm-brand__name > span { font-size: 11px; font-weight: 700; letter-spacing: 1.8px; }
+.hm-topbar__title h1 { font-size: 28px; }
+.hm-card__head h2 { font-size: 18px; }
+>>>>>>> c82a5cf816a3f691c2ace6db0e3a876efd76405b

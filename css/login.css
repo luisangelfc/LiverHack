@@ -1531,4 +1531,30 @@ input {
     height: 100%;
     object-fit: contain;
     padding: 5px;
+<<<<<<< HEAD
 }
+=======
+}
+
+/* Identidad visual compartida, basada en login. No cambia la distribución. */
+:root {
+  --talento-font: "Inter", Arial, Helvetica, sans-serif;
+  --brand-pink: #d90873;
+  --brand-dark: #2b1830;
+  --liverpool: #d90873; --liverpool-dark: #c40768; --liverpool-soft: #fff0f6;
+  --hm-liverpool: #d90873; --hm-liverpool-dark: #c40768; --hm-liverpool-soft: #fff0f6;
+  --pink: #d90873; --pink-dark: #c40768; --pink-soft: #fff0f6;
+  --grape: #2b1830; --hm-grape: #2b1830;
+  --text: #202033; --hm-text: #202033;
+  --text-secondary: #737181; --text-soft: #737181; --hm-text-soft: #737181;
+  --border: #e3e0e9; --hm-border: #e3e0e9;
+}
+body, button, input, select, textarea { font-family: var(--talento-font); }
+.talento-icon {
+  display: inline-block; width: 1em; height: 1em; min-width: 1em;
+  vertical-align: -0.125em; flex-shrink: 0; pointer-events: none;
+}
+.talento-logo-image {
+  display: block; width: 100%; height: 100%; object-fit: contain; padding: 5px;
+}
+>>>>>>> c82a5cf816a3f691c2ace6db0e3a876efd76405b
