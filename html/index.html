@@ -8,15 +8,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>
-        Talent atraction Hub | LiverHack 2026
+        Atracción de Talento | LiverHack 2026
     </title>
 
     <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/at-flow.css">
 
     <!-- Primero cargamos los datos -->
     <script src="../js/candidatos-db.js" defer></script>
 
-    <!-- Después cargamos la lógica de la página -->
+    <!-- Después el flujo compartido entre actores -->
+    <script src="../js/edat-flow.js" defer></script>
+
+    <!-- Al final la lógica de la página -->
     <script src="../js/app.js" defer></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,360 +32,660 @@
 <body>
 
 
-    <div class="app-shell">
+    <div class="at-layout">
 
 
         <!-- =========================================
-             ENCABEZADO
+             NAVEGACIÓN POR SECCIONES
         ========================================== -->
 
-        <header class="top-header">
+        <aside class="at-sidebar">
 
+            <div class="at-brand">
 
-            <div class="brand">
-
-                <div class="brand-logo"><img class="talento-logo-image" src="../recursos/el-puerto-de-liverpool-sab-de-cv--600.png" alt="Liverpool"></div>
-
-                <div>
-
-                    <h1>
-                         Talent atraction Hub
-                    </h1>
-
-                    <p>
-                        LiverHack 2026
-                    </p>
-
-                </div>
-
-            </div>
-
-
-
-            <div class="header-user">
-
-                <span class="user-avatar">
-                    KM
+                <span class="at-brand__mark">
+                    <img class="talento-logo-image" src="../recursos/el-puerto-de-liverpool-sab-de-cv--600.png" alt="Liverpool">
                 </span>
 
-                <div>
-
-                    <strong>
-                        Karla Méndez
-                    </strong>
-
-                    <small>
-                        EDAT
-                    </small>
-
-                </div>
+                <span class="at-brand__name">
+                    <strong>Talento</strong>
+                    <span>ATRACCIÓN DE TALENTO</span>
+                </span>
 
             </div>
 
 
-        </header>
+            <nav class="at-nav">
 
+                <button class="at-nav__link is-active" type="button" data-view="vacante">
+                    <span class="at-nav__icon"><svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V3h8v4M3 12h18M10 12v3h4v-3"/></svg></span>
+                    Vacante y alineación
+                </button>
 
+                <button class="at-nav__link" type="button" data-view="candidatos">
+                    <span class="at-nav__icon"><svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="9" cy="7" r="3"/><path d="M3 21v-3a6 6 0 0 1 12 0v3M16 4a3 3 0 0 1 0 6M18 13a5 5 0 0 1 3 5v3"/></svg></span>
+                    Base de candidatos
+                </button>
 
-        <!-- =========================================
-             CONTENIDO
-        ========================================== -->
+                <button class="at-nav__link" type="button" data-view="entrevistas">
+                    <span class="at-nav__icon"><svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg></span>
+                    Entrevistas
+                    <span class="at-nav__badge" id="atInterviewBadge" hidden>0</span>
+                </button>
 
-        <main class="main-container">
+                <button class="at-nav__link" type="button" data-view="evaluacion">
+                    <span class="at-nav__icon"><svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 3H5v18h14V8ZM14 3v5h5M8 12h8M8 16h8"/></svg></span>
+                    Evaluación de candidatos
+                    <span class="at-nav__badge" id="atEvalBadge" hidden>0</span>
+                </button>
 
+                <button class="at-nav__link" type="button" data-view="cierre">
+                    <span class="at-nav__icon"><svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m5 12 4 4L19 6"/></svg></span>
+                    Selección y cierre
+                    <span class="at-nav__badge" id="atCloseBadge" hidden>0</span>
+                </button>
 
-            <!-- =====================================
-                 TOP BAR
-            ====================================== -->
+            </nav>
 
-            <section class="hero-header">
 
+            <div class="at-sidebar__foot">
 
-                <div class="hero-title">
+                <div class="at-sidebar__user">
 
-                    <div class="hero-icon">
-                        <svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V3h8v4M3 12h18M10 12v3h4v-3"/></svg>
-                    </div>
-
-                    <div>
-
-                        <h2>
-                            Atracción de Talento
-                        </h2>
-
-                        <p>
-
-                            Vacante activa ·
-
-                            <strong>
-                                Gerente de E-commerce
-                            </strong>
-
-                            · REQ-2841
-
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-
-                <div class="hero-actions">
-
-
-                    <div class="search-box">
-
-                        <span>
-                            <svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg>
-                        </span>
-
-                        <input id="searchInput" type="text" placeholder="Buscar candidato...">
-
-                    </div>
-
-
-
-                    <button id="alertsButton" class="icon-button" type="button" title="Alertas">
-
-                        <svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg>
-
-                        <span id="criticalBadge" class="notification-badge">
-                            1
-                        </span>
-
-                    </button>
-
-
-                </div>
-
-
-            </section>
-
-
-
-            <!-- =====================================
-                 KPIs
-            ====================================== -->
-
-            <section id="kpiContainer" class="kpi-grid">
-            </section>
-
-
-
-            <!-- =====================================
-                 ALERTAS
-            ====================================== -->
-
-            <section id="alertsPanel" class="card alerts-panel">
-
-
-                <div class="section-header">
-
-                    <div>
-
-                        <h3>
-                            <svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg> Centro de alertas automáticas
-                        </h3>
-
-                        <p>
-                            Seguimiento de SLA y actividades pendientes.
-                        </p>
-
-                    </div>
-
-
-                    <button id="closeAlertsButton" class="close-small" type="button">
-                        ×
-                    </button>
-
-                </div>
-
-
-
-                <div id="alertsContainer" class="alerts-grid">
-                </div>
-
-
-            </section>
-
-
-
-            <!-- =====================================
-                 VACANTE
-            ====================================== -->
-
-            <section class="vacancy-summary">
-
-
-                <div>
-
-                    <span class="eyebrow">
-                        VACANTE ACTIVA
+                    <span class="user-avatar">
+                        KM
                     </span>
 
-                    <h2>
-                        Gerente de E-commerce
-                    </h2>
+                    <span>
+                        <strong>Karla Méndez</strong>
+                        <small id="atUserEmail">Atracción de Talento</small>
+                    </span>
 
-                    <p>
-                        Dirección Digital · Ciudad de México · Híbrido
-                    </p>
+                </div>
+
+                <button class="at-exit" type="button" id="atLogoutButton">
+                    Volver al login
+                </button>
+
+            </div>
+
+        </aside>
+
+
+
+        <div class="app-shell">
+
+
+            <!-- =========================================
+                 ENCABEZADO
+            ========================================== -->
+
+            <header class="top-header">
+
+
+                <div class="brand">
+
+                    <div class="brand-logo"><img class="talento-logo-image" src="../recursos/el-puerto-de-liverpool-sab-de-cv--600.png" alt="Liverpool"></div>
+
+                    <div>
+
+                        <h1>
+                            Atracción de Talento
+                        </h1>
+
+                        <p>
+                            LiverHack 2026
+                        </p>
+
+                    </div>
 
                 </div>
 
 
 
-                <div class="vacancy-summary-info">
+                <div class="header-user">
 
-
-                    <div>
-
-                        <span>
-                            Hiring Manager
-                        </span>
-
-                        <strong>
-                            Daniel Ramírez
-                        </strong>
-
-                    </div>
-
+                    <span class="user-avatar">
+                        KM
+                    </span>
 
                     <div>
-
-                        <span>
-                            Recruiter
-                        </span>
 
                         <strong>
                             Karla Méndez
                         </strong>
 
-                    </div>
-
-
-                    <div>
-
-                        <span>
-                            HRBP
-                        </span>
-
-                        <strong>
-                            Alejandra Torres
-                        </strong>
+                        <small>
+                            EDAT
+                        </small>
 
                     </div>
-
-
-                    <div>
-
-                        <span>
-                            Estado
-                        </span>
-
-                        <strong class="open-status">
-                            ● Abierta
-                        </strong>
-
-                    </div>
-
 
                 </div>
 
 
-            </section>
+            </header>
 
 
 
-            <!-- =====================================
-                 TIMELINE
-            ====================================== -->
+            <!-- =========================================
+                 CONTENIDO
+            ========================================== -->
 
-            <section class="card">
+            <main class="main-container">
 
 
-                <div class="section-header">
+                <!-- =====================================
+                     TOP BAR
+                ====================================== -->
+
+                <section class="hero-header">
+
+
+                    <div class="hero-title">
+
+                        <div class="hero-icon">
+                            <svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V3h8v4M3 12h18M10 12v3h4v-3"/></svg>
+                        </div>
+
+                        <div>
+
+                            <h2>
+                                Atracción de Talento
+                            </h2>
+
+                            <p>
+
+                                Vacante activa ·
+
+                                <strong id="atVacancyTitle">
+                                    Sin requisición recibida
+                                </strong>
+
+                                · REQ-2841
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="hero-actions">
+
+
+                        <div class="search-box">
+
+                            <span>
+                                <svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg>
+                            </span>
+
+                            <input id="searchInput" type="text" placeholder="Buscar candidato...">
+
+                        </div>
+
+
+
+                        <button id="alertsButton" class="icon-button" type="button" title="Notificaciones">
+
+                            <svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg>
+
+                            <span id="criticalBadge" class="notification-badge">
+                                0
+                            </span>
+
+                        </button>
+
+
+                    </div>
+
+
+                </section>
+
+
+
+                <!-- =====================================
+                     NOTIFICACIONES
+                ====================================== -->
+
+                <section id="alertsPanel" class="card alerts-panel hidden">
+
+
+                    <div class="section-header">
+
+                        <div>
+
+                            <h3>
+                                <svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg> Notificaciones del proceso
+                            </h3>
+
+                            <p>
+                                Actualizaciones que generan HRBP, Hiring Manager y el candidato.
+                            </p>
+
+                        </div>
+
+
+                        <button id="closeAlertsButton" class="close-small" type="button">
+                            ×
+                        </button>
+
+                    </div>
+
+
+                    <div id="alertsContainer" class="alerts-grid">
+                    </div>
+
+
+                </section>
+
+
+
+                <!-- =====================================
+                     VACANTE
+                ====================================== -->
+
+                <section class="vacancy-summary">
+
 
                     <div>
 
-                        <h3>
-                            <svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg> Flujo de la vacante · 6 etapas
-                        </h3>
+                        <span class="eyebrow">
+                            VACANTE ACTIVA
+                        </span>
+
+                        <h2 id="atVacancyHeadline">
+                            Sin requisición recibida
+                        </h2>
 
                         <p>
-                            Días hábiles transcurridos contra SLA por etapa.
-                            Haz clic en el lápiz para actualizar fecha y estatus.
+                            Dirección Digital · Ciudad de México · Híbrido
                         </p>
 
                     </div>
 
 
-                    <span id="globalStageStatus" class="stage-global-status">
-                    </span>
 
-                </div>
+                    <div class="vacancy-summary-info">
 
 
+                        <div>
 
-                <div id="timelineContainer" class="vacancy-timeline">
-                </div>
+                            <span>
+                                Hiring Manager
+                            </span>
 
+                            <strong>
+                                Daniel Ramírez
+                            </strong>
 
-            </section>
-
-
-
-            <!-- =====================================
-                 CANDIDATOS
-            ====================================== -->
-
-            <section class="card">
+                        </div>
 
 
-                <div class="candidate-section-header">
+                        <div>
+
+                            <span>
+                                Recruiter
+                            </span>
+
+                            <strong>
+                                Karla Méndez
+                            </strong>
+
+                        </div>
 
 
-                    <div>
+                        <div>
 
-                        <h3>
-                            <svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="9" cy="7" r="3"/><path d="M3 21v-3a6 6 0 0 1 12 0v3M16 4a3 3 0 0 1 0 6M18 13a5 5 0 0 1 3 5v3"/></svg> Base de candidatos
-                        </h3>
+                            <span>
+                                HRBP
+                            </span>
 
-                        <p id="candidateCounter">
-                        </p>
+                            <strong>
+                                Alejandra Torres
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Estado
+                            </span>
+
+                            <strong class="open-status" id="atVacancyState">
+                                ● Por iniciar
+                            </strong>
+
+                        </div>
+
 
                     </div>
 
 
-                    <button id="arenaButton" class="arena-button" type="button" disabled>
-
-                        <svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="7" height="14" rx="1"/><rect x="14" y="5" width="7" height="14" rx="1"/></svg> Comparar candidatos
-
-                        <span id="selectedCounter">
-                            0
-                        </span>
-
-                    </button>
-
-
-                </div>
+                </section>
 
 
 
-                <div id="filtersContainer" class="filters">
-                </div>
+                <!-- =====================================
+                     SECCIÓN · VACANTE Y ALINEACIÓN
+                ====================================== -->
+
+                <section class="at-view" id="at-view-vacante">
+
+
+                    <section class="card">
+
+
+                        <div class="section-header">
+
+                            <div>
+
+                                <h3>
+                                    <svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg> Flujo de la vacante · 6 etapas
+                                </h3>
+
+                                <p>
+                                    Avance del proceso compartido con HRBP, Hiring Manager y candidato.
+                                </p>
+
+                            </div>
+
+
+                            <span id="globalStageStatus" class="stage-global-status">
+                            </span>
+
+                        </div>
+
+
+                        <div id="timelineContainer" class="vacancy-timeline">
+                        </div>
+
+
+                    </section>
 
 
 
-                <div id="candidateGrid" class="candidate-grid">
-                </div>
+                    <section class="card">
 
 
-            </section>
+                        <div class="section-header">
+
+                            <div>
+
+                                <h3>
+                                    <svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 3H5v18h14V8ZM14 3v5h5M8 12h8M8 16h8"/></svg> Requisición recibida
+                                </h3>
+
+                                <p id="atRequisitionSubtitle">
+                                    HRBP todavía no envía la requisición de la vacante.
+                                </p>
+
+                            </div>
+
+                        </div>
 
 
-        </main>
+                        <div id="atRequisitionDetail">
+                        </div>
+
+
+                    </section>
+
+
+
+                    <section class="card" id="atAlignmentCard">
+
+
+                        <div class="section-header">
+
+                            <div>
+
+                                <h3>
+                                    <svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m5 12 4 4L19 6"/></svg> Requisitos no negociables
+                                </h3>
+
+                                <p>
+                                    Escolaridad, habilidades técnicas y conocimientos indispensables del perfil.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div id="atAlignmentBody">
+                        </div>
+
+
+                    </section>
+
+
+                </section>
+
+
+
+                <!-- =====================================
+                     SECCIÓN · BASE DE CANDIDATOS
+                ====================================== -->
+
+                <section class="at-view" id="at-view-candidatos" hidden>
+
+
+                    <section id="kpiContainer" class="kpi-grid">
+                    </section>
+
+
+                    <section class="card">
+
+
+                        <div class="candidate-section-header">
+
+
+                            <div>
+
+                                <h3>
+                                    <svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="9" cy="7" r="3"/><path d="M3 21v-3a6 6 0 0 1 12 0v3M16 4a3 3 0 0 1 0 6M18 13a5 5 0 0 1 3 5v3"/></svg> Base de candidatos
+                                </h3>
+
+                                <p id="candidateCounter">
+                                </p>
+
+                            </div>
+
+
+                            <button id="arenaButton" class="arena-button" type="button" disabled>
+
+                                <svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="7" height="14" rx="1"/><rect x="14" y="5" width="7" height="14" rx="1"/></svg> Comparar candidatos
+
+                                <span id="selectedCounter">
+                                    0
+                                </span>
+
+                            </button>
+
+
+                        </div>
+
+
+                        <div id="filtersContainer" class="filters">
+                        </div>
+
+
+                        <div id="candidateGrid" class="candidate-grid">
+                        </div>
+
+
+                    </section>
+
+
+                </section>
+
+
+
+                <!-- =====================================
+                     SECCIÓN · ENTREVISTAS
+                ====================================== -->
+
+                <section class="at-view" id="at-view-entrevistas" hidden>
+
+
+                    <section class="card">
+
+
+                        <div class="section-header">
+
+                            <div>
+
+                                <h3>
+                                    <svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg> Entrevistas de Atracción de Talento
+                                </h3>
+
+                                <p id="atInterviewsSubtitle">
+                                    Candidatos En Proceso asignados a esta vacante.
+                                </p>
+
+                            </div>
+
+
+                            <span class="stage-global-status" id="atInterviewsPill">
+                            </span>
+
+                        </div>
+
+
+                        <div class="at-interviews" id="atInterviewsList">
+                        </div>
+
+
+                    </section>
+
+
+                </section>
+
+
+
+                <!-- =====================================
+                     SECCIÓN · EVALUACIÓN
+                ====================================== -->
+
+                <section class="at-view" id="at-view-evaluacion" hidden>
+
+
+                    <section class="card">
+
+
+                        <div class="section-header">
+
+                            <div>
+
+                                <h3>
+                                    <svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 3H5v18h14V8ZM14 3v5h5M8 12h8M8 16h8"/></svg> Evaluación de candidatos
+                                </h3>
+
+                                <p>
+                                    Hard Skills y Soft Skills de 1 a 5. El comentario es opcional.
+                                </p>
+
+                            </div>
+
+
+                            <span class="stage-global-status" id="atEvalPill">
+                            </span>
+
+                        </div>
+
+
+                        <div class="at-interviews" id="atEvalList">
+                        </div>
+
+
+                        <div class="at-actions" id="atEvalActions">
+                        </div>
+
+
+                    </section>
+
+
+                </section>
+
+
+
+                <!-- =====================================
+                     SECCIÓN · SELECCIÓN Y CIERRE
+                ====================================== -->
+
+                <section class="at-view" id="at-view-cierre" hidden>
+
+
+                    <section class="card">
+
+
+                        <div class="section-header">
+
+                            <div>
+
+                                <h3>
+                                    <svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="9" cy="7" r="3"/><path d="M3 21v-3a6 6 0 0 1 12 0v3M16 4a3 3 0 0 1 0 6M18 13a5 5 0 0 1 3 5v3"/></svg> Selección del Hiring Manager
+                                </h3>
+
+                                <p id="atSelectionSubtitle">
+                                    Aquí verás a los candidatos que el Hiring Manager envía a entrevista.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="at-interviews" id="atSelectionList">
+                        </div>
+
+
+                    </section>
+
+
+
+                    <section class="card">
+
+
+                        <div class="section-header">
+
+                            <div>
+
+                                <h3>
+                                    <svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m5 12 4 4L19 6"/></svg> Cierre del proceso
+                                </h3>
+
+                                <p id="atClosingSubtitle">
+                                    Oferta, aceptación del candidato e incorporación.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <ul class="at-detail-list" id="atClosingDetail">
+                        </ul>
+
+
+                        <div class="at-actions" id="atClosingActions">
+                        </div>
+
+
+                    </section>
+
+
+                </section>
+
+
+            </main>
+
+
+        </div>
 
 
     </div>

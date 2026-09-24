@@ -27,7 +27,7 @@ const profiles = {
 
 
     recruiter: {
-        name: "Recruiter / AT",
+        name: "Atracción de Talento",
         page: "index.html"
     },
 
@@ -35,7 +35,7 @@ const profiles = {
     hrbp: {
 
         name:
-            "HRBP / Talent",
+            "HRBP",
 
         page:
             "hrbp.html"

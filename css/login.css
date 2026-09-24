@@ -1531,9 +1531,6 @@ input {
     height: 100%;
     object-fit: contain;
     padding: 5px;
-<<<<<<< HEAD
-}
-=======
 }
 
 /* Identidad visual compartida, basada en login. No cambia la distribución. */
@@ -1557,4 +1554,3 @@ body, button, input, select, textarea { font-family: var(--talento-font); }
 .talento-logo-image {
   display: block; width: 100%; height: 100%; object-fit: contain; padding: 5px;
 }
->>>>>>> c82a5cf816a3f691c2ace6db0e3a876efd76405b

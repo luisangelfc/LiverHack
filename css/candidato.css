@@ -3116,3 +3116,55 @@ body, button, input, select, textarea { font-family: var(--talento-font); }
 .puerto-copy span, .talento-wordmark span { font-size: 11px; font-weight: 700; letter-spacing: 1.8px; }
 .welcome-copy h1, .job-header h2 { font-size: 28px; }
 .card-title-row h2 { font-size: 18px; }
+
+#noticesBadge {
+    display: inline-flex;
+    min-width: 16px;
+    margin-left: 6px;
+    padding: 0 5px;
+    border-radius: 999px;
+    background: var(--pink);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 800;
+    line-height: 16px;
+    justify-content: center;
+}
+
+#noticesBadge[hidden] {
+    display: none;
+}
+
+.offer-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    grid-column: 1 / -1;
+}
+
+.offer-field label {
+    color: var(--text-secondary, #737181);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .6px;
+    text-transform: uppercase;
+}
+
+.offer-field input {
+    padding: 11px 13px;
+    border: 1px solid var(--border, #e3e0e9);
+    border-radius: 11px;
+    background: #fff;
+    color: var(--text, #202033);
+    font-size: 13px;
+}
+
+.offer-field input:focus {
+    border-color: var(--pink);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(217, 8, 115, .12);
+}
+
+.offer-accept {
+    grid-column: 1 / -1;
+}

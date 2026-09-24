@@ -10,15 +10,14 @@
 
     <link rel="stylesheet" href="../css/hm-styles.css">
 
+    <script src="../js/candidatos-db.js" defer></script>
+    <script src="../js/edat-flow.js" defer></script>
     <script src="../js/hm-db.js" defer></script>
     <script src="../js/hm-app.js" defer></script>
 
-<<<<<<< HEAD
-=======
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
->>>>>>> c82a5cf816a3f691c2ace6db0e3a876efd76405b
 </head>
 
 <body>
@@ -29,11 +28,7 @@
         <aside class="hm-sidebar">
 
             <div class="hm-brand">
-<<<<<<< HEAD
-                <span class="hm-brand__mark">L</span>
-=======
                 <span class="hm-brand__mark"><img class="talento-logo-image" src="../recursos/el-puerto-de-liverpool-sab-de-cv--600.png" alt="Liverpool"></span>
->>>>>>> c82a5cf816a3f691c2ace6db0e3a876efd76405b
                 <span class="hm-brand__name">
                     <strong>Talento</strong>
                     <span>HIRING MANAGER</span>
@@ -43,20 +38,18 @@
             <nav class="hm-nav">
 
                 <button class="hm-nav__link is-active" type="button" data-view="vacantes">
-<<<<<<< HEAD
-                    <span class="hm-nav__icon">▤</span>
-=======
                     <span class="hm-nav__icon"><svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V3h8v4M3 12h18M10 12v3h4v-3"/></svg></span>
->>>>>>> c82a5cf816a3f691c2ace6db0e3a876efd76405b
                     Mis Vacantes
                 </button>
 
+                <button class="hm-nav__link" type="button" data-view="candidatos">
+                    <span class="hm-nav__icon"><svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="9" cy="7" r="3"/><path d="M3 21v-3a6 6 0 0 1 12 0v3M16 4a3 3 0 0 1 0 6M18 13a5 5 0 0 1 3 5v3"/></svg></span>
+                    Candidatos
+                    <span class="hm-badge" id="hm-shortlist-badge">0</span>
+                </button>
+
                 <button class="hm-nav__link" type="button" data-view="entrevistas">
-<<<<<<< HEAD
-                    <span class="hm-nav__icon">◷</span>
-=======
                     <span class="hm-nav__icon"><svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg></span>
->>>>>>> c82a5cf816a3f691c2ace6db0e3a876efd76405b
                     Mis Entrevistas
                     <span class="hm-badge" id="hm-pending-badge">0</span>
                 </button>
@@ -71,6 +64,10 @@
                 </span>
             </div>
 
+            <button class="hm-button hm-button--ghost" type="button" id="hm-logout">
+                Volver al login
+            </button>
+
         </aside>
 
         <div class="hm-main">
@@ -79,7 +76,7 @@
 
                 <div class="hm-topbar__title">
                     <span class="hm-eyebrow" id="hm-vacancy-folio">VACANTE ACTIVA</span>
-                    <h1 id="hm-vacancy-title">Gerente de E-commerce</h1>
+                    <h1 id="hm-vacancy-title">Sin requisición recibida</h1>
                     <p id="hm-vacancy-meta"></p>
                 </div>
 
@@ -87,19 +84,14 @@
 
                     <div class="hm-bell-wrap">
 
-<<<<<<< HEAD
-                        <button class="hm-icon-button" type="button" id="hm-bell" aria-expanded="false">
-                            🔔
-=======
                         <button class="hm-icon-button" type="button" id="hm-bell" aria-label="Notificaciones" aria-expanded="false">
                             <svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg>
->>>>>>> c82a5cf816a3f691c2ace6db0e3a876efd76405b
                             <span class="hm-badge hm-badge--float" id="hm-alert-count">0</span>
                         </button>
 
                         <div class="hm-alerts" id="hm-alerts" hidden>
                             <div class="hm-alerts__head">
-                                <strong>Alertas de SLA</strong>
+                                <strong>Notificaciones</strong>
                                 <button class="hm-alerts__close" type="button" id="hm-alerts-close">×</button>
                             </div>
                             <div class="hm-alerts__list" id="hm-alerts-list"></div>
@@ -112,11 +104,7 @@
             </header>
 
             <div class="hm-banner" id="hm-banner" hidden>
-<<<<<<< HEAD
-                <span class="hm-banner__icon">◷</span>
-=======
                 <span class="hm-banner__icon"><svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg></span>
->>>>>>> c82a5cf816a3f691c2ace6db0e3a876efd76405b
                 <p id="hm-banner-text"></p>
                 <button class="hm-banner__close" type="button" id="hm-banner-close">×</button>
             </div>
@@ -130,8 +118,8 @@
                         <div class="hm-card__head">
                             <div>
                                 <h2>Flujo de la vacante · 6 etapas</h2>
-                                <p>Solo puedes intervenir en Alineación y Selección. El resto lo gestiona
-                                    reclutamiento.</p>
+                                <p>Solo puedes intervenir en Alineación y Selección. El resto lo gestionan
+                                    HRBP y Atracción de Talento.</p>
                             </div>
                             <span class="hm-pill hm-pill--flame" id="hm-sla-pill"></span>
                         </div>
@@ -142,11 +130,31 @@
 
                     </section>
 
+                    <section class="hm-card" id="hm-requisicion-card">
+
+                        <div class="hm-card__head">
+                            <div>
+                                <h2>Requisición y alineación</h2>
+                                <p id="hm-requisicion-sub">Esperando la requisición de HRBP.</p>
+                            </div>
+                            <span class="hm-pill" id="hm-requisicion-pill">Pendiente</span>
+                        </div>
+
+                        <div id="hm-requisicion-detalle"></div>
+
+                        <div class="hm-form__actions" id="hm-requisicion-acciones"></div>
+
+                    </section>
+
+                </section>
+
+                <section class="hm-view" id="hm-view-candidatos" hidden>
+
                     <section class="hm-card" id="hm-shortlist-card">
 
                         <div class="hm-card__head">
                             <div>
-                                <h2>Shortlist · candidatos listos para ti</h2>
+                                <h2>Candidatos evaluados por Atracción de Talento</h2>
                                 <p id="hm-shortlist-counter"></p>
                             </div>
                             <span class="hm-pill" id="hm-shortlist-pill"></span>
@@ -155,6 +163,8 @@
                         <div class="hm-bento" id="hm-shortlist"></div>
 
                         <div class="hm-arena" id="hm-arena" hidden></div>
+
+                        <div class="hm-form__actions" id="hm-shortlist-acciones"></div>
 
                     </section>
 
@@ -167,11 +177,14 @@
                         <div class="hm-card__head">
                             <div>
                                 <h2>Mis Entrevistas</h2>
-                                <p>Sesiones agendadas y veredictos que aún no has registrado.</p>
+                                <p id="hm-interviews-sub">Sesiones con los candidatos que enviaste a entrevista contigo.</p>
                             </div>
+                            <span class="hm-pill" id="hm-interviews-pill"></span>
                         </div>
 
                         <div class="hm-interviews" id="hm-interviews"></div>
+
+                        <div class="hm-form__actions" id="hm-decision-acciones"></div>
 
                     </section>
 
@@ -184,17 +197,13 @@
     </div>
 
     <button class="hm-fab" type="button" id="hm-fab">
-<<<<<<< HEAD
-        ⚖ Comparar Candidatos
-=======
         <svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="7" height="14" rx="1"/><rect x="14" y="5" width="7" height="14" rx="1"/></svg> Comparar Candidatos
->>>>>>> c82a5cf816a3f691c2ace6db0e3a876efd76405b
         <span class="hm-fab__count" id="hm-fab-count">0</span>
     </button>
 
     <div class="hm-overlay" id="hm-overlay"></div>
 
-    <!-- Cajón de entrevista: CV + decisión final -->
+    <!-- Cajón de perfil: CV, evaluación de AT y acciones del HM -->
     <aside class="hm-sheet" id="hm-sheet">
 
         <header class="hm-sheet__head">
@@ -229,6 +238,14 @@
 
             <section class="hm-sheet__section">
 
+                <h3>Evaluación de Atracción de Talento</h3>
+
+                <div id="hm-evaluacion"></div>
+
+            </section>
+
+            <section class="hm-sheet__section">
+
                 <h3>Feedback previo del panel</h3>
 
                 <div class="hm-history" id="hm-history"></div>
@@ -237,48 +254,11 @@
 
             <section class="hm-sheet__section">
 
-                <h3>Tu decisión final</h3>
+                <h3>Acciones disponibles</h3>
 
-                <form class="hm-form" id="hm-feedback-form" novalidate>
+                <p class="hm-hint" id="hm-hint"></p>
 
-                    <fieldset class="hm-fieldset">
-
-                        <legend>Veredicto</legend>
-
-                        <label class="hm-radio">
-                            <input type="radio" name="hm-verdict" value="Recomendado" required>
-                            <span>Recomendado</span>
-                        </label>
-
-                        <label class="hm-radio">
-                            <input type="radio" name="hm-verdict" value="No recomendado">
-                            <span>No recomendado</span>
-                        </label>
-
-                    </fieldset>
-
-                    <label class="hm-label" for="hm-feedback">Justificación de la decisión</label>
-
-                    <textarea
-                        id="hm-feedback"
-                        name="justificacion"
-                        rows="4"
-                        required
-                        placeholder="Explica el sustento técnico de tu decisión para dejar trazabilidad del proceso."
-                    ></textarea>
-
-                    <p class="hm-hint" id="hm-hint"></p>
-
-                    <div class="hm-form__actions">
-                        <button class="hm-button hm-button--ghost" type="submit" data-decision="descartar" disabled>
-                            Descartar
-                        </button>
-                        <button class="hm-button hm-button--primary" type="submit" data-decision="finalista" disabled>
-                            Marcar Finalista
-                        </button>
-                    </div>
-
-                </form>
+                <div class="hm-form__actions" id="hm-sheet-acciones"></div>
 
             </section>
 
