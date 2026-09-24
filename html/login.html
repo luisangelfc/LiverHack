@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Talento | Iniciar sesión
+    </title>
+
+
+    <!-- =========================================
+         GOOGLE FONTS
+    ========================================== -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- =========================================
+         CSS
+         
+         login.html está dentro de /html
+         por eso usamos ../ para volver a la raíz
+    ========================================== -->
+
+    <link
+        rel="stylesheet"
+        href="../css/login.css"
+    >
+
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================== -->
+
+    <script
+        src="../js/login.js"
+        defer
+    ></script>
+
+</head>
+
+
+<body>
+
+
+    <main class="login-page">
+
+
+        <!-- =========================================
+             LADO IZQUIERDO
+        ========================================== -->
+
+        <section class="login-brand">
+
+
+            <!-- LOGO -->
+
+            <div class="brand-logo">
+
+
+                <div class="brand-logo-box">
+                    L
+                </div>
+
+
+                <div class="brand-logo-text">
+
+                    <strong>
+                        talento
+                    </strong>
+
+                    <span>
+                        LIVERHACK 2026
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- CONTENIDO -->
+
+            <div class="brand-content">
+
+
+                <span class="brand-eyebrow">
+
+                    EL PUERTO DE LIVERPOOL · PROTOTIPO
+
+                </span>
+
+
+                <h1>
+
+                    Cada candidato.
+
+                    <br>
+
+                    Un siguiente
+
+                    <span>
+                        paso.
+                    </span>
+
+                </h1>
+
+
+                <p>
+
+                    Vacantes, entrevistas y decisiones
+                    conectadas en un solo lugar.
+
+                </p>
+
+
+            </div>
+
+
+
+            <!-- ETAPAS -->
+
+            <div class="brand-stages">
+
+
+                <span>
+                    01 · Requisición
+                </span>
+
+
+                <span>
+                    02 · Alineación
+                </span>
+
+
+                <span>
+                    03 · Búsqueda
+                </span>
+
+
+                <span>
+                    04 · Atracción
+                </span>
+
+
+                <span>
+                    05 · Selección
+                </span>
+
+
+                <span>
+                    06 · Oferta
+                </span>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =========================================
+             LADO DERECHO
+        ========================================== -->
+
+        <section class="login-form-side">
+
+
+            <div class="login-container">
+
+
+                <!-- =================================
+                     ENCABEZADO
+                ================================== -->
+
+                <header class="login-header">
+
+
+                    <span class="login-eyebrow">
+
+                        BIENVENIDO A TALENTO
+
+                    </span>
+
+
+                    <h2>
+
+                        Tu proceso, a la vista.
+
+                    </h2>
+
+
+                    <p>
+
+                        Accede a tu espacio de trabajo.
+
+                    </p>
+
+
+                </header>
+
+
+
+                <!-- =================================
+                     PASO 1
+                ================================== -->
+
+                <section
+                    id="stepOne"
+                    class="login-step"
+                >
+
+
+                    <div class="step-heading">
+
+
+                        <span class="step-number">
+                            1
+                        </span>
+
+
+                        <div>
+
+                            <strong>
+                                Selecciona tu perfil
+                            </strong>
+
+                            <p>
+                                Elige el espacio al que deseas ingresar.
+                            </p>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <div class="role-grid">
+
+
+                        <!-- RECRUITER -->
+
+                        <button
+                            class="role-button"
+                            type="button"
+                            data-role="recruiter"
+                        >
+
+                            Recruiter / AT
+
+                        </button>
+
+
+
+                        <!-- HRBP -->
+
+                        <button
+                            class="role-button"
+                            type="button"
+                            data-role="hrbp"
+                        >
+
+                            HRBP / Talent
+
+                        </button>
+
+
+
+                        <!-- HIRING MANAGER -->
+
+                        <button
+                            class="role-button"
+                            type="button"
+                            data-role="manager"
+                        >
+
+                            Hiring Manager
+
+                        </button>
+
+
+
+                        <!-- CANDIDATO -->
+
+                        <button
+                            class="role-button"
+                            type="button"
+                            data-role="candidate"
+                        >
+
+                            Candidato
+
+                        </button>
+
+
+                    </div>
+
+
+                </section>
+
+
+
+                <!-- =================================
+                     PASO 2
+                ================================== -->
+
+                <section
+                    id="stepTwo"
+                    class="login-step step-two disabled-step"
+                >
+
+
+                    <div class="step-heading">
+
+
+                        <span class="step-number">
+                            2
+                        </span>
+
+
+                        <div>
+
+                            <strong>
+                                Ingresa tu correo
+                            </strong>
+
+                            <p id="selectedRoleText">
+                                Primero selecciona un perfil.
+                            </p>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <form
+                        id="loginForm"
+                        class="login-form"
+                        novalidate
+                    >
+
+
+                        <div class="form-group">
+
+
+                            <label for="email">
+
+                                Correo electrónico
+
+                            </label>
+
+
+                            <input
+                                id="email"
+                                name="email"
+                                type="email"
+                                placeholder="nombre@correo.com"
+                                autocomplete="email"
+                                disabled
+                                required
+                            >
+
+
+                        </div>
+
+
+
+                        <!-- MENSAJES DE ERROR -->
+
+                        <p
+                            id="loginMessage"
+                            class="login-message"
+                        >
+                        </p>
+
+
+
+                        <!-- ENTRAR -->
+
+                        <button
+                            id="loginButton"
+                            class="login-button"
+                            type="submit"
+                            disabled
+                        >
+
+                            Entrar al espacio de trabajo
+
+                            <span>
+                                →
+                            </span>
+
+                        </button>
+
+
+                    </form>
+
+
+                </section>
+
+
+
+                <!-- =================================
+                     INFORMACIÓN DEMO
+                ================================== -->
+
+                <div class="demo-info">
+
+
+                    <p>
+                        Demo local · Datos ficticios
+                    </p>
+
+
+                    <p>
+                        Puedes utilizar cualquier correo electrónico
+                        con formato válido.
+                    </p>
+
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+</body>
+
+</html>
