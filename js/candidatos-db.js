@@ -1,21 +1,6 @@
-// ======================================================
-// BASE DE DATOS DE CANDIDATOS
-// Liverpool Talento
-//
-// IMPORTANTE (nota de arquitectura):
-// En este prototipo la base de datos y la autenticación viven en el
-// navegador (JavaScript plano) porque así vive el resto del proyecto.
-// En un entorno real, la lista completa de candidatos y sus datos
-// sensibles (notas de entrevista, veredictos, compatibilidad, etc.)
-// NUNCA deben viajar al cliente: la autenticación y el filtrado de
-// campos deben resolverse en un backend, devolviendo a cada candidato
-// únicamente lo que le corresponde ver.
-// ======================================================
+// Datos de prueba y autenticación local. En producción, el servidor debe autenticar y filtrar los datos privados.
 
-
-// ======================================================
 // DATOS CRUDOS (tal como viven en candidates_data)
-// ======================================================
 
 const CANDIDATOS_RAW_DB = [
 
@@ -336,12 +321,7 @@ const CANDIDATOS_RAW_DB = [
 
 ];
 
-
-// ======================================================
-// GENERACIÓN DE CREDENCIALES
-// correo: nombre.apellido@candidatos.liverpool.com (sin acentos)
-// contraseña: 0000 para todos (prototipo de demo)
-// ======================================================
+// Credenciales de prueba: nombre.apellido sin acentos y contraseña 0000.
 
 function candidatoSlugify(text) {
 
@@ -356,7 +336,6 @@ function candidatoSlugify(text) {
 
 }
 
-
 function candidatoBuildEmail(nombreCompleto) {
 
     const parts = nombreCompleto.trim().split(/\s+/);
@@ -369,7 +348,6 @@ function candidatoBuildEmail(nombreCompleto) {
 
 }
 
-
 const CANDIDATOS_CREDENCIALES = CANDIDATOS_RAW_DB.map(candidate => ({
 
     id: candidate.id,
@@ -378,11 +356,6 @@ const CANDIDATOS_CREDENCIALES = CANDIDATOS_RAW_DB.map(candidate => ({
     password: "0000"
 
 }));
-
-
-// ======================================================
-// AUTENTICACIÓN
-// ======================================================
 
 function candidatoAuthenticate(email, password) {
 
@@ -408,14 +381,7 @@ function candidatoAuthenticate(email, password) {
 
 }
 
-
-// ======================================================
-// VISTA PÚBLICA (FILTRADA) DEL CANDIDATO
-//
-// Se omiten explícitamente: compatibilidad, visión estratégica,
-// toma de decisiones, estilo de liderazgo, recomendaciones internas,
-// status_justificacion, y de cada entrevista: notas y veredicto.
-// ======================================================
+// El portal del candidato omite evaluaciones internas, notas y veredictos.
 
 function candidatoGetPublicView(id) {
 
@@ -429,8 +395,7 @@ function candidatoGetPublicView(id) {
 
     const firstName = raw.nombre.split(" ")[0];
 
-    // Contacto: si tuvo entrevistas, usamos a la última persona con quien habló
-    // (dato real); si no, un contacto genérico del equipo de Talento.
+    // Se muestra el último entrevistador o, si no hay entrevistas, el contacto de Talento.
     let contactoNombre = "Equipo de Talento Liverpool";
     let contactoRol = "Acompañamiento de tu proceso";
 
@@ -469,8 +434,7 @@ function candidatoGetPublicView(id) {
 
         statusProceso: raw.status_proceso,
 
-        // Solo lo constructivo del assessment; sin compatibilidad,
-        // sin visión estratégica, sin toma de decisiones, sin recomendación interna.
+        // El candidato solo recibe la parte pública del assessment.
         assessment: {
             descripcion: raw.assessfirst.descripcion,
             fortalezas: raw.assessfirst.fortalezas,

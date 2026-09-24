@@ -1,7 +1,3 @@
-/* =========================================================
-   TALENT RECRUITMENT HUB
-========================================================= */
-
 :root {
 
     --liverpool: #e10098;
@@ -36,22 +32,15 @@
 
 }
 
-
-/* =========================================================
-   RESET
-========================================================= */
-
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
-
 html {
     scroll-behavior: smooth;
 }
-
 
 body {
 
@@ -68,22 +57,15 @@ body {
 
 }
 
-
 button,
 input,
 select {
     font-family: inherit;
 }
 
-
 button {
     cursor: pointer;
 }
-
-
-/* =========================================================
-   HEADER
-========================================================= */
 
 .top-header {
 
@@ -112,7 +94,6 @@ button {
 
 }
 
-
 .brand {
 
     display: flex;
@@ -122,7 +103,6 @@ button {
     gap: 12px;
 
 }
-
 
 .brand-logo {
 
@@ -154,13 +134,11 @@ button {
 
 }
 
-
 .brand h1 {
 
     font-size: 18px;
 
 }
-
 
 .brand p {
 
@@ -174,7 +152,6 @@ button {
 
 }
 
-
 .header-user {
 
     display: flex;
@@ -185,7 +162,6 @@ button {
 
 }
 
-
 .header-user strong {
 
     display: block;
@@ -194,14 +170,12 @@ button {
 
 }
 
-
 .header-user small {
 
     color:
         var(--text-secondary);
 
 }
-
 
 .user-avatar {
 
@@ -233,11 +207,6 @@ button {
 
 }
 
-
-/* =========================================================
-   MAIN
-========================================================= */
-
 .main-container {
 
     width:
@@ -253,11 +222,6 @@ button {
         32px 0 60px;
 
 }
-
-
-/* =========================================================
-   HERO
-========================================================= */
 
 .hero-header {
 
@@ -275,7 +239,6 @@ button {
 
 }
 
-
 .hero-title {
 
     display: flex;
@@ -286,7 +249,6 @@ button {
         13px;
 
 }
-
 
 .hero-icon {
 
@@ -323,13 +285,11 @@ button {
 
 }
 
-
 .hero-title h2 {
 
     font-size: 24px;
 
 }
-
 
 .hero-title p {
 
@@ -343,14 +303,12 @@ button {
 
 }
 
-
 .hero-title strong {
 
     color:
         var(--grape);
 
 }
-
 
 .hero-actions {
 
@@ -362,7 +320,6 @@ button {
         10px;
 
 }
-
 
 .search-box {
 
@@ -390,7 +347,6 @@ button {
 
 }
 
-
 .search-box input {
 
     width:
@@ -413,7 +369,6 @@ button {
 
 }
 
-
 .icon-button {
 
     width:
@@ -435,7 +390,6 @@ button {
         white;
 
 }
-
 
 .notification-badge {
 
@@ -476,11 +430,6 @@ button {
 
 }
 
-
-/* =========================================================
-   KPIs
-========================================================= */
-
 .kpi-grid {
 
     display:
@@ -496,7 +445,6 @@ button {
         20px;
 
 }
-
 
 .kpi-card {
 
@@ -517,7 +465,6 @@ button {
 
 }
 
-
 .kpi-line {
 
     width:
@@ -534,7 +481,6 @@ button {
 
 }
 
-
 .kpi-line.grape {
 
     background:
@@ -545,7 +491,6 @@ button {
         );
 
 }
-
 
 .kpi-line.pink {
 
@@ -558,7 +503,6 @@ button {
 
 }
 
-
 .kpi-line.flame {
 
     background:
@@ -569,7 +513,6 @@ button {
         );
 
 }
-
 
 .kpi-card span {
 
@@ -586,7 +529,6 @@ button {
 
 }
 
-
 .kpi-card strong {
 
     display:
@@ -599,7 +541,6 @@ button {
 
 }
 
-
 .kpi-card p {
 
     margin-top:
@@ -611,11 +552,6 @@ button {
     font-size: 11px;
 
 }
-
-
-/* =========================================================
-   CARDS
-========================================================= */
 
 .card {
 
@@ -639,7 +575,6 @@ button {
 
 }
 
-
 .section-header {
 
     display: flex;
@@ -658,7 +593,6 @@ button {
 
 }
 
-
 .section-header h3,
 .candidate-section-header h3 {
 
@@ -672,7 +606,6 @@ button {
 
 }
 
-
 .section-header p,
 .candidate-section-header p {
 
@@ -685,7 +618,6 @@ button {
     font-size: 11px;
 
 }
-
 
 .close-small {
 
@@ -702,11 +634,6 @@ button {
 
 }
 
-
-/* =========================================================
-   ALERTAS
-========================================================= */
-
 .alerts-panel {
 
     max-height:
@@ -722,7 +649,6 @@ button {
         .3s ease;
 
 }
-
 
 .alerts-panel.hidden {
 
@@ -746,7 +672,6 @@ button {
 
 }
 
-
 .alerts-grid {
 
     display:
@@ -759,7 +684,6 @@ button {
         12px;
 
 }
-
 
 .alert {
 
@@ -780,7 +704,6 @@ button {
 
 }
 
-
 .alert.critical {
 
     border-color:
@@ -790,7 +713,6 @@ button {
         var(--red-soft);
 
 }
-
 
 .alert.warning {
 
@@ -802,7 +724,6 @@ button {
 
 }
 
-
 .alert.info {
 
     border-color:
@@ -813,20 +734,17 @@ button {
 
 }
 
-
 .alert-icon {
 
     font-size: 18px;
 
 }
 
-
 .alert h4 {
 
     font-size: 13px;
 
 }
-
 
 .alert p {
 
@@ -843,7 +761,6 @@ button {
 
 }
 
-
 .alert small {
 
     display:
@@ -858,11 +775,6 @@ button {
     font-size: 10px;
 
 }
-
-
-/* =========================================================
-   VACANTE
-========================================================= */
 
 .vacancy-summary {
 
@@ -900,7 +812,6 @@ button {
 
 }
 
-
 .eyebrow {
 
     font-size: 10px;
@@ -916,7 +827,6 @@ button {
 
 }
 
-
 .vacancy-summary h2 {
 
     margin-top:
@@ -925,7 +835,6 @@ button {
     font-size: 24px;
 
 }
-
 
 .vacancy-summary > div > p {
 
@@ -938,7 +847,6 @@ button {
     font-size: 12px;
 
 }
-
 
 .vacancy-summary-info {
 
@@ -953,7 +861,6 @@ button {
 
 }
 
-
 .vacancy-summary-info span {
 
     display:
@@ -965,7 +872,6 @@ button {
     font-size: 10px;
 
 }
-
 
 .vacancy-summary-info strong {
 
@@ -979,18 +885,12 @@ button {
 
 }
 
-
 .open-status {
 
     color:
         #b9ffd8;
 
 }
-
-
-/* =========================================================
-   TIMELINE
-========================================================= */
 
 .stage-global-status {
 
@@ -1013,7 +913,6 @@ button {
 
 }
 
-
 .vacancy-timeline {
 
     display:
@@ -1026,7 +925,6 @@ button {
         12px;
 
 }
-
 
 .timeline-stage {
 
@@ -1054,7 +952,6 @@ button {
 
 }
 
-
 .timeline-stage:hover {
 
     transform:
@@ -1066,7 +963,6 @@ button {
 
 }
 
-
 .timeline-stage.done {
 
     border-color:
@@ -1077,7 +973,6 @@ button {
 
 }
 
-
 .timeline-stage.current {
 
     border-color:
@@ -1087,7 +982,6 @@ button {
         var(--liverpool-soft);
 
 }
-
 
 .timeline-stage:not(:last-child)::after {
 
@@ -1124,7 +1018,6 @@ button {
 
 }
 
-
 .timeline-stage-header {
 
     display:
@@ -1140,7 +1033,6 @@ button {
         7px;
 
 }
-
 
 .stage-number {
 
@@ -1178,7 +1070,6 @@ button {
 
 }
 
-
 .done .stage-number {
 
     background:
@@ -1186,14 +1077,12 @@ button {
 
 }
 
-
 .current .stage-number {
 
     background:
         var(--liverpool);
 
 }
-
 
 .timeline-stage h4 {
 
@@ -1203,7 +1092,6 @@ button {
     font-size: 12px;
 
 }
-
 
 .edit-stage {
 
@@ -1220,14 +1108,12 @@ button {
 
 }
 
-
 .edit-stage:hover {
 
     color:
         var(--liverpool);
 
 }
-
 
 .stage-owner {
 
@@ -1240,7 +1126,6 @@ button {
     font-size: 10px;
 
 }
-
 
 .stage-time {
 
@@ -1263,14 +1148,12 @@ button {
 
 }
 
-
 .stage-time.over {
 
     color:
         var(--red);
 
 }
-
 
 .progress {
 
@@ -1294,7 +1177,6 @@ button {
 
 }
 
-
 .progress-fill {
 
     height:
@@ -1315,14 +1197,12 @@ button {
 
 }
 
-
 .timeline-stage.done .progress {
 
     background:
         rgba(255, 255, 255, .8);
 
 }
-
 
 .timeline-stage.done .progress-fill {
 
@@ -1331,7 +1211,6 @@ button {
 
 }
 
-
 .progress-fill.warning {
 
     background:
@@ -1339,14 +1218,12 @@ button {
 
 }
 
-
 .progress-fill.danger {
 
     background:
         var(--red);
 
 }
-
 
 .stage-editor {
 
@@ -1370,14 +1247,12 @@ button {
 
 }
 
-
 .stage-editor.active {
 
     display:
         block;
 
 }
-
 
 .stage-editor label {
 
@@ -1399,7 +1274,6 @@ button {
         uppercase;
 
 }
-
 
 .stage-editor input,
 .stage-editor select {
@@ -1424,7 +1298,6 @@ button {
 
 }
 
-
 .stage-editor input:focus,
 .stage-editor select:focus {
 
@@ -1432,7 +1305,6 @@ button {
         var(--liverpool);
 
 }
-
 
 .stage-editor button {
 
@@ -1456,11 +1328,6 @@ button {
 
 }
 
-
-/* =========================================================
-   CANDIDATOS
-========================================================= */
-
 .candidate-section-header {
 
     display:
@@ -1476,7 +1343,6 @@ button {
         20px;
 
 }
-
 
 .filters {
 
@@ -1496,7 +1362,6 @@ button {
         18px 0;
 
 }
-
 
 .filter-button {
 
@@ -1522,7 +1387,6 @@ button {
 
 }
 
-
 .filter-button:hover {
 
     border-color:
@@ -1532,7 +1396,6 @@ button {
         var(--grape);
 
 }
-
 
 .filter-button.active {
 
@@ -1546,7 +1409,6 @@ button {
         var(--grape);
 
 }
-
 
 .arena-button {
 
@@ -1574,7 +1436,6 @@ button {
 
 }
 
-
 .arena-button:disabled {
 
     opacity:
@@ -1584,7 +1445,6 @@ button {
         not-allowed;
 
 }
-
 
 .arena-button span {
 
@@ -1617,7 +1477,6 @@ button {
 
 }
 
-
 .candidate-grid {
 
     display:
@@ -1630,7 +1489,6 @@ button {
         13px;
 
 }
-
 
 .candidate-card {
 
@@ -1653,7 +1511,6 @@ button {
 
 }
 
-
 .candidate-card:hover {
 
     transform:
@@ -1665,7 +1522,6 @@ button {
 
 }
 
-
 .candidate-card.selected {
 
     border-color:
@@ -1675,7 +1531,6 @@ button {
         rgba(253, 231, 245, .40);
 
 }
-
 
 .candidate-top {
 
@@ -1689,7 +1544,6 @@ button {
         10px;
 
 }
-
 
 .candidate-checkbox {
 
@@ -1706,7 +1560,6 @@ button {
         var(--liverpool);
 
 }
-
 
 .candidate-avatar {
 
@@ -1748,7 +1601,6 @@ button {
 
 }
 
-
 .candidate-basic {
 
     min-width:
@@ -1758,7 +1610,6 @@ button {
         1;
 
 }
-
 
 .candidate-basic h4 {
 
@@ -1774,7 +1625,6 @@ button {
     font-size: 13px;
 
 }
-
 
 .candidate-basic p {
 
@@ -1797,7 +1647,6 @@ button {
 
 }
 
-
 .location {
 
     display:
@@ -1812,7 +1661,6 @@ button {
     font-size: 10px;
 
 }
-
 
 .status {
 
@@ -1832,7 +1680,6 @@ button {
 
 }
 
-
 .status.finalista {
 
     color:
@@ -1842,7 +1689,6 @@ button {
         var(--liverpool-soft);
 
 }
-
 
 .status.proceso {
 
@@ -1854,7 +1700,6 @@ button {
 
 }
 
-
 .status.descartado {
 
     color:
@@ -1865,14 +1710,12 @@ button {
 
 }
 
-
 .compatibility {
 
     margin-top:
         15px;
 
 }
-
 
 .compatibility-header {
 
@@ -1892,14 +1735,12 @@ button {
 
 }
 
-
 .compatibility-header strong {
 
     color:
         var(--liverpool);
 
 }
-
 
 .candidate-footer {
 
@@ -1920,7 +1761,6 @@ button {
 
 }
 
-
 .process-days {
 
     color:
@@ -1929,7 +1769,6 @@ button {
     font-size: 10px;
 
 }
-
 
 .candidate-buttons {
 
@@ -1940,7 +1779,6 @@ button {
         6px;
 
 }
-
 
 .small-button {
 
@@ -1966,7 +1804,6 @@ button {
 
 }
 
-
 .small-button:hover {
 
     border-color:
@@ -1976,7 +1813,6 @@ button {
         var(--grape);
 
 }
-
 
 .small-button.primary {
 
@@ -1991,7 +1827,6 @@ button {
 
 }
 
-
 .small-button.primary:hover {
 
     color:
@@ -2001,7 +1836,6 @@ button {
         var(--liverpool-dark);
 
 }
-
 
 .empty-state {
 
@@ -2018,11 +1852,6 @@ button {
         var(--text-secondary);
 
 }
-
-
-/* =========================================================
-   PANEL CANDIDATO
-========================================================= */
 
 .sheet-overlay {
 
@@ -2049,7 +1878,6 @@ button {
 
 }
 
-
 .sheet-overlay.active {
 
     visibility:
@@ -2059,7 +1887,6 @@ button {
         1;
 
 }
-
 
 .candidate-sheet {
 
@@ -2096,14 +1923,12 @@ button {
 
 }
 
-
 .candidate-sheet.active {
 
     transform:
         translateX(0);
 
 }
-
 
 .candidate-sheet-content {
 
@@ -2117,7 +1942,6 @@ button {
         column;
 
 }
-
 
 .sheet-header {
 
@@ -2144,7 +1968,6 @@ button {
         );
 
 }
-
 
 .sheet-header-avatar {
 
@@ -2179,7 +2002,6 @@ button {
 
 }
 
-
 .sheet-header-info {
 
     min-width:
@@ -2190,13 +2012,11 @@ button {
 
 }
 
-
 .sheet-header-info h2 {
 
     font-size: 18px;
 
 }
-
 
 .sheet-header-info > p {
 
@@ -2209,7 +2029,6 @@ button {
     font-size: 12px;
 
 }
-
 
 .sheet-tags {
 
@@ -2227,7 +2046,6 @@ button {
 
 }
 
-
 .sheet-tag {
 
     padding:
@@ -2243,7 +2061,6 @@ button {
 
 }
 
-
 .compatibility-tag {
 
     color:
@@ -2256,7 +2073,6 @@ button {
         800;
 
 }
-
 
 .close-sheet {
 
@@ -2273,7 +2089,6 @@ button {
 
 }
 
-
 .sheet-scroll {
 
     flex:
@@ -2287,14 +2102,12 @@ button {
 
 }
 
-
 .sheet-section {
 
     margin-bottom:
         24px;
 
 }
-
 
 .sheet-section h3 {
 
@@ -2304,7 +2117,6 @@ button {
     font-size: 13px;
 
 }
-
 
 .summary-box {
 
@@ -2330,7 +2142,6 @@ button {
 
 }
 
-
 .info-grid {
 
     display:
@@ -2346,7 +2157,6 @@ button {
         10px;
 
 }
-
 
 .info-box {
 
@@ -2370,13 +2180,11 @@ button {
 
 }
 
-
 .info-icon {
 
     font-size: 16px;
 
 }
-
 
 .info-box span {
 
@@ -2390,7 +2198,6 @@ button {
 
 }
 
-
 .info-box strong {
 
     display:
@@ -2402,7 +2209,6 @@ button {
     font-size: 10px;
 
 }
-
 
 .cv-viewer {
 
@@ -2419,7 +2225,6 @@ button {
         #dddde2;
 
 }
-
 
 .cv-toolbar {
 
@@ -2448,7 +2253,6 @@ button {
 
 }
 
-
 .cv-toolbar-actions {
 
     display:
@@ -2458,7 +2262,6 @@ button {
         5px;
 
 }
-
 
 .cv-toolbar button {
 
@@ -2479,7 +2282,6 @@ button {
 
 }
 
-
 .cv-paper-wrap {
 
     overflow:
@@ -2489,7 +2291,6 @@ button {
         18px;
 
 }
-
 
 .cv-paper {
 
@@ -2511,13 +2312,11 @@ button {
 
 }
 
-
 .cv-paper h4 {
 
     font-size: 14px;
 
 }
-
 
 .cv-block {
 
@@ -2537,7 +2336,6 @@ button {
 
 }
 
-
 .assess-card {
 
     padding:
@@ -2554,7 +2352,6 @@ button {
 
 }
 
-
 .assess-main {
 
     display:
@@ -2570,7 +2367,6 @@ button {
         center;
 
 }
-
 
 .compatibility-circle {
 
@@ -2608,14 +2404,12 @@ button {
 
 }
 
-
 .dimension {
 
     margin-bottom:
         8px;
 
 }
-
 
 .dimension-header {
 
@@ -2628,7 +2422,6 @@ button {
     font-size: 10px;
 
 }
-
 
 .strengths-grid {
 
@@ -2646,7 +2439,6 @@ button {
 
 }
 
-
 .strength-box {
 
     padding:
@@ -2659,7 +2451,6 @@ button {
 
 }
 
-
 .strength-box.good {
 
     background:
@@ -2667,14 +2458,12 @@ button {
 
 }
 
-
 .strength-box.opportunity {
 
     background:
         var(--flame-soft);
 
 }
-
 
 .strength-box strong {
 
@@ -2686,7 +2475,6 @@ button {
 
 }
 
-
 .strength-box ul {
 
     padding-left:
@@ -2694,14 +2482,12 @@ button {
 
 }
 
-
 .strength-box li {
 
     margin-bottom:
         4px;
 
 }
-
 
 .recommendation {
 
@@ -2727,7 +2513,6 @@ button {
 
 }
 
-
 .interview-item {
 
     margin-bottom:
@@ -2747,7 +2532,6 @@ button {
 
 }
 
-
 .interview-top {
 
     display:
@@ -2761,13 +2545,11 @@ button {
 
 }
 
-
 .interview-item h4 {
 
     font-size: 11px;
 
 }
-
 
 .interview-item small {
 
@@ -2781,7 +2563,6 @@ button {
         var(--text-secondary);
 
 }
-
 
 .interview-item p {
 
@@ -2797,7 +2578,6 @@ button {
     font-size: 10px;
 
 }
-
 
 .verdict {
 
@@ -2817,7 +2597,6 @@ button {
 
 }
 
-
 .verdict.recomendado {
 
     color:
@@ -2827,7 +2606,6 @@ button {
         var(--green-soft);
 
 }
-
 
 .verdict.reservas {
 
@@ -2839,7 +2617,6 @@ button {
 
 }
 
-
 .verdict.no-recomendado {
 
     color:
@@ -2849,11 +2626,6 @@ button {
         var(--red-soft);
 
 }
-
-
-/* =========================================================
-   ARENA
-========================================================= */
 
 .modal-overlay {
 
@@ -2892,7 +2664,6 @@ button {
 
 }
 
-
 .modal-overlay.active {
 
     visibility:
@@ -2902,7 +2673,6 @@ button {
         1;
 
 }
-
 
 .arena-modal {
 
@@ -2926,7 +2696,6 @@ button {
         rgba(0, 0, 0, .2);
 
 }
-
 
 .arena-header {
 
@@ -2954,13 +2723,11 @@ button {
 
 }
 
-
 .arena-header h2 {
 
     font-size: 18px;
 
 }
-
 
 .arena-header p {
 
@@ -2973,7 +2740,6 @@ button {
     font-size: 10px;
 
 }
-
 
 .arena-close {
 
@@ -2990,7 +2756,6 @@ button {
 
 }
 
-
 .arena-content {
 
     max-height:
@@ -3000,7 +2765,6 @@ button {
         auto;
 
 }
-
 
 .arena-table {
 
@@ -3017,7 +2781,6 @@ button {
         white;
 
 }
-
 
 .arena-table th,
 .arena-table td {
@@ -3041,7 +2804,6 @@ button {
 
 }
 
-
 .arena-table th {
 
     position:
@@ -3058,7 +2820,6 @@ button {
 
 }
 
-
 .arena-table .criterion {
 
     width:
@@ -3072,7 +2833,6 @@ button {
 
 }
 
-
 .arena-candidate {
 
     display:
@@ -3085,7 +2845,6 @@ button {
         8px;
 
 }
-
 
 .arena-candidate .candidate-avatar {
 
@@ -3102,7 +2861,6 @@ button {
 
 }
 
-
 .compat-row {
 
     background:
@@ -3110,14 +2868,12 @@ button {
 
 }
 
-
 .final-row {
 
     background:
         var(--grape-soft);
 
 }
-
 
 .finalist-button {
 
@@ -3146,7 +2902,6 @@ button {
 
 }
 
-
 .finalist-button.selected {
 
     border-color:
@@ -3159,7 +2914,6 @@ button {
         var(--liverpool);
 
 }
-
 
 .arena-footer {
 
@@ -3192,7 +2946,6 @@ button {
 
 }
 
-
 .arena-footer p {
 
     color:
@@ -3201,7 +2954,6 @@ button {
     font-size: 10px;
 
 }
-
 
 .send-finalists {
 
@@ -3225,7 +2977,6 @@ button {
 
 }
 
-
 .send-finalists:disabled {
 
     opacity:
@@ -3235,11 +2986,6 @@ button {
         not-allowed;
 
 }
-
-
-/* =========================================================
-   TOAST
-========================================================= */
 
 .toast {
 
@@ -3290,7 +3036,6 @@ button {
 
 }
 
-
 .toast.active {
 
     opacity:
@@ -3301,11 +3046,6 @@ button {
 
 }
 
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-
 @media (max-width: 1150px) {
 
     .vacancy-timeline {
@@ -3315,14 +3055,12 @@ button {
 
     }
 
-
     .timeline-stage::after {
 
         display:
             none;
 
     }
-
 
     .candidate-grid {
 
@@ -3333,7 +3071,6 @@ button {
 
 }
 
-
 @media (max-width: 850px) {
 
     .kpi-grid {
@@ -3343,14 +3080,12 @@ button {
 
     }
 
-
     .alerts-grid {
 
         grid-template-columns:
             1fr;
 
     }
-
 
     .vacancy-summary {
 
@@ -3361,7 +3096,6 @@ button {
             column;
 
     }
-
 
     .vacancy-summary-info {
 
@@ -3375,7 +3109,6 @@ button {
 
 }
 
-
 @media (max-width: 650px) {
 
     .top-header {
@@ -3388,14 +3121,12 @@ button {
 
     }
 
-
     .header-user div:last-child {
 
         display:
             none;
 
     }
-
 
     .main-container {
 
@@ -3407,7 +3138,6 @@ button {
 
     }
 
-
     .hero-header {
 
         align-items:
@@ -3418,7 +3148,6 @@ button {
 
     }
 
-
     .hero-actions,
     .search-box {
 
@@ -3427,14 +3156,12 @@ button {
 
     }
 
-
     .kpi-grid {
 
         grid-template-columns:
             1fr 1fr;
 
     }
-
 
     .vacancy-timeline,
     .candidate-grid {
@@ -3443,7 +3170,6 @@ button {
             1fr;
 
     }
-
 
     .candidate-section-header {
 
@@ -3455,14 +3181,12 @@ button {
 
     }
 
-
     .filters {
 
         justify-content:
             flex-start;
 
     }
-
 
     .info-grid,
     .strengths-grid {
@@ -3471,7 +3195,6 @@ button {
             1fr;
 
     }
-
 
     .assess-main {
 
@@ -3482,7 +3205,6 @@ button {
 
 }
 
-/* Identidad visual compartida, basada en login. No cambia la distribución. */
 :root {
   --talento-font: "Inter", Arial, Helvetica, sans-serif;
   --brand-pink: #d90873;
@@ -3508,39 +3230,3 @@ body, button, input, select, textarea { font-family: var(--talento-font); }
 .hero-title h2, .vacancy-summary h2 { font-size: 28px; }
 .section-header h3, .candidate-section-header h3 { font-size: 18px; }
 .brand p { font-size: 11px; font-weight: 700; letter-spacing: 1.8px; }
-
-/* EDAT: navegación lateral con la identidad de Hiring Manager */
-.edat-sidebar { position: fixed; top: 0; left: 0; width: 250px; height: 100vh; height: 100dvh; display: flex; flex-direction: column; gap: 26px; padding: 22px 18px; border-right: 1px solid var(--border); background: #fff; z-index: 30; }
-.edat-brand { display: flex; align-items: center; gap: 11px; }
-.edat-brand__mark { width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border-radius: 11px; background: #d90873; overflow: hidden; }
-.edat-brand__name { display: flex; flex-direction: column; gap: 4px; }
-.edat-brand__name strong { font-size: 24px; font-weight: 800; }
-.edat-brand__name > span { font-size: 11px; font-weight: 700; letter-spacing: 1.8px; color: var(--text-secondary); }
-.edat-nav { display: flex; flex-direction: column; gap: 8px; }
-.edat-nav__link { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 10px; color: #4d4c58; font-size: 13px; font-weight: 600; text-decoration: none; }
-.edat-nav__link:hover { background: #fff0f6; color: #c40768; }
-.edat-nav__link.is-active { color: #fff; background: linear-gradient(135deg, #2b1830, #d90873); }
-.edat-sidebar__user { position: relative; display: flex; align-items: center; gap: 10px; margin-top: auto; padding-top: 16px; border-top: 1px solid var(--border); }
-.edat-sidebar__user strong { display: block; font-size: 12px; }
-.edat-sidebar__user small { color: var(--text-secondary); font-size: 10px; }
-.edat-avatar { width: 34px; height: 34px; border: 0; padding: 0; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; border-radius: 50%; color: white; background: linear-gradient(135deg, #2b1830, #d90873); font: 800 14px "Inter", Arial, sans-serif; }
-.edat-session-panel { position: absolute; bottom: calc(100% + 10px); left: 0; z-index: 40; min-width: 180px; padding: 8px; border: 1px solid var(--border); border-radius: 12px; background: #fff; box-shadow: 0 8px 24px #2b183024; }
-.edat-session-panel[hidden] { display: none; }
-#edat-logout-button { width: 100%; padding: 12px 16px; border: 0; border-radius: 8px; color: #c40768; background: #fff0f6; font: 600 14px "Inter", Arial, sans-serif; text-align: left; }
-#edat-logout-button:hover { background: #fce0ed; }
-.edat-sidebar :focus-visible { outline: 2px solid #d90873; outline-offset: 3px; }
-.app-shell { margin-left: 250px; }
-#edat-vacancy, #edat-candidates { scroll-margin-top: 24px; }
-@media (max-width: 1000px) {
- .edat-sidebar { position: relative; width: 100%; height: auto; flex-direction: row; align-items: center; gap: 18px; padding: 14px 18px; border-right: 0; border-bottom: 1px solid var(--border); }
- .edat-nav { flex-direction: row; flex: 1; flex-wrap: wrap; }
- .edat-sidebar__user { margin: 0; padding: 0; border: 0; }
- .edat-session-panel { bottom: auto; top: calc(100% + 10px); left: auto; right: 0; }
- .app-shell { margin-left: 0; }
-}
-@media (max-width: 720px) {
- .edat-sidebar { flex-wrap: wrap; gap: 12px; }
- .edat-brand { flex: 1; }
- .edat-nav { order: 3; flex-basis: 100%; }
- .edat-sidebar__user > span:last-child { display: none; }
-}

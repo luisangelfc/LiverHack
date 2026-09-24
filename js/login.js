@@ -1,47 +1,21 @@
-// ==========================================================
-// LOGIN TALENTO
-// LiverHack 2026
-// ==========================================================
-
-
-
-// ==========================================================
-// PERFILES Y PÁGINAS
-//
-// IMPORTANTE:
-//
-// login.html, index.html y candidato.html
-// están todos dentro de la carpeta /html.
-//
-// window.location.href trabaja tomando como referencia
-// la página actual (html/login.html).
-//
-// Por eso:
-// "index.html"
-// "candidato.html"
-//
-// funcionan correctamente.
-// ==========================================================
+// Acceso por perfil. Las rutas de destino son relativas a html/login.html.
 
 const profiles = {
 
-
     recruiter: {
-        name: "Recruiter / AT",
+        name: "Atracción de Talento",
         page: "index.html"
     },
-
 
     hrbp: {
 
         name:
-            "HRBP / Talent",
+            "HRBP",
 
         page:
             "hrbp.html"
 
     },
-
 
     manager: {
 
@@ -53,7 +27,6 @@ const profiles = {
 
     },
 
-
     candidate: {
 
         name:
@@ -64,76 +37,49 @@ const profiles = {
 
     }
 
-
 };
-
-
-
-// ==========================================================
-// ELEMENTOS DEL HTML
-// ==========================================================
 
 const roleButtons =
     document.querySelectorAll(
         ".role-button"
     );
 
-
 const stepTwo =
     document.getElementById(
         "stepTwo"
     );
-
 
 const selectedRoleText =
     document.getElementById(
         "selectedRoleText"
     );
 
-
 const loginForm =
     document.getElementById(
         "loginForm"
     );
-
 
 const emailInput =
     document.getElementById(
         "email"
     );
 
-
 const loginButton =
     document.getElementById(
         "loginButton"
     );
-
 
 const loginMessage =
     document.getElementById(
         "loginMessage"
     );
 
-
-
-// ==========================================================
-// PERFIL ACTUAL
-// ==========================================================
-
 let selectedRole =
     null;
-
-
-
-// ==========================================================
-// PASO 1
-// SELECCIÓN DEL PERFIL
-// ==========================================================
 
 roleButtons.forEach(
 
     button => {
-
 
         button.addEventListener(
 
@@ -141,19 +87,11 @@ roleButtons.forEach(
 
             () => {
 
-
-                // ------------------------------------------
-                // LEER PERFIL DEL BOTÓN
-                // ------------------------------------------
-
                 const role =
                     button.dataset.role;
 
-
                 const profile =
                     profiles[role];
-
-
 
                 if (!profile) {
 
@@ -161,25 +99,12 @@ roleButtons.forEach(
 
                 }
 
-
-
-                // ------------------------------------------
-                // GUARDAR PERFIL
-                // ------------------------------------------
-
                 selectedRole =
                     role;
-
-
-
-                // ------------------------------------------
-                // QUITAR ACTIVE DE TODOS LOS BOTONES
-                // ------------------------------------------
 
                 roleButtons.forEach(
 
                     currentButton => {
-
 
                         currentButton
                             .classList
@@ -187,16 +112,9 @@ roleButtons.forEach(
                                 "active"
                             );
 
-
                     }
 
                 );
-
-
-
-                // ------------------------------------------
-                // ACTIVAR EL BOTÓN ELEGIDO
-                // ------------------------------------------
 
                 button
                     .classList
@@ -204,18 +122,11 @@ roleButtons.forEach(
                         "active"
                     );
 
-
-
-                // ------------------------------------------
-                // ACTIVAR PASO 2
-                // ------------------------------------------
-
                 stepTwo
                     .classList
                     .remove(
                         "disabled-step"
                     );
-
 
                 stepTwo
                     .classList
@@ -223,70 +134,29 @@ roleButtons.forEach(
                         "active-step"
                     );
 
-
-
-                // ------------------------------------------
-                // ACTIVAR CAMPO DE CORREO
-                // ------------------------------------------
-
                 emailInput.disabled =
                     false;
-
-
-
-                // ------------------------------------------
-                // MOSTRAR PERFIL SELECCIONADO
-                // ------------------------------------------
 
                 selectedRoleText.textContent =
                     `Ingresarás como ${profile.name}.`;
 
-
-
-                // ------------------------------------------
-                // LIMPIAR CORREO
-                // ------------------------------------------
-
                 emailInput.value =
                     "";
-
-
-
-                // ------------------------------------------
-                // DESACTIVAR BOTÓN HASTA TENER CORREO
-                // ------------------------------------------
 
                 loginButton.disabled =
                     true;
 
-
-
                 hideMessage();
 
-
-
-                // ------------------------------------------
-                // PONER CURSOR EN EL CORREO
-                // ------------------------------------------
-
                 emailInput.focus();
-
 
             }
 
         );
 
-
     }
 
 );
-
-
-
-// ==========================================================
-// PASO 2
-// VALIDACIÓN DEL CORREO
-// ==========================================================
 
 emailInput.addEventListener(
 
@@ -294,40 +164,21 @@ emailInput.addEventListener(
 
     () => {
 
-
         hideMessage();
 
-
-
-        // Sin perfil seleccionado no se puede entrar
-
         if (!selectedRole) {
-
 
             loginButton.disabled =
                 true;
 
-
             return;
 
-
         }
-
-
-
-        // --------------------------------------------------
-        // VALIDACIÓN
-        //
-        // type="email" realiza parte de la validación.
-        // Además verificamos que exista contenido.
-        // --------------------------------------------------
 
         const email =
             emailInput
                 .value
                 .trim();
-
-
 
         const emailIsValid =
 
@@ -337,25 +188,12 @@ emailInput.addEventListener(
 
             emailInput.validity.valid;
 
-
-
-        // --------------------------------------------------
-        // ACTIVAR O DESACTIVAR BOTÓN
-        // --------------------------------------------------
-
         loginButton.disabled =
             !emailIsValid;
-
 
     }
 
 );
-
-
-
-// ==========================================================
-// ENVIAR FORMULARIO
-// ==========================================================
 
 loginForm.addEventListener(
 
@@ -363,19 +201,9 @@ loginForm.addEventListener(
 
     event => {
 
-
-        // Evitamos que HTML recargue la página
-
         event.preventDefault();
 
-
-
-        // ==================================================
-        // VALIDAR PERFIL
-        // ==================================================
-
         if (!selectedRole) {
-
 
             showMessage(
 
@@ -383,31 +211,16 @@ loginForm.addEventListener(
 
             );
 
-
             return;
 
-
         }
-
-
-
-        // ==================================================
-        // CORREO
-        // ==================================================
 
         const email =
             emailInput
                 .value
                 .trim();
 
-
-
-        // ==================================================
-        // CORREO VACÍO
-        // ==================================================
-
         if (email === "") {
-
 
             showMessage(
 
@@ -415,20 +228,11 @@ loginForm.addEventListener(
 
             );
 
-
             return;
-
 
         }
 
-
-
-        // ==================================================
-        // FORMATO INCORRECTO
-        // ==================================================
-
         if (!emailInput.validity.valid) {
-
 
             showMessage(
 
@@ -436,25 +240,14 @@ loginForm.addEventListener(
 
             );
 
-
             return;
 
-
         }
-
-
-
-        // ==================================================
-        // PERFIL SELECCIONADO
-        // ==================================================
 
         const profile =
             profiles[selectedRole];
 
-
-
         if (!profile) {
-
 
             showMessage(
 
@@ -462,49 +255,26 @@ loginForm.addEventListener(
 
             );
 
-
             return;
-
 
         }
 
-
-
-        // ==================================================
-        // GUARDAR SESIÓN
-        //
-        // Nos servirá posteriormente para mostrar:
-        //
-        // correo
-        // perfil
-        // nombre
-        // permisos
-        // etc.
-        // ==================================================
-
         const session = {
-
 
             email:
                 email,
 
-
             role:
                 selectedRole,
 
-
             roleName:
                 profile.name,
-
 
             loginAt:
                 new Date()
                     .toISOString()
 
-
         };
-
-
 
         localStorage.setItem(
 
@@ -516,36 +286,19 @@ loginForm.addEventListener(
 
         );
 
-
-
-        // ==================================================
-        // REDIRECCIÓN
-        //
-        // ESTA ES LA PARTE QUE ENVÍA A CADA PÁGINA.
-        // ==================================================
-
         window.location.href =
             profile.page;
-
 
     }
 
 );
 
-
-
-// ==========================================================
-// MOSTRAR ERROR
-// ==========================================================
-
 function showMessage(
     message
 ) {
 
-
     loginMessage.textContent =
         message;
-
 
     loginMessage
         .classList
@@ -553,28 +306,18 @@ function showMessage(
             "show"
         );
 
-
 }
-
-
-
-// ==========================================================
-// OCULTAR ERROR
-// ==========================================================
 
 function hideMessage() {
 
-
     loginMessage.textContent =
         "";
-
 
     loginMessage
         .classList
         .remove(
             "show"
         );
-
 
 }
 

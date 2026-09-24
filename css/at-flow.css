@@ -1,0 +1,479 @@
+.at-layout {
+    display: grid;
+    min-height: 100vh;
+    grid-template-columns: 248px minmax(0, 1fr);
+}
+
+.at-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 22px 18px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    border-right: 1px solid var(--border);
+    background: #fff;
+}
+
+.at-brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.at-brand__mark {
+    display: grid;
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    border-radius: 11px;
+    background: var(--brand-pink);
+    overflow: hidden;
+    place-items: center;
+}
+
+.at-brand__name {
+    display: flex;
+    flex-direction: column;
+}
+
+.at-brand__name strong {
+    font-size: 24px;
+    font-weight: 800;
+}
+
+.at-brand__name span {
+    color: var(--text-secondary);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.8px;
+}
+
+.at-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.at-nav__link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 13px;
+    border: none;
+    border-radius: 11px;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+    transition: background .2s ease, color .2s ease;
+}
+
+.at-nav__link:hover {
+    background: var(--liverpool-soft);
+    color: var(--liverpool);
+}
+
+.at-nav__link.is-active {
+    background: var(--liverpool);
+    color: #fff;
+}
+
+.at-nav__icon {
+    font-size: 15px;
+}
+
+.at-nav__badge {
+    min-width: 20px;
+    margin-left: auto;
+    padding: 2px 6px;
+    border-radius: 999px;
+    background: var(--liverpool);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 800;
+    text-align: center;
+}
+
+.at-nav__link.is-active .at-nav__badge {
+    background: #fff;
+    color: var(--liverpool);
+}
+
+.at-nav__badge[hidden] {
+    display: none;
+}
+
+.at-sidebar__foot {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: auto;
+}
+
+.at-sidebar__user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+}
+
+.at-sidebar__user strong {
+    display: block;
+    font-size: 13px;
+}
+
+.at-sidebar__user small {
+    display: block;
+    color: var(--text-secondary);
+    font-size: 11px;
+}
+
+.at-exit {
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 11px;
+    background: #fff;
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: border-color .2s ease, color .2s ease;
+}
+
+.at-exit:hover {
+    border-color: var(--liverpool);
+    color: var(--liverpool);
+}
+
+.at-view[hidden] {
+    display: none;
+}
+
+.at-detail-list {
+    display: grid;
+    gap: 10px;
+    margin-top: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    list-style: none;
+}
+
+.at-detail-list li {
+    padding: 13px 15px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: #fff;
+}
+
+.at-detail-list span {
+    display: block;
+    color: var(--text-secondary);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .7px;
+    text-transform: uppercase;
+}
+
+.at-detail-list strong {
+    display: block;
+    margin-top: 5px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.at-chip-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+    list-style: none;
+}
+
+.at-chip-list li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 12px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: #fff;
+    font-size: 12px;
+}
+
+.at-chip-list button {
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.at-chip-list button:hover {
+    color: var(--liverpool);
+}
+
+.at-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 16px;
+}
+
+.at-field label {
+    color: var(--text-secondary);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .6px;
+    text-transform: uppercase;
+}
+
+.at-field input,
+.at-field select,
+.at-field textarea {
+    padding: 11px 13px;
+    border: 1px solid var(--border);
+    border-radius: 11px;
+    background: #fff;
+    color: var(--text);
+    font-size: 13px;
+    resize: vertical;
+}
+
+.at-field input:focus,
+.at-field select:focus,
+.at-field textarea:focus {
+    border-color: var(--liverpool);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(217, 8, 115, .12);
+}
+
+.at-inline-field {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+}
+
+.at-inline-field .at-field {
+    flex: 1;
+    margin-top: 0;
+}
+
+.at-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.at-button {
+    padding: 12px 18px;
+    border: none;
+    border-radius: 11px;
+    background: var(--liverpool);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background .2s ease, transform .15s ease;
+}
+
+.at-button:hover:not([disabled]) {
+    background: var(--liverpool-dark);
+    transform: translateY(-1px);
+}
+
+.at-button--ghost {
+    border: 1px solid var(--border);
+    background: #fff;
+    color: var(--text-secondary);
+}
+
+.at-button--ghost:hover:not([disabled]) {
+    border-color: var(--liverpool);
+    background: #fff;
+    color: var(--liverpool);
+}
+
+.at-button[disabled] {
+    opacity: .45;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.at-note {
+    margin-top: 14px;
+    padding: 16px;
+    border: 1px dashed var(--border);
+    border-radius: 14px;
+    color: var(--text-secondary);
+    font-size: 13px;
+    text-align: center;
+}
+
+.at-hint {
+    margin-top: 12px;
+    color: var(--text-secondary);
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.at-interviews {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 18px;
+}
+
+.at-interview {
+    display: grid;
+    align-items: center;
+    gap: 14px;
+    padding: 15px 17px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: #fff;
+    grid-template-columns: 44px minmax(0, 1fr) auto auto;
+}
+
+.at-interview__avatar {
+    display: grid;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--grape), var(--liverpool));
+    color: #fff;
+    font-size: 13px;
+    font-weight: 800;
+    place-items: center;
+}
+
+.at-interview__info strong {
+    display: block;
+    font-size: 14px;
+}
+
+.at-interview__info p {
+    margin-top: 3px;
+    color: var(--text-secondary);
+    font-size: 12px;
+}
+
+.at-tag {
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.at-tag--pendiente {
+    background: var(--yellow-soft, #fffbeb);
+    color: #b45309;
+}
+
+.at-tag--lista {
+    background: var(--green-soft, #ecfdf5);
+    color: #059669;
+}
+
+.at-tag--neutral {
+    background: #f4f4f6;
+    color: var(--text-secondary);
+}
+
+.at-eval-card {
+    padding: 17px 19px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: #fff;
+}
+
+.at-eval-card__head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.at-eval-card__head strong {
+    font-size: 14px;
+}
+
+.at-eval-card__head p {
+    margin-top: 2px;
+    color: var(--text-secondary);
+    font-size: 12px;
+}
+
+.at-eval-card__head .at-tag {
+    margin-left: auto;
+}
+
+.at-score-grid {
+    display: grid;
+    gap: 14px;
+    margin-top: 14px;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+.at-eval-done {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+}
+
+.at-eval-done span {
+    padding: 7px 13px;
+    border-radius: 999px;
+    background: var(--liverpool-soft);
+    color: var(--liverpool);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.at-eval-comment {
+    margin-top: 12px;
+    padding: 13px 15px;
+    border-radius: 12px;
+    background: var(--canvas, #f6f6f8);
+    color: var(--text-secondary);
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+@media (max-width: 1050px) {
+
+    .at-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .at-sidebar {
+        position: static;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .at-nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .at-interview {
+        grid-template-columns: 44px minmax(0, 1fr);
+    }
+
+    .at-interview .at-tag,
+    .at-interview .at-button {
+        grid-column: 2;
+        justify-self: start;
+    }
+
+}

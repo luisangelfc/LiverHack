@@ -1,13 +1,16 @@
 // ==========================================================
-// TALENT RECRUITMENT HUB
+// ATRACCIÓN DE TALENTO
 // LiverHack 2026
 //
 // Este archivo consume:
-// ../js/candidatos-db.js
+// ../js/candidatos-db.js   (base de candidatos)
+// ../js/edat-flow.js       (etapas, decisiones y notificaciones)
 //
-// candidatos-db.js DEBE cargarse antes que app.js
+// Ambos DEBEN cargarse antes que app.js
 // ==========================================================
 
+
+const AT_ACTOR = "at";
 
 
 // ==========================================================
@@ -36,77 +39,40 @@ if (rawCandidatesDb.length === 0) {
 
 function formatMoney(value) {
 
-    if (
-        value === null ||
-        value === undefined ||
-        value === ""
-    ) {
-
+    if (value === null || value === undefined || value === "") {
         return "No especificado";
-
     }
 
-
-    return new Intl.NumberFormat(
-        "es-MX",
-        {
-            style: "currency",
-            currency: "MXN",
-            maximumFractionDigits: 0
-        }
-    ).format(value);
+    return new Intl.NumberFormat("es-MX", {
+        style: "currency",
+        currency: "MXN",
+        maximumFractionDigits: 0
+    }).format(value);
 
 }
-
 
 
 function normalizeCompatibility(value) {
 
-    if (
-        value === null ||
-        value === undefined
-    ) {
+    const numberValue = Number(String(value ?? "").replace("%", "").trim());
 
-        return 0;
-
-    }
-
-
-    const numberValue =
-        Number(
-            String(value)
-                .replace("%", "")
-                .trim()
-        );
-
-
-    return Number.isNaN(numberValue)
-        ? 0
-        : numberValue;
+    return Number.isNaN(numberValue) ? 0 : numberValue;
 
 }
-
 
 
 function textToArray(value) {
 
     if (!value) {
-
         return [];
-
     }
-
 
     return String(value)
         .split(",")
-        .map(
-            item =>
-                item.trim()
-        )
+        .map(item => item.trim())
         .filter(Boolean);
 
 }
-
 
 
 function initials(name) {
@@ -115,675 +81,180 @@ function initials(name) {
         .split(" ")
         .filter(Boolean)
         .slice(0, 2)
-        .map(
-            part =>
-                part[0]
-        )
+        .map(part => part[0])
         .join("")
         .toUpperCase();
 
 }
 
 
-
+// Los estados nuevos del flujo reutilizan las mismas clases
+// visuales que ya existían para no inventar otra paleta.
 function statusClass(status) {
 
     if (
-        status === "Finalista"
+        status === EDAT.ESTADOS.FINALISTA
+        || status === EDAT.ESTADOS.INCORPORADO
+        || status === EDAT.ESTADOS.OFERTA_ENVIADA
+        || status === EDAT.ESTADOS.OFERTA_ACEPTADA
     ) {
-
         return "finalista";
-
     }
-
 
     if (
-        status === "Descartado"
+        status === EDAT.ESTADOS.DESCARTADO
+        || status === EDAT.ESTADOS.NO_SELECCIONADO
     ) {
-
         return "descartado";
-
     }
-
 
     return "proceso";
 
 }
 
 
-
 function verdictClass(verdict) {
 
-    if (
-        verdict === "Recomendado"
-    ) {
-
+    if (verdict === "Recomendado") {
         return "recomendado";
-
     }
 
-
-    if (
-        verdict === "No recomendado"
-    ) {
-
+    if (verdict === "No recomendado") {
         return "no-recomendado";
-
     }
-
 
     return "reservas";
 
 }
 
 
+const el = id => document.getElementById(id);
+
+
 
 // ==========================================================
 // CONVERTIR BASE DE DATOS AL FORMATO DE LA INTERFAZ
+//
+// El estado de cada candidato NO se lee del archivo crudo:
+// lo entrega el flujo compartido, que sabe si el candidato
+// avanzó, cerró proceso o fue incorporado.
 // ==========================================================
 
-const candidates =
-    rawCandidatesDb.map(
-        raw => {
+function buildCandidates() {
 
+    return rawCandidatesDb.map(raw => {
 
-            const compatibility =
-                normalizeCompatibility(
-                    raw.assessfirst?.compatibilidad
-                );
+        const compatibility = normalizeCompatibility(raw.assessfirst?.compatibilidad);
 
+        const flow = EDAT.candidato(raw.id);
 
-            return {
+        return {
 
-                // ------------------------------------------
-                // DATOS GENERALES
-                // ------------------------------------------
+            id: `c${raw.id}`,
+            rawId: raw.id,
 
-                id:
-                    `c${raw.id}`,
+            name: raw.nombre || "Sin nombre",
+            currentRole: raw.puesto_actual || "No especificado",
+            company: raw.empresa_actual || "No especificada",
 
+            status: flow.estado,
+            compatibility,
 
-                rawId:
-                    raw.id,
+            education: raw.escolaridad || "No especificada",
+            otherStudies: raw.otros_estudios || "No especificados",
+            languages: raw.idiomas || "No especificados",
+            summary: raw.resumen_profesional || "Información no disponible",
 
+            currentComp: formatMoney(raw.compensacion_actual),
+            desiredComp: formatMoney(raw.compensacion_deseada),
 
-                name:
-                    raw.nombre ||
-                    "Sin nombre",
+            statusJustification: raw.status_justificacion || "",
 
-
-                currentRole:
-                    raw.puesto_actual ||
-                    "No especificado",
-
-
-                company:
-                    raw.empresa_actual ||
-                    "No especificada",
-
-
-                // La base entregada actualmente no tiene
-                // ubicación.
-                location:
-                    "Ubicación no registrada",
-
-
-                status:
-                    raw.status_proceso ||
-                    "En Proceso",
-
-
+            assess: {
                 compatibility,
-
-
-                // La base tampoco contiene días exactos
-                // en proceso.
-                appliedDays:
-                    null,
-
-
-
-                // ------------------------------------------
-                // PERFIL
-                // ------------------------------------------
-
-                education:
-                    raw.escolaridad ||
-                    "No especificada",
-
-
-                otherStudies:
-                    raw.otros_estudios ||
-                    "No especificados",
-
-
-                languages:
-                    raw.idiomas ||
-                    "No especificados",
-
-
-                experience:
-                    raw.resumen_profesional ||
-                    "Información no disponible",
-
-
-                summary:
-                    raw.resumen_profesional ||
-                    "Información no disponible",
-
-
-
-                // ------------------------------------------
-                // COMPENSACIÓN
-                // ------------------------------------------
-
-                currentComp:
-                    formatMoney(
-                        raw.compensacion_actual
-                    ),
-
-
-                desiredComp:
-                    formatMoney(
-                        raw.compensacion_deseada
-                    ),
-
-
-                notice:
-                    "No registrado",
-
-
-
-                // ------------------------------------------
-                // ESTADO INTERNO
-                // ------------------------------------------
-
-                statusJustification:
-                    raw.status_justificacion ||
-                    "",
-
-
-
-                // ------------------------------------------
-                // ASSESSFIRST
-                // ------------------------------------------
-
-                assess: {
-
-                    compatibility,
-
-
-                    description:
-                        raw.assessfirst?.descripcion ||
-                        "Sin descripción registrada.",
-
-
-                    strengths:
-                        textToArray(
-                            raw.assessfirst?.fortalezas
-                        ),
-
-
-                    opportunities:
-                        textToArray(
-                            raw.assessfirst?.areas_oportunidad
-                        ),
-
-
-                    leadershipStyle:
-                        raw.assessfirst?.estilo_liderazgo ||
-                        "No especificado",
-
-
-                    strategicVision:
-                        raw.assessfirst?.vision_estrategica ||
-                        "No especificada",
-
-
-                    decisionMaking:
-                        raw.assessfirst?.toma_decisiones ||
-                        "No especificada",
-
-
-                    recommendation:
-                        raw.assessfirst?.recomendaciones ||
-                        "Sin recomendación registrada.",
-
-
-                    dimensions: [
-
-                        {
-                            label:
-                                "Compatibilidad general",
-
-                            value:
-                                compatibility
-                        }
-
-                    ]
-
-                },
-
-
-
-                // ------------------------------------------
-                // ENTREVISTAS
-                // ------------------------------------------
-
-                interviews:
-                    Array.isArray(
-                        raw.entrevistas
-                    )
-                        ?
-                        raw.entrevistas.map(
-                            interview => {
-
-                                return {
-
-                                    id:
-                                        interview.entrevista_id,
-
-
-                                    date:
-                                        interview.fecha ||
-                                        "Fecha no registrada",
-
-
-                                    stage:
-                                        "Entrevista",
-
-
-                                    interviewer:
-                                        Array.isArray(
-                                            interview.entrevistadores
-                                        )
-                                            ?
-                                            interview
-                                                .entrevistadores
-                                                .join(", ")
-                                            :
-                                            "No registrado",
-
-
-                                    notes:
-                                        interview.notas ||
-                                        "Sin notas registradas.",
-
-
-                                    verdict:
-                                        interview.veredicto ||
-                                        "Pendiente"
-
-                                };
-
-                            }
-                        )
-                        :
-                        [],
-
-
-
-                // ------------------------------------------
-                // CV
-                // ------------------------------------------
-
-                cv: {
-
-                    path:
-                        raw.cv_path ||
-                        "",
-
-
-                    fileName:
-                        raw.cv_path
-                            ?
-                            raw.cv_path
-                                .split("/")
-                                .pop()
-                            :
-                            `CV_${raw.nombre || "candidato"}.pdf`,
-
-
-                    // Como todavía no estamos cargando
-                    // PDFs reales, el visor usa información
-                    // proveniente de la propia base.
-                    pages: [
-
-                        {
-
-                            title:
-                                "Perfil profesional",
-
-
-                            blocks: [
-
-                                `${(
-                                    raw.nombre ||
-                                    "Candidato"
-                                ).toUpperCase()} — ${
-                                    raw.puesto_actual ||
-                                    "Puesto no registrado"
-                                }`,
-
-                                raw.resumen_profesional ||
-                                "Resumen profesional no disponible.",
-
-                                `EMPRESA ACTUAL
-${
-    raw.empresa_actual ||
-    "No especificada"
-}`
-
-                            ]
-
-                        },
-
-
-                        {
-
-                            title:
-                                "Educación y competencias",
-
-
-                            blocks: [
-
-                                `ESCOLARIDAD
-${
-    raw.escolaridad ||
-    "No especificada"
-}`,
-
-                                `OTROS ESTUDIOS
-${
-    raw.otros_estudios ||
-    "No especificados"
-}`,
-
-                                `IDIOMAS
-${
-    raw.idiomas ||
-    "No especificados"
-}`
-
-                            ]
-
-                        }
-
-                    ]
-
-                }
-
-            };
-
-        }
-    );
+                description: raw.assessfirst?.descripcion || "Sin descripción registrada.",
+                strengths: textToArray(raw.assessfirst?.fortalezas),
+                opportunities: textToArray(raw.assessfirst?.areas_oportunidad),
+                leadershipStyle: raw.assessfirst?.estilo_liderazgo || "No especificado",
+                strategicVision: raw.assessfirst?.vision_estrategica || "No especificada",
+                decisionMaking: raw.assessfirst?.toma_decisiones || "No especificada",
+                recommendation: raw.assessfirst?.recomendaciones || "Sin recomendación registrada."
+            },
+
+            interviews: Array.isArray(raw.entrevistas)
+                ? raw.entrevistas.map(interview => ({
+                    id: interview.entrevista_id,
+                    date: interview.fecha || "Fecha no registrada",
+                    stage: "Entrevista",
+                    interviewer: Array.isArray(interview.entrevistadores)
+                        ? interview.entrevistadores.join(", ")
+                        : "No registrado",
+                    notes: interview.notas || "Sin notas registradas.",
+                    verdict: interview.veredicto || "Pendiente"
+                }))
+                : [],
+
+            cv: {
+                path: raw.cv_path || "",
+                fileName: raw.cv_path
+                    ? raw.cv_path.split("/").pop()
+                    : `CV_${raw.nombre || "candidato"}.pdf`,
+
+                // Todavía no cargamos PDFs reales: el visor arma las
+                // páginas con la información de la propia base.
+                pages: [
+                    {
+                        title: "Perfil profesional",
+                        blocks: [
+                            `${(raw.nombre || "Candidato").toUpperCase()} — ${raw.puesto_actual || "Puesto no registrado"}`,
+                            raw.resumen_profesional || "Resumen profesional no disponible.",
+                            `EMPRESA ACTUAL\n${raw.empresa_actual || "No especificada"}`
+                        ]
+                    },
+                    {
+                        title: "Educación y competencias",
+                        blocks: [
+                            `ESCOLARIDAD\n${raw.escolaridad || "No especificada"}`,
+                            `OTROS ESTUDIOS\n${raw.otros_estudios || "No especificados"}`,
+                            `IDIOMAS\n${raw.idiomas || "No especificados"}`
+                        ]
+                    }
+                ]
+            },
+
+            flow
+
+        };
+
+    });
+
+}
+
+
+let candidates = buildCandidates();
 
 
 
 // ==========================================================
-// ETAPAS DEL PROCESO
+// ESTADO DE LA INTERFAZ
 // ==========================================================
 
-const stages = [
+let currentView = "vacante";
 
-    {
+let currentFilter = "Todos";
 
-        key:
-            "requisicion",
+let searchTerm = "";
 
-        name:
-            "Requisición",
+let selectedIds = [];
 
-        sla:
-            2,
+let currentCandidate = null;
 
-        elapsed:
-            2,
+let cvPage = 0;
 
-        status:
-            "done",
+let cvZoom = 1;
 
-        owner:
-            "Talent Ops",
-
-        date:
-            "2026-09-10"
-
-    },
-
-
-    {
-
-        key:
-            "alineacion",
-
-        name:
-            "Alineación",
-
-        sla:
-            3,
-
-        elapsed:
-            3,
-
-        status:
-            "done",
-
-        owner:
-            "HM · Daniel Ramírez",
-
-        date:
-            "2026-09-12"
-
-    },
-
-
-    {
-
-        key:
-            "busqueda",
-
-        name:
-            "Búsqueda",
-
-        sla:
-            5,
-
-        elapsed:
-            5,
-
-        status:
-            "done",
-
-        owner:
-            "Reclutamiento",
-
-        date:
-            "2026-09-15"
-
-    },
-
-
-    {
-
-        key:
-            "atraccion",
-
-        name:
-            "Atracción",
-
-        sla:
-            7,
-
-        elapsed:
-            6,
-
-        status:
-            "current",
-
-        owner:
-            "Reclutamiento",
-
-        date:
-            "2026-09-20"
-
-    },
-
-
-    {
-
-        key:
-            "seleccion",
-
-        name:
-            "Selección",
-
-        sla:
-            6,
-
-        elapsed:
-            0,
-
-        status:
-            "pending",
-
-        owner:
-            "HM + Reclutamiento",
-
-        date:
-            ""
-
-    },
-
-
-    {
-
-        key:
-            "oferta",
-
-        name:
-            "Oferta",
-
-        sla:
-            4,
-
-        elapsed:
-            0,
-
-        status:
-            "pending",
-
-        owner:
-            "Compensaciones",
-
-        date:
-            ""
-
-    }
-
-];
-
-
-
-// ==========================================================
-// ALERTAS
-// ==========================================================
-
-const alerts = [
-
-    {
-
-        id:
-            "a1",
-
-        level:
-            "critical",
-
-        title:
-            "Feedback de HM vencido",
-
-        detail:
-            "Existe feedback pendiente por parte del Hiring Manager.",
-
-        time:
-            "Hace 5 h"
-
-    },
-
-
-    {
-
-        id:
-            "a2",
-
-        level:
-            "warning",
-
-        title:
-            "SLA de Atracción al 86%",
-
-        detail:
-            "La vacante lleva 6 de 7 días hábiles asignados a la etapa.",
-
-        time:
-            "Hace 1 día"
-
-    },
-
-
-    {
-
-        id:
-            "a3",
-
-        level:
-            "info",
-
-        title:
-            "Evaluaciones actualizadas",
-
-        detail:
-            "Los resultados de AssessFirst están disponibles para consulta.",
-
-        time:
-            "Hace 2 días"
-
-    }
-
-];
-
-
-
-// ==========================================================
-// ESTADO GLOBAL
-// ==========================================================
-
-let currentFilter =
-    "Todos";
-
-
-let searchTerm =
-    "";
-
-
-let selectedIds =
-    [];
-
-
-let currentCandidate =
-    null;
-
-
-let cvPage =
-    0;
-
-
-let cvZoom =
-    1;
-
-
-let arenaFinalists =
-    [];
+// Borradores de la evaluación de AT antes de guardarlos.
+const evaluationDrafts = {};
 
 
 
@@ -793,47 +264,33 @@ let arenaFinalists =
 
 function showToast(message) {
 
-    const toast =
-        document.getElementById(
-            "toast"
-        );
-
+    const toast = el("toast");
 
     if (!toast) {
-
         return;
-
     }
 
+    toast.textContent = message;
+    toast.classList.add("active");
 
-    toast.textContent =
-        message;
+    clearTimeout(showToast.timeout);
 
-
-    toast.classList.add(
-        "active"
+    showToast.timeout = setTimeout(
+        () => toast.classList.remove("active"),
+        3200
     );
 
-
-    clearTimeout(
-        showToast.timeout
-    );
+}
 
 
-    showToast.timeout =
-        setTimeout(
+// Ejecuta una acción del flujo y muestra su resultado.
+function runFlow(action) {
 
-            () => {
+    const result = action();
 
-                toast.classList.remove(
-                    "active"
-                );
+    showToast(result.mensaje);
 
-            },
-
-            3200
-
-        );
+    return result.ok;
 
 }
 
@@ -845,249 +302,106 @@ function showToast(message) {
 
 function renderKPIs() {
 
-    const finalistas =
-        candidates.filter(
-            candidate =>
-                candidate.status ===
-                "Finalista"
-        ).length;
-
-
-    const enProceso =
-        candidates.filter(
-            candidate =>
-                candidate.status ===
-                "En Proceso"
-        ).length;
-
-
-    const descartados =
-        candidates.filter(
-            candidate =>
-                candidate.status ===
-                "Descartado"
-        ).length;
-
-
-    const kpis = [
-
-        {
-
-            label:
-                "Candidatos registrados",
-
-            value:
-                candidates.length,
-
-            delta:
-                "Base de talento",
-
-            tone:
-                "grape"
-
-        },
-
-
-        {
-
-            label:
-                "Candidatos en proceso",
-
-            value:
-                enProceso,
-
-            delta:
-                `${finalistas} finalistas`,
-
-            tone:
-                "pink"
-
-        },
-
-
-        {
-
-            label:
-                "Finalistas",
-
-            value:
-                finalistas,
-
-            delta:
-                "Perfiles avanzados",
-
-            tone:
-                "flame"
-
-        },
-
-
-        {
-
-            label:
-                "Descartados",
-
-            value:
-                descartados,
-
-            delta:
-                "Proceso cerrado",
-
-            tone:
-                "grape"
-
-        }
-
-    ];
-
-
-    const container =
-        document.getElementById(
-            "kpiContainer"
-        );
-
+    const container = el("kpiContainer");
 
     if (!container) {
-
         return;
-
     }
 
+    const cuenta = estado =>
+        candidates.filter(candidate => candidate.status === estado).length;
 
-    container.innerHTML =
-        kpis
-            .map(
+    const kpis = [
+        {
+            label: "Candidatos registrados",
+            value: candidates.length,
+            delta: "Base de talento",
+            tone: "grape"
+        },
+        {
+            label: "Candidatos en proceso",
+            value: cuenta(EDAT.ESTADOS.EN_PROCESO),
+            delta: `${EDAT.candidatosActivos().length} en esta vacante`,
+            tone: "pink"
+        },
+        {
+            label: "Finalistas",
+            value: cuenta(EDAT.ESTADOS.FINALISTA),
+            delta: "Perfiles avanzados",
+            tone: "flame"
+        },
+        {
+            label: "Procesos cerrados",
+            value: cuenta(EDAT.ESTADOS.DESCARTADO) + cuenta(EDAT.ESTADOS.NO_SELECCIONADO),
+            delta: "Descartados y no seleccionados",
+            tone: "grape"
+        }
+    ];
 
-                kpi => `
-
-                    <article class="kpi-card">
-
-                        <div
-                            class="kpi-line ${kpi.tone}"
-                        >
-                        </div>
-
-                        <span>
-                            ${kpi.label}
-                        </span>
-
-                        <strong>
-                            ${kpi.value}
-                        </strong>
-
-                        <p>
-                            ${kpi.delta}
-                        </p>
-
-                    </article>
-
-                `
-
-            )
-            .join("");
+    container.innerHTML = kpis
+        .map(
+            kpi => `
+                <article class="kpi-card">
+                    <div class="kpi-line ${kpi.tone}"></div>
+                    <span>${kpi.label}</span>
+                    <strong>${kpi.value}</strong>
+                    <p>${kpi.delta}</p>
+                </article>
+            `
+        )
+        .join("");
 
 }
 
 
 
 // ==========================================================
-// ALERTAS
+// NOTIFICACIONES
 // ==========================================================
 
-function renderAlerts() {
+function renderNotifications() {
 
-    const iconMap = {
-
-        critical:
-            "⚠",
-
-        warning:
-            "◷",
-
-        info:
-            "ⓘ"
-
-    };
-
-
-    const container =
-        document.getElementById(
-            "alertsContainer"
-        );
-
+    const container = el("alertsContainer");
 
     if (!container) {
-
         return;
-
     }
 
+    const notas = EDAT.notificaciones(AT_ACTOR);
 
-    container.innerHTML =
-        alerts
+    const iconMap = {
+        critica: "⚠",
+        info: "ⓘ"
+    };
+
+    container.innerHTML = notas.length === 0
+        ? '<div class="empty-state">Todavía no tienes notificaciones.</div>'
+        : notas
             .map(
+                nota => `
+                    <article class="alert ${nota.nivel === "critica" ? "critical" : "info"}">
 
-                alert => `
-
-                    <article
-                        class="alert ${alert.level}"
-                    >
-
-                        <span class="alert-icon">
-
-                            ${
-                                iconMap[
-                                    alert.level
-                                ]
-                            }
-
-                        </span>
-
+                        <span class="alert-icon">${iconMap[nota.nivel] || "ⓘ"}</span>
 
                         <div>
-
-                            <h4>
-                                ${alert.title}
-                            </h4>
-
-                            <p>
-                                ${alert.detail}
-                            </p>
-
-                            <small>
-                                ${alert.time}
-                            </small>
-
+                            <h4>${nota.titulo}</h4>
+                            <p>${nota.mensaje}</p>
+                            <small>${EDAT.tiempoRelativo(nota.fecha)}</small>
                         </div>
 
                     </article>
-
                 `
-
             )
             .join("");
 
-
-    const criticals =
-        alerts.filter(
-
-            alert =>
-                alert.level ===
-                "critical"
-
-        ).length;
-
-
-    const badge =
-        document.getElementById(
-            "criticalBadge"
-        );
-
+    const badge = el("criticalBadge");
 
     if (badge) {
 
-        badge.textContent =
-            criticals;
+        const sinLeer = EDAT.noLeidas(AT_ACTOR);
+
+        badge.textContent = sinLeer;
+        badge.style.display = sinLeer === 0 ? "none" : "";
 
     }
 
@@ -1096,463 +410,743 @@ function renderAlerts() {
 
 
 // ==========================================================
-// TIMELINE
+// ENCABEZADO DE LA VACANTE
+// ==========================================================
+
+function renderVacancyHeader() {
+
+    const estado = EDAT.estado();
+
+    const titulo = estado.requisicion?.titulo || "Sin requisición recibida";
+
+    el("atVacancyTitle").textContent = titulo;
+    el("atVacancyHeadline").textContent = titulo;
+
+    el("atVacancyState").textContent = EDAT.vacanteDetenida()
+        ? `● Detenida por ${estado.vacante.detenidaPor}`
+        : `● ${estado.vacante.estado}`;
+
+}
+
+
+
+// ==========================================================
+// TIMELINE DE LA VACANTE (solo lectura)
 // ==========================================================
 
 function renderTimeline() {
 
-    const totalElapsed =
-        stages.reduce(
-
-            (
-                total,
-                stage
-            ) =>
-                total +
-                stage.elapsed,
-
-            0
-
-        );
-
-
-    const totalSLA =
-        stages.reduce(
-
-            (
-                total,
-                stage
-            ) =>
-                total +
-                stage.sla,
-
-            0
-
-        );
-
-
-    const globalStatus =
-        document.getElementById(
-            "globalStageStatus"
-        );
-
-
-    if (globalStatus) {
-
-        globalStatus.textContent =
-            `${totalElapsed} de ${totalSLA} días hábiles consumidos`;
-
-    }
-
-
-    const timeline =
-        document.getElementById(
-            "timelineContainer"
-        );
-
+    const timeline = el("timelineContainer");
 
     if (!timeline) {
+        return;
+    }
+
+    const etapas = EDAT.etapasVacante();
+
+    const totalElapsed = etapas.reduce((total, etapa) => total + etapa.transcurrido, 0);
+    const totalSLA = etapas.reduce((total, etapa) => total + etapa.sla, 0);
+
+    const globalStatus = el("globalStageStatus");
+
+    if (globalStatus) {
+        globalStatus.textContent = `${totalElapsed} de ${totalSLA} días hábiles consumidos`;
+    }
+
+    timeline.innerHTML = etapas
+        .map(etapa => {
+
+            const percent = Math.min(
+                100,
+                Math.round((etapa.transcurrido / etapa.sla) * 100)
+            );
+
+            const clase = etapa.estado === "completada"
+                ? "done"
+                : etapa.estado === "pendiente"
+                    ? "pending"
+                    : "current";
+
+            return `
+                <article class="timeline-stage ${clase}">
+
+                    <div class="timeline-stage-header">
+                        <span class="stage-number">${etapa.estado === "completada" ? "✓" : etapa.numero}</span>
+                        <h4>${etapa.nombre}</h4>
+                    </div>
+
+                    <p class="stage-owner">${etapa.responsable}</p>
+
+                    <p class="stage-time">◷ ${etapa.transcurrido}/${etapa.sla} días hábiles</p>
+
+                    <div class="progress">
+                        <div class="progress-fill" style="width: ${percent}%;"></div>
+                    </div>
+
+                </article>
+            `;
+
+        })
+        .join("");
+
+}
+
+
+
+// ==========================================================
+// REQUISICIÓN RECIBIDA
+// ==========================================================
+
+function renderRequisition() {
+
+    const estado = EDAT.estado();
+    const detalle = el("atRequisitionDetail");
+
+    if (!estado.requisicion) {
+
+        el("atRequisitionSubtitle").textContent =
+            "HRBP todavía no envía la requisición de la vacante.";
+
+        detalle.innerHTML =
+            '<div class="at-note">En cuanto HRBP envíe la requisición la verás aquí.</div>';
 
         return;
 
     }
 
+    el("atRequisitionSubtitle").textContent =
+        `Recibida de HRBP el ${EDAT.fecha(estado.requisicion.fecha)}.`;
+
+    const campos = [
+        ["Título de la vacante", estado.requisicion.titulo],
+        ["Estudios / escolaridad", estado.requisicion.escolaridad],
+        ["Descripción general", estado.requisicion.descripcion],
+        ["Conocimientos técnicos", estado.requisicion.conocimientos],
+        ["Hard Skills", estado.requisicion.hardSkills],
+        ["Soft Skills", estado.requisicion.softSkills],
+        ["Propuesta salarial", estado.requisicion.salario],
+        ["DSQ", estado.requisicion.dsq]
+    ];
 
-    timeline.innerHTML =
-        stages
-            .map(
+    detalle.innerHTML = `
+        <ul class="at-detail-list">
+            ${campos
+                .map(([etiqueta, valor]) => `<li><span>${etiqueta}</span><strong>${valor}</strong></li>`)
+                .join("")}
+        </ul>
+    `;
 
-                (
-                    stage,
-                    index
-                ) => {
+}
 
 
-                    const percent =
-                        Math.min(
 
-                            100,
+// ==========================================================
+// ALINEACIÓN · REQUISITOS NO NEGOCIABLES
+// ==========================================================
 
-                            Math.round(
+let draftRequirements = [];
 
-                                (
-                                    stage.elapsed /
-                                    stage.sla
-                                )
-                                *
-                                100
 
-                            )
+function renderAlignment() {
 
-                        );
+    const estado = EDAT.estado();
+    const body = el("atAlignmentBody");
 
+    if (!estado.requisicion) {
 
-                    const over =
-                        stage.elapsed >
-                        stage.sla;
+        body.innerHTML =
+            '<div class="at-note">La alineación inicia cuando HRBP envía la requisición.</div>';
 
+        return;
 
-                    let progressClass =
-                        "";
+    }
 
+    if (estado.alineacion.at.estado !== "Pendiente") {
 
-                    if (over) {
+        const lista = estado.alineacion.at.noNegociables;
 
-                        progressClass =
-                            "danger";
+        body.innerHTML = `
+            <ul class="at-chip-list">
+                ${lista.length === 0
+                    ? "<li>Sin requisitos registrados</li>"
+                    : lista.map(item => `<li>${item}</li>`).join("")}
+            </ul>
 
-                    }
-                    else if (
-                        percent >=
-                        80
-                    ) {
+            <ul class="at-detail-list">
+                <li>
+                    <span>Decisión de Atracción de Talento</span>
+                    <strong>${estado.alineacion.at.estado} · ${EDAT.fecha(estado.alineacion.at.fecha)}</strong>
+                </li>
+                <li>
+                    <span>Decisión del Hiring Manager</span>
+                    <strong>${estado.alineacion.hm.estado}${estado.alineacion.hm.fecha ? ` · ${EDAT.fecha(estado.alineacion.hm.fecha)}` : ""}</strong>
+                </li>
+            </ul>
+        `;
 
-                        progressClass =
-                            "warning";
+        return;
 
-                    }
+    }
 
+    body.innerHTML = `
+        <div class="at-inline-field">
 
-                    return `
+            <div class="at-field">
+                <label for="requirementInput">Agregar requisito indispensable</label>
+                <input id="requirementInput" type="text" placeholder="Ej. Licenciatura concluida en área afín">
+            </div>
 
-                        <article
-                            class="
-                                timeline-stage
-                                ${stage.status}
-                            "
-                        >
+            <button class="at-button at-button--ghost" type="button" data-add-requirement>
+                Agregar
+            </button>
 
+        </div>
 
-                            <div
-                                class="
-                                    timeline-stage-header
-                                "
-                            >
+        <ul class="at-chip-list">
+            ${draftRequirements.length === 0
+                ? "<li>Sin requisitos definidos todavía</li>"
+                : draftRequirements
+                    .map(
+                        (item, index) => `
+                            <li>
+                                ${item}
+                                <button type="button" data-remove-requirement="${index}" title="Quitar">×</button>
+                            </li>
+                        `
+                    )
+                    .join("")}
+        </ul>
 
+        <div class="at-actions">
 
-                                <span
-                                    class="stage-number"
-                                >
+            <button class="at-button at-button--ghost" type="button" data-decline-requisition>
+                Declinar requisición
+            </button>
 
-                                    ${
-                                        stage.status ===
-                                        "done"
-                                            ?
-                                            "✓"
-                                            :
-                                            index + 1
-                                    }
+            <button class="at-button" type="button" data-accept-requisition ${draftRequirements.length === 0 ? "disabled" : ""}>
+                Aceptar perfil y enviar alineación a Hiring Manager
+            </button>
 
-                                </span>
+        </div>
 
+        <p class="at-hint">
+            Registra únicamente lo indispensable: escolaridad, habilidades técnicas
+            y conocimientos requeridos.
+        </p>
+    `;
 
-                                <h4>
-                                    ${stage.name}
-                                </h4>
+}
 
 
-                                <button
-                                    class="edit-stage"
-                                    data-stage-index="${index}"
-                                    title="Editar etapa"
-                                    type="button"
-                                >
-                                    ✎
-                                </button>
+function configureAlignment() {
 
+    el("atAlignmentBody").addEventListener("click", event => {
 
-                            </div>
+        if (event.target.closest("[data-add-requirement]")) {
 
+            const input = el("requirementInput");
+            const value = input.value.trim();
 
+            if (value === "") {
+                showToast("Escribe el requisito antes de agregarlo.");
+                return;
+            }
 
-                            <p class="stage-owner">
-                                ${stage.owner}
-                            </p>
+            draftRequirements.push(value);
 
+            renderAlignment();
 
+            return;
 
-                            <p
-                                class="
-                                    stage-time
-                                    ${
-                                        over
-                                            ?
-                                            "over"
-                                            :
-                                            ""
-                                    }
-                                "
-                            >
+        }
 
-                                ◷
+        const remove = event.target.closest("[data-remove-requirement]");
 
-                                ${stage.elapsed}
-                                /
-                                ${stage.sla}
+        if (remove) {
 
-                                días hábiles
+            draftRequirements.splice(Number(remove.dataset.removeRequirement), 1);
 
-                            </p>
+            renderAlignment();
 
+            return;
 
+        }
 
-                            <div class="progress">
+        if (event.target.closest("[data-accept-requisition]")) {
 
+            runFlow(() => EDAT.atAceptarAlineacion(draftRequirements));
 
-                                <div
-                                    class="
-                                        progress-fill
-                                        ${progressClass}
-                                    "
+            return;
 
-                                    style="
-                                        width:
-                                        ${percent}%;
-                                    "
-                                >
-                                </div>
+        }
 
+        if (event.target.closest("[data-decline-requisition]")) {
+            runFlow(EDAT.atDeclinar);
+        }
 
-                            </div>
+    });
 
+    el("atAlignmentBody").addEventListener("keydown", event => {
 
+        if (event.key === "Enter" && event.target.id === "requirementInput") {
 
-                            <div
-                                id="editor-${index}"
-                                class="stage-editor"
-                            >
+            event.preventDefault();
 
+            el("atAlignmentBody")
+                .querySelector("[data-add-requirement]")
+                .click();
 
-                                <label>
+        }
 
-                                    Fecha
+    });
 
-                                    <input
-                                        id="stageDate-${index}"
-                                        type="date"
-                                        value="${stage.date}"
-                                    >
+}
 
-                                </label>
 
 
+// ==========================================================
+// ENTREVISTAS DE ATRACCIÓN DE TALENTO
+// ==========================================================
 
-                                <label>
+function renderInterviews() {
 
-                                    Días hábiles
+    const lista = el("atInterviewsList");
+    const activos = EDAT.candidatosActivos();
 
-                                    <input
-                                        id="stageElapsed-${index}"
-                                        type="number"
-                                        min="0"
-                                        value="${stage.elapsed}"
-                                    >
+    if (!EDAT.etapaAlcanzada("entrevistas_at")) {
 
-                                </label>
+        el("atInterviewsSubtitle").textContent =
+            "Las entrevistas inician cuando la vacante queda alineada.";
 
+        el("atInterviewsPill").textContent = "";
 
+        lista.innerHTML =
+            '<div class="at-note">Aún no hay entrevistas agendadas para esta vacante.</div>';
 
-                                <label>
+        return;
 
-                                    Estado
+    }
 
-                                    <select
-                                        id="stageStatus-${index}"
-                                    >
+    const finalizadas = activos.filter(
+        candidato => candidato.entrevistaAT?.estado === "Finalizada"
+    ).length;
 
-                                        <option
-                                            value="pending"
+    el("atInterviewsSubtitle").textContent =
+        `${activos.length} candidatos En Proceso asignados a esta vacante.`;
 
-                                            ${
-                                                stage.status ===
-                                                "pending"
-                                                    ?
-                                                    "selected"
-                                                    :
-                                                    ""
-                                            }
-                                        >
-                                            Pendiente
-                                        </option>
+    el("atInterviewsPill").textContent =
+        `${finalizadas} de ${activos.length} entrevistas finalizadas`;
 
+    lista.innerHTML = activos
+        .map(candidato => {
 
-                                        <option
-                                            value="current"
+            const entrevista = candidato.entrevistaAT;
+            const finalizada = entrevista?.estado === "Finalizada";
 
-                                            ${
-                                                stage.status ===
-                                                "current"
-                                                    ?
-                                                    "selected"
-                                                    :
-                                                    ""
-                                            }
-                                        >
-                                            En curso
-                                        </option>
+            return `
+                <article class="at-interview">
 
+                    <span class="at-interview__avatar">${initials(candidato.nombre)}</span>
 
-                                        <option
-                                            value="done"
+                    <div class="at-interview__info">
+                        <strong>${candidato.nombre}</strong>
+                        <p>${candidato.puesto_actual} · ${candidato.empresa_actual}</p>
+                        <p>${EDAT.fecha(entrevista.fecha)} · ${entrevista.hora}</p>
+                    </div>
 
-                                            ${
-                                                stage.status ===
-                                                "done"
-                                                    ?
-                                                    "selected"
-                                                    :
-                                                    ""
-                                            }
-                                        >
-                                            Completada
-                                        </option>
+                    <span class="at-tag ${finalizada ? "at-tag--lista" : "at-tag--pendiente"}">
+                        Entrevista ${finalizada ? "finalizada" : "pendiente"}
+                    </span>
 
-                                    </select>
+                    ${finalizada
+                        ? '<span class="at-tag at-tag--neutral">Lista para evaluar</span>'
+                        : `<button class="at-button" type="button" data-finish-interview="${candidato.id}">
+                                Marcar entrevista como finalizada
+                           </button>`}
 
-                                </label>
+                </article>
+            `;
 
+        })
+        .join("");
 
+}
 
-                                <button
-                                    type="button"
-                                    data-save-stage="${index}"
-                                >
 
-                                    Guardar
+function configureInterviews() {
 
-                                </button>
+    el("atInterviewsList").addEventListener("click", event => {
 
+        const boton = event.target.closest("[data-finish-interview]");
 
-                            </div>
+        if (boton) {
+            runFlow(() => EDAT.atFinalizarEntrevista(boton.dataset.finishInterview));
+        }
 
+    });
 
-                        </article>
+}
 
-                    `;
 
-                }
 
-            )
-            .join("");
+// ==========================================================
+// EVALUACIÓN DE CANDIDATOS
+// ==========================================================
 
+function scoreOptions(selected) {
 
-    document
-        .querySelectorAll(
-            "[data-stage-index]"
+    const escala = [
+        { value: 1, label: "1 · Muy por debajo" },
+        { value: 2, label: "2 · Por debajo" },
+        { value: 3, label: "3 · Cumple" },
+        { value: 4, label: "4 · Supera lo esperado" },
+        { value: 5, label: "5 · Sobresaliente" }
+    ];
+
+    return escala
+        .map(
+            item => `<option value="${item.value}" ${Number(selected) === item.value ? "selected" : ""}>${item.label}</option>`
         )
-        .forEach(
-
-            button => {
-
-
-                button.addEventListener(
-
-                    "click",
-
-                    () => {
+        .join("");
+}
 
 
-                        const index =
-                            button
-                                .dataset
-                                .stageIndex;
+function renderEvaluations() {
 
+    const lista = el("atEvalList");
+    const acciones = el("atEvalActions");
+    const activos = EDAT.candidatosActivos();
 
-                        const editor =
-                            document.getElementById(
-                                `editor-${index}`
-                            );
+    if (!EDAT.etapaAlcanzada("entrevistas_at")) {
 
+        el("atEvalPill").textContent = "";
 
-                        if (editor) {
+        lista.innerHTML =
+            '<div class="at-note">Podrás evaluar cuando inicien las entrevistas.</div>';
 
-                            editor
-                                .classList
-                                .toggle(
-                                    "active"
-                                );
+        acciones.innerHTML = "";
 
-                        }
+        return;
 
-                    }
+    }
 
-                );
+    const evaluados = activos.filter(candidato => candidato.evaluacionAT).length;
+
+    el("atEvalPill").textContent = `${evaluados} de ${activos.length} candidatos evaluados`;
+
+    const enviadas = EDAT.estado().evaluacionesEnviadas;
+
+    lista.innerHTML = activos
+        .map(candidato => {
+
+            const finalizada = candidato.entrevistaAT?.estado === "Finalizada";
+            const evaluacion = candidato.evaluacionAT;
+            const borrador = evaluationDrafts[candidato.id] || {};
+
+            let cuerpo;
+
+            if (!finalizada) {
+
+                cuerpo = `
+                    <p class="at-hint">
+                        Marca la entrevista como finalizada para registrar su evaluación.
+                    </p>
+                `;
+
+            }
+            else if (evaluacion && enviadas) {
+
+                cuerpo = `
+                    <div class="at-eval-done">
+                        <span>Hard Skills: ${evaluacion.hard}/5</span>
+                        <span>Soft Skills: ${evaluacion.soft}/5</span>
+                    </div>
+                    ${evaluacion.comentario
+                        ? `<p class="at-eval-comment">${evaluacion.comentario}</p>`
+                        : ""}
+                `;
+
+            }
+            else {
+
+                cuerpo = `
+                    <div class="at-score-grid">
+
+                        <div class="at-field">
+                            <label for="hard-${candidato.id}">Hard Skills (1 a 5)</label>
+                            <select id="hard-${candidato.id}" data-score="hard" data-candidate="${candidato.id}">
+                                <option value="">Sin calificar</option>
+                                ${scoreOptions(borrador.hard ?? evaluacion?.hard)}
+                            </select>
+                        </div>
+
+                        <div class="at-field">
+                            <label for="soft-${candidato.id}">Soft Skills (1 a 5)</label>
+                            <select id="soft-${candidato.id}" data-score="soft" data-candidate="${candidato.id}">
+                                <option value="">Sin calificar</option>
+                                ${scoreOptions(borrador.soft ?? evaluacion?.soft)}
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="at-field">
+                        <label for="comment-${candidato.id}">Comentario (opcional)</label>
+                        <textarea id="comment-${candidato.id}" rows="2" data-score="comentario" data-candidate="${candidato.id}"
+                            placeholder="Observaciones de la entrevista">${borrador.comentario ?? evaluacion?.comentario ?? ""}</textarea>
+                    </div>
+
+                    <div class="at-actions">
+                        <button class="at-button" type="button" data-save-evaluation="${candidato.id}">
+                            Guardar evaluación
+                        </button>
+                    </div>
+                `;
 
             }
 
-        );
+            return `
+                <article class="at-eval-card">
+
+                    <div class="at-eval-card__head">
+
+                        <span class="at-interview__avatar">${initials(candidato.nombre)}</span>
+
+                        <div>
+                            <strong>${candidato.nombre}</strong>
+                            <p>${candidato.puesto_actual}</p>
+                        </div>
+
+                        <span class="at-tag ${evaluacion ? "at-tag--lista" : "at-tag--pendiente"}">
+                            ${evaluacion ? "Evaluación registrada" : "Evaluación pendiente"}
+                        </span>
+
+                    </div>
+
+                    ${cuerpo}
+
+                </article>
+            `;
+
+        })
+        .join("");
+
+    const pendientes = EDAT.evaluacionesPendientes().length;
+
+    acciones.innerHTML = enviadas
+        ? `<p class="at-hint">Las evaluaciones de los ${activos.length} candidatos ya fueron enviadas al Hiring Manager.</p>`
+        : `
+            <button class="at-button" type="button" data-send-evaluations ${pendientes > 0 ? "disabled" : ""}>
+                Enviar evaluaciones de los ${activos.length} candidatos a Hiring Manager
+            </button>
+            ${pendientes > 0
+                ? `<p class="at-hint">Faltan ${pendientes} evaluación(es) por registrar.</p>`
+                : ""}
+        `;
+
+}
 
 
-    document
-        .querySelectorAll(
-            "[data-save-stage]"
-        )
-        .forEach(
+function configureEvaluations() {
 
-            button => {
+    const lista = el("atEvalList");
+
+    lista.addEventListener("change", event => {
+
+        const campo = event.target.closest("[data-score]");
+
+        if (!campo) {
+            return;
+        }
+
+        const id = campo.dataset.candidate;
+
+        evaluationDrafts[id] = evaluationDrafts[id] || {};
+        evaluationDrafts[id][campo.dataset.score] = campo.value;
+
+    });
+
+    lista.addEventListener("input", event => {
+
+        const campo = event.target.closest('[data-score="comentario"]');
+
+        if (!campo) {
+            return;
+        }
+
+        const id = campo.dataset.candidate;
+
+        evaluationDrafts[id] = evaluationDrafts[id] || {};
+        evaluationDrafts[id].comentario = campo.value;
+
+    });
+
+    lista.addEventListener("click", event => {
+
+        const boton = event.target.closest("[data-save-evaluation]");
+
+        if (!boton) {
+            return;
+        }
+
+        const id = boton.dataset.saveEvaluation;
+        const borrador = evaluationDrafts[id] || {};
+
+        runFlow(() => EDAT.atGuardarEvaluacion(id, borrador));
+
+    });
+
+    el("atEvalActions").addEventListener("click", event => {
+
+        if (event.target.closest("[data-send-evaluations]")) {
+            runFlow(EDAT.atEnviarEvaluaciones);
+        }
+
+    });
+
+}
 
 
-                button.addEventListener(
 
-                    "click",
+// ==========================================================
+// SELECCIÓN DEL HIRING MANAGER Y CIERRE
+// ==========================================================
 
-                    () => {
+function renderSelection() {
+
+    const estado = EDAT.estado();
+    const lista = el("atSelectionList");
+
+    if (estado.seleccionHM.length === 0) {
+
+        el("atSelectionSubtitle").textContent =
+            "Aquí verás a los candidatos que el Hiring Manager envía a entrevista.";
+
+        lista.innerHTML =
+            '<div class="at-note">El Hiring Manager todavía no registra su selección.</div>';
+
+        return;
+
+    }
+
+    el("atSelectionSubtitle").textContent =
+        `${estado.seleccionHM.length} candidatos enviados a entrevista con Hiring Manager.`;
+
+    const enviados = estado.seleccionHM.map(id => EDAT.candidato(id));
+
+    const cerrados = EDAT.candidatosActivos().filter(
+        candidato => candidato.estado === EDAT.ESTADOS.NO_SELECCIONADO
+    );
+
+    lista.innerHTML = [...enviados, ...cerrados.filter(c => !estado.seleccionHM.includes(c.id))]
+        .map(candidato => {
+
+            const entrevista = candidato.entrevistaHM;
+
+            const detalle = entrevista
+                ? `${EDAT.fecha(entrevista.fecha)} · ${entrevista.hora} · Entrevista ${entrevista.estado.toLowerCase()}`
+                : candidato.cierre?.motivo || "Proceso concluido";
+
+            return `
+                <article class="at-interview">
+
+                    <span class="at-interview__avatar">${initials(candidato.nombre)}</span>
+
+                    <div class="at-interview__info">
+                        <strong>${candidato.nombre}</strong>
+                        <p>${candidato.puesto_actual} · ${candidato.empresa_actual}</p>
+                        <p>${detalle}</p>
+                    </div>
+
+                    <span class="at-tag ${statusClass(candidato.estado) === "finalista" ? "at-tag--lista" : "at-tag--neutral"}">
+                        ${candidato.estado}
+                    </span>
+
+                </article>
+            `;
+
+        })
+        .join("");
+
+}
 
 
-                        const index =
-                            Number(
-                                button
-                                    .dataset
-                                    .saveStage
-                            );
+function renderClosing() {
+
+    const estado = EDAT.estado();
+    const detalle = el("atClosingDetail");
+    const acciones = el("atClosingActions");
+
+    const finalista = estado.finalista ? EDAT.candidato(estado.finalista) : null;
+
+    detalle.innerHTML = [
+        {
+            titulo: "Candidato seleccionado",
+            valor: finalista ? finalista.nombre : "Pendiente de decisión del HM"
+        },
+        {
+            titulo: "Oferta",
+            valor: !estado.oferta
+                ? "Sin generar"
+                : `${estado.oferta.estado} · ${EDAT.fecha(estado.oferta.fecha)}`
+        },
+        {
+            titulo: "Disponibilidad de ingreso",
+            valor: estado.oferta?.disponibilidad || "Sin confirmar"
+        },
+        {
+            titulo: "Incorporación",
+            valor: estado.incorporacion
+                ? `Confirmada · ${EDAT.fecha(estado.incorporacion.fecha)}`
+                : "Pendiente"
+        }
+    ]
+        .map(caja => `<li><span>${caja.titulo}</span><strong>${caja.valor}</strong></li>`)
+        .join("");
+
+    if (estado.incorporacion) {
+
+        el("atClosingSubtitle").textContent =
+            "La vacante quedó cubierta y el proceso está finalizado.";
+
+        acciones.innerHTML = "";
+
+        return;
+
+    }
+
+    if (estado.oferta?.estado === "Aceptada") {
+
+        el("atClosingSubtitle").textContent =
+            `${finalista.nombre} aceptó la oferta y confirmó su disponibilidad de ingreso.`;
+
+        acciones.innerHTML = `
+            <button class="at-button" type="button" data-confirm-onboarding>
+                Confirmar incorporación y finalizar proceso
+            </button>
+        `;
+
+        return;
+
+    }
+
+    el("atClosingSubtitle").textContent =
+        "Oferta, aceptación del candidato e incorporación.";
+
+    acciones.innerHTML = "";
+
+}
 
 
-                        const dateInput =
-                            document.getElementById(
-                                `stageDate-${index}`
-                            );
+function configureClosing() {
 
+    el("atClosingActions").addEventListener("click", event => {
 
-                        const elapsedInput =
-                            document.getElementById(
-                                `stageElapsed-${index}`
-                            );
+        if (event.target.closest("[data-confirm-onboarding]")) {
+            runFlow(EDAT.atConfirmarIncorporacion);
+        }
 
-
-                        const statusInput =
-                            document.getElementById(
-                                `stageStatus-${index}`
-                            );
-
-
-                        stages[index].date =
-                            dateInput.value;
-
-
-                        stages[index].elapsed =
-                            Number(
-                                elapsedInput.value
-                            );
-
-
-                        stages[index].status =
-                            statusInput.value;
-
-
-                        renderTimeline();
-
-
-                        showToast(
-                            `Etapa "${stages[index].name}" actualizada.`
-                        );
-
-                    }
-
-                );
-
-            }
-
-        );
+    });
 
 }
 
@@ -1564,165 +1158,78 @@ function renderTimeline() {
 
 function renderFilters() {
 
-    const filters = [
-
-        "Todos",
-        "En Proceso",
-        "Finalista",
-        "Descartado"
-
-    ];
-
-
-    const container =
-        document.getElementById(
-            "filtersContainer"
-        );
-
+    const container = el("filtersContainer");
 
     if (!container) {
-
         return;
-
     }
 
+    const filters = ["Todos", "En Proceso", "Finalista", "Descartado"];
 
-    container.innerHTML =
-        filters
-            .map(
-
-                filter => `
-
-                    <button
-                        class="
-                            filter-button
-                            ${
-                                currentFilter ===
-                                filter
-                                    ?
-                                    "active"
-                                    :
-                                    ""
-                            }
-                        "
-
-                        data-filter="${filter}"
-
-                        type="button"
-                    >
-
-                        ${filter}
-
-                    </button>
-
-                `
-
-            )
-            .join("");
-
-
-    document
-        .querySelectorAll(
-            "[data-filter]"
+    container.innerHTML = filters
+        .map(
+            filter => `
+                <button
+                    class="filter-button ${currentFilter === filter ? "active" : ""}"
+                    data-filter="${filter}"
+                    type="button"
+                >
+                    ${filter}
+                </button>
+            `
         )
-        .forEach(
+        .join("");
 
-            button => {
+    container.querySelectorAll("[data-filter]").forEach(button => {
 
+        button.addEventListener("click", () => {
 
-                button.addEventListener(
+            currentFilter = button.dataset.filter;
 
-                    "click",
+            renderFilters();
+            renderCandidates();
 
-                    () => {
+        });
 
-
-                        currentFilter =
-                            button
-                                .dataset
-                                .filter;
-
-
-                        renderFilters();
-
-                        renderCandidates();
-
-                    }
-
-                );
-
-            }
-
-        );
+    });
 
 }
 
 
-
-// ==========================================================
-// OBTENER CANDIDATOS VISIBLES
-// ==========================================================
-
 function getVisibleCandidates() {
 
-    return candidates.filter(
+    const term = searchTerm.toLowerCase().trim();
 
-        candidate => {
+    return candidates.filter(candidate => {
 
-
-            const matchesFilter =
-
-                currentFilter ===
-                "Todos"
-
-                ||
-
-                candidate.status ===
-                currentFilter;
-
-
-
-            const term =
-                searchTerm
-                    .toLowerCase()
-                    .trim();
-
-
-
-            const matchesSearch =
-
-                candidate.name
-                    .toLowerCase()
-                    .includes(
-                        term
-                    )
-
-                ||
-
-                candidate.currentRole
-                    .toLowerCase()
-                    .includes(
-                        term
-                    )
-
-                ||
-
-                candidate.company
-                    .toLowerCase()
-                    .includes(
-                        term
-                    );
-
-
-
-            return (
-                matchesFilter &&
-                matchesSearch
+        const matchesFilter =
+            currentFilter === "Todos"
+            || candidate.status === currentFilter
+            || (
+                currentFilter === "Finalista"
+                && [
+                    EDAT.ESTADOS.FINALISTA,
+                    EDAT.ESTADOS.OFERTA_ENVIADA,
+                    EDAT.ESTADOS.OFERTA_ACEPTADA,
+                    EDAT.ESTADOS.INCORPORADO
+                ].includes(candidate.status)
+            )
+            || (
+                currentFilter === "Descartado"
+                && (
+                    candidate.status === EDAT.ESTADOS.DESCARTADO
+                    || candidate.status === EDAT.ESTADOS.NO_SELECCIONADO
+                )
             );
 
-        }
+        const matchesSearch =
+            candidate.name.toLowerCase().includes(term)
+            || candidate.currentRole.toLowerCase().includes(term)
+            || candidate.company.toLowerCase().includes(term);
 
-    );
+        return matchesFilter && matchesSearch;
+
+    });
 
 }
 
@@ -1734,348 +1241,120 @@ function getVisibleCandidates() {
 
 function renderCandidates() {
 
-    const visible =
-        getVisibleCandidates();
-
-
-    const counter =
-        document.getElementById(
-            "candidateCounter"
-        );
-
-
-    if (counter) {
-
-        counter.textContent =
-            `${visible.length} perfiles · selecciona 2 o más para comparar en Arena Mode`;
-
-    }
-
-
-    const grid =
-        document.getElementById(
-            "candidateGrid"
-        );
-
+    const grid = el("candidateGrid");
 
     if (!grid) {
+        return;
+    }
+
+    const visible = getVisibleCandidates();
+
+    const counter = el("candidateCounter");
+
+    if (counter) {
+        counter.textContent =
+            `${visible.length} perfiles · selecciona 2 o más para comparar en Arena Mode`;
+    }
+
+    if (visible.length === 0) {
+
+        grid.innerHTML = '<div class="empty-state">No hay candidatos con este filtro.</div>';
 
         return;
 
     }
 
+    grid.innerHTML = visible
+        .map(candidate => {
 
-    if (
-        visible.length ===
-        0
-    ) {
+            const selected = selectedIds.includes(candidate.id);
 
-        grid.innerHTML = `
+            const evaluacion = candidate.flow.evaluacionAT;
 
-            <div class="empty-state">
+            const processText = evaluacion
+                ? `Evaluación AT · Hard ${evaluacion.hard}/5 · Soft ${evaluacion.soft}/5`
+                : candidate.flow.entrevistaAT
+                    ? `Entrevista AT ${candidate.flow.entrevistaAT.estado.toLowerCase()}`
+                    : "Sin entrevista asignada en esta vacante";
 
-                No hay candidatos
-                con este filtro.
+            return `
+                <article class="candidate-card ${selected ? "selected" : ""}">
 
-            </div>
+                    <div class="candidate-top">
 
-        `;
-
-
-        return;
-
-    }
-
-
-    grid.innerHTML =
-        visible
-            .map(
-
-                candidate => {
-
-
-                    const selected =
-                        selectedIds.includes(
-                            candidate.id
-                        );
-
-
-                    const processText =
-                        candidate.appliedDays !==
-                        null
-
-                            ?
-
-                            `${candidate.appliedDays} días en proceso`
-
-                            :
-
-                            "Tiempo en proceso no registrado";
-
-
-                    return `
-
-                        <article
-                            class="
-                                candidate-card
-                                ${
-                                    selected
-                                        ?
-                                        "selected"
-                                        :
-                                        ""
-                                }
-                            "
+                        <input
+                            class="candidate-checkbox"
+                            type="checkbox"
+                            data-select="${candidate.id}"
+                            ${selected ? "checked" : ""}
                         >
 
+                        <span class="candidate-avatar">${initials(candidate.name)}</span>
 
-                            <div class="candidate-top">
+                        <div class="candidate-basic">
+                            <h4>${candidate.name}</h4>
+                            <p>${candidate.currentRole}</p>
+                            <span class="location">${candidate.company}</span>
+                        </div>
 
+                        <span class="status ${statusClass(candidate.status)}">${candidate.status}</span>
 
-                                <input
-                                    class="candidate-checkbox"
+                    </div>
 
-                                    type="checkbox"
 
-                                    data-select="${candidate.id}"
+                    <div class="compatibility">
 
-                                    ${
-                                        selected
-                                            ?
-                                            "checked"
-                                            :
-                                            ""
-                                    }
-                                >
+                        <div class="compatibility-header">
+                            <span>Compatibilidad AssessFirst</span>
+                            <strong>${candidate.compatibility}%</strong>
+                        </div>
 
+                        <div class="progress">
+                            <div class="progress-fill" style="width: ${candidate.compatibility}%;"></div>
+                        </div>
 
+                    </div>
 
-                                <span
-                                    class="candidate-avatar"
-                                >
 
-                                    ${
-                                        initials(
-                                            candidate.name
-                                        )
-                                    }
+                    <div class="candidate-footer">
 
-                                </span>
+                        <span class="process-days">${processText}</span>
 
+                        <div class="candidate-buttons">
 
+                            <button class="small-button" type="button" data-open="${candidate.id}">
+                                📄 CV
+                            </button>
 
-                                <div
-                                    class="candidate-basic"
-                                >
+                            <button class="small-button primary" type="button" data-open="${candidate.id}">
+                                👁 Ver perfil
+                            </button>
 
-                                    <h4>
-                                        ${candidate.name}
-                                    </h4>
+                        </div>
 
-                                    <p>
-                                        ${candidate.currentRole}
-                                    </p>
+                    </div>
 
-                                    <span class="location">
+                </article>
+            `;
 
-                                        ${candidate.company}
+        })
+        .join("");
 
-                                    </span>
+    grid.querySelectorAll("[data-select]").forEach(checkbox => {
 
-                                </div>
+        checkbox.addEventListener("change", () => {
+            toggleCandidateSelection(checkbox.dataset.select);
+        });
 
+    });
 
+    grid.querySelectorAll("[data-open]").forEach(button => {
 
-                                <span
-                                    class="
-                                        status
-                                        ${
-                                            statusClass(
-                                                candidate.status
-                                            )
-                                        }
-                                    "
-                                >
+        button.addEventListener("click", () => {
+            openCandidate(button.dataset.open);
+        });
 
-                                    ${candidate.status}
-
-                                </span>
-
-
-                            </div>
-
-
-
-                            <div class="compatibility">
-
-
-                                <div
-                                    class="
-                                        compatibility-header
-                                    "
-                                >
-
-                                    <span>
-
-                                        Compatibilidad AssessFirst
-
-                                    </span>
-
-                                    <strong>
-
-                                        ${candidate.compatibility}%
-
-                                    </strong>
-
-                                </div>
-
-
-
-                                <div class="progress">
-
-                                    <div
-                                        class="progress-fill"
-
-                                        style="
-                                            width:
-                                            ${candidate.compatibility}%;
-                                        "
-                                    >
-                                    </div>
-
-                                </div>
-
-
-                            </div>
-
-
-
-                            <div class="candidate-footer">
-
-
-                                <span
-                                    class="process-days"
-                                >
-
-                                    ${processText}
-
-                                </span>
-
-
-
-                                <div
-                                    class="
-                                        candidate-buttons
-                                    "
-                                >
-
-
-                                    <button
-                                        class="small-button"
-
-                                        type="button"
-
-                                        data-open="${candidate.id}"
-                                    >
-
-                                        📄 CV
-
-                                    </button>
-
-
-
-                                    <button
-                                        class="
-                                            small-button
-                                            primary
-                                        "
-
-                                        type="button"
-
-                                        data-open="${candidate.id}"
-                                    >
-
-                                        👁 Ver perfil
-
-                                    </button>
-
-
-                                </div>
-
-
-                            </div>
-
-
-                        </article>
-
-                    `;
-
-                }
-
-            )
-            .join("");
-
-
-    document
-        .querySelectorAll(
-            "[data-select]"
-        )
-        .forEach(
-
-            checkbox => {
-
-
-                checkbox.addEventListener(
-
-                    "change",
-
-                    () => {
-
-
-                        toggleCandidateSelection(
-                            checkbox
-                                .dataset
-                                .select
-                        );
-
-                    }
-
-                );
-
-            }
-
-        );
-
-
-    document
-        .querySelectorAll(
-            "[data-open]"
-        )
-        .forEach(
-
-            button => {
-
-
-                button.addEventListener(
-
-                    "click",
-
-                    () => {
-
-
-                        openCandidate(
-                            button
-                                .dataset
-                                .open
-                        );
-
-                    }
-
-                );
-
-            }
-
-        );
+    });
 
 }
 
@@ -2087,90 +1366,44 @@ function renderCandidates() {
 
 function toggleCandidateSelection(id) {
 
-    if (
-        selectedIds.includes(
-            id
-        )
-    ) {
+    if (selectedIds.includes(id)) {
 
-        selectedIds =
-            selectedIds.filter(
-
-                candidateId =>
-                    candidateId !==
-                    id
-
-            );
+        selectedIds = selectedIds.filter(candidateId => candidateId !== id);
 
     }
     else {
 
+        if (selectedIds.length >= 4) {
 
-        if (
-            selectedIds.length >=
-            4
-        ) {
-
-            showToast(
-                "Puedes comparar máximo 4 candidatos."
-            );
-
+            showToast("Puedes comparar máximo 4 candidatos.");
 
             renderCandidates();
-
 
             return;
 
         }
 
-
-        selectedIds.push(
-            id
-        );
+        selectedIds.push(id);
 
     }
 
-
     updateArenaButton();
-
     renderCandidates();
 
 }
 
 
-
-// ==========================================================
-// ACTUALIZAR BOTÓN ARENA
-// ==========================================================
-
 function updateArenaButton() {
 
-    const counter =
-        document.getElementById(
-            "selectedCounter"
-        );
-
-
-    const button =
-        document.getElementById(
-            "arenaButton"
-        );
-
+    const counter = el("selectedCounter");
+    const button = el("arenaButton");
 
     if (counter) {
-
-        counter.textContent =
-            selectedIds.length;
-
+        counter.textContent = selectedIds.length;
     }
 
-
     if (button) {
-
-        button.disabled =
-            selectedIds.length <
-            2;
-
+        button.disabled = selectedIds.length < 2;
     }
 
 }
@@ -2178,749 +1411,265 @@ function updateArenaButton() {
 
 
 // ==========================================================
-// INFO BOX
+// PERFIL DEL CANDIDATO
 // ==========================================================
 
-function createInfoBox(
-    icon,
-    label,
-    value
-) {
+function createInfoBox(icon, label, value) {
 
     return `
-
         <div class="info-box">
 
-
-            <span class="info-icon">
-
-                ${icon}
-
-            </span>
-
+            <span class="info-icon">${icon}</span>
 
             <div>
-
-                <span>
-                    ${label}
-                </span>
-
-                <strong>
-                    ${value}
-                </strong>
-
+                <span>${label}</span>
+                <strong>${value}</strong>
             </div>
 
-
         </div>
-
     `;
 
 }
 
 
-
-// ==========================================================
-// ABRIR PERFIL
-// ==========================================================
-
 function openCandidate(id) {
 
-    currentCandidate =
-        candidates.find(
-
-            candidate =>
-                candidate.id ===
-                id
-
-        );
-
+    currentCandidate = candidates.find(candidate => candidate.id === id);
 
     if (!currentCandidate) {
-
         return;
-
     }
 
-
-    cvPage =
-        0;
-
-
-    cvZoom =
-        1;
-
+    cvPage = 0;
+    cvZoom = 1;
 
     renderCandidateSheet();
 
-
-    document
-        .getElementById(
-            "sheetOverlay"
-        )
-        ?.classList
-        .add(
-            "active"
-        );
-
-
-    document
-        .getElementById(
-            "candidateSheet"
-        )
-        ?.classList
-        .add(
-            "active"
-        );
+    el("sheetOverlay")?.classList.add("active");
+    el("candidateSheet")?.classList.add("active");
 
 }
 
-
-
-// ==========================================================
-// CERRAR PERFIL
-// ==========================================================
 
 function closeCandidate() {
 
-    document
-        .getElementById(
-            "sheetOverlay"
-        )
-        ?.classList
-        .remove(
-            "active"
-        );
-
-
-    document
-        .getElementById(
-            "candidateSheet"
-        )
-        ?.classList
-        .remove(
-            "active"
-        );
+    el("sheetOverlay")?.classList.remove("active");
+    el("candidateSheet")?.classList.remove("active");
 
 }
 
 
-
-// ==========================================================
-// RENDER PERFIL COMPLETO
-// ==========================================================
-
 function renderCandidateSheet() {
 
-    if (!currentCandidate) {
+    const sheet = el("candidateSheetContent");
 
+    if (!currentCandidate || !sheet) {
         return;
-
     }
 
+    const candidate = currentCandidate;
 
-    const candidate =
-        currentCandidate;
+    const interviewsHtml = candidate.interviews.length > 0
+        ? candidate.interviews
+            .map(
+                interview => `
+                    <article class="interview-item">
 
+                        <div class="interview-top">
 
-    const sheet =
-        document.getElementById(
-            "candidateSheetContent"
-        );
-
-
-    if (!sheet) {
-
-        return;
-
-    }
-
-
-    const interviewsHtml =
-        candidate.interviews.length >
-
-        0
-
-            ?
-
-            candidate.interviews
-                .map(
-
-                    interview => `
-
-                        <article
-                            class="interview-item"
-                        >
-
-
-                            <div
-                                class="
-                                    interview-top
-                                "
-                            >
-
-
-                                <div>
-
-                                    <h4>
-                                        ${interview.stage}
-                                    </h4>
-
-                                    <small>
-
-                                        ${interview.date}
-
-                                        ·
-
-                                        ${interview.interviewer}
-
-                                    </small>
-
-                                </div>
-
-
-
-                                <span
-                                    class="
-                                        verdict
-                                        ${
-                                            verdictClass(
-                                                interview.verdict
-                                            )
-                                        }
-                                    "
-                                >
-
-                                    ${interview.verdict}
-
-                                </span>
-
-
+                            <div>
+                                <h4>${interview.stage}</h4>
+                                <small>${interview.date} · ${interview.interviewer}</small>
                             </div>
 
+                            <span class="verdict ${verdictClass(interview.verdict)}">${interview.verdict}</span>
 
+                        </div>
 
-                            <p>
+                        <p>${interview.notes}</p>
 
-                                ${interview.notes}
+                    </article>
+                `
+            )
+            .join("")
+        : '<div class="summary-box">No hay entrevistas registradas para este candidato.</div>';
 
-                            </p>
+    const evaluacion = candidate.flow.evaluacionAT;
 
+    const evaluationHtml = evaluacion
+        ? `
+            <section class="sheet-section">
 
-                        </article>
+                <h3>Evaluación de Atracción de Talento</h3>
 
-                    `
-
-                )
-                .join("")
-
-            :
-
-            `
-
-                <div class="summary-box">
-
-                    No hay entrevistas registradas
-                    para este candidato.
-
+                <div class="info-grid">
+                    ${createInfoBox("🛠", "Hard Skills", `${evaluacion.hard}/5`)}
+                    ${createInfoBox("🤝", "Soft Skills", `${evaluacion.soft}/5`)}
                 </div>
 
-            `;
+                <div class="summary-box">
+                    ${evaluacion.comentario || "Sin comentario registrado."}
+                </div>
 
+            </section>
+        `
+        : "";
 
+    const closingHtml = candidate.flow.cierre
+        ? `
+            <section class="sheet-section">
+                <h3>Cierre del proceso</h3>
+                <div class="recommendation">${candidate.flow.cierre.motivo}</div>
+            </section>
+        `
+        : "";
 
-    const justificationHtml =
-        candidate.statusJustification
-
-            ?
-
-            `
-
-                <section class="sheet-section">
-
-                    <h3>
-                        Justificación del estado
-                    </h3>
-
-                    <div class="recommendation">
-
-                        ${
-                            candidate
-                                .statusJustification
-                        }
-
-                    </div>
-
-                </section>
-
-            `
-
-            :
-
-            "";
-
-
+    const justificationHtml = candidate.statusJustification
+        ? `
+            <section class="sheet-section">
+                <h3>Justificación del estado</h3>
+                <div class="recommendation">${candidate.statusJustification}</div>
+            </section>
+        `
+        : "";
 
     sheet.innerHTML = `
 
-
         <div class="sheet-header">
 
+            <span class="sheet-header-avatar">${initials(candidate.name)}</span>
 
-            <span
-                class="sheet-header-avatar"
-            >
+            <div class="sheet-header-info">
 
-                ${initials(candidate.name)}
+                <h2>${candidate.name}</h2>
 
-            </span>
-
-
-
-            <div
-                class="sheet-header-info"
-            >
-
-                <h2>
-                    ${candidate.name}
-                </h2>
-
-
-                <p>
-
-                    ${candidate.currentRole}
-
-                    ·
-
-                    ${candidate.company}
-
-                </p>
-
-
+                <p>${candidate.currentRole} · ${candidate.company}</p>
 
                 <div class="sheet-tags">
-
-
-                    <span class="sheet-tag">
-
-                        ${candidate.status}
-
-                    </span>
-
-
-                    <span
-                        class="
-                            sheet-tag
-                            compatibility-tag
-                        "
-                    >
-
-                        ${candidate.compatibility}%
-                        AssessFirst
-
-                    </span>
-
-
+                    <span class="sheet-tag">${candidate.status}</span>
+                    <span class="sheet-tag compatibility-tag">${candidate.compatibility}% AssessFirst</span>
                 </div>
-
 
             </div>
 
-
-
-            <button
-                id="closeCandidateButton"
-
-                class="close-sheet"
-
-                type="button"
-            >
-
-                ×
-
-            </button>
-
+            <button id="closeCandidateButton" class="close-sheet" type="button">×</button>
 
         </div>
-
 
 
         <div class="sheet-scroll">
 
-
             <section class="sheet-section">
 
+                <h3>Resumen profesional</h3>
 
-                <h3>
-                    Resumen profesional
-                </h3>
-
-
-                <div class="summary-box">
-
-                    ${candidate.summary}
-
-                </div>
-
-
+                <div class="summary-box">${candidate.summary}</div>
 
                 <div class="info-grid">
-
-
-                    ${
-                        createInfoBox(
-                            "🎓",
-                            "Escolaridad",
-                            candidate.education
-                        )
-                    }
-
-
-                    ${
-                        createInfoBox(
-                            "📚",
-                            "Otros estudios",
-                            candidate.otherStudies
-                        )
-                    }
-
-
-                    ${
-                        createInfoBox(
-                            "🌐",
-                            "Idiomas",
-                            candidate.languages
-                        )
-                    }
-
-
-                    ${
-                        createInfoBox(
-                            "💰",
-                            "Compensación actual",
-                            candidate.currentComp
-                        )
-                    }
-
-
-                    ${
-                        createInfoBox(
-                            "💵",
-                            "Compensación deseada",
-                            candidate.desiredComp
-                        )
-                    }
-
-
-                    ${
-                        createInfoBox(
-                            "🏢",
-                            "Empresa actual",
-                            candidate.company
-                        )
-                    }
-
-
+                    ${createInfoBox("🎓", "Escolaridad", candidate.education)}
+                    ${createInfoBox("📚", "Otros estudios", candidate.otherStudies)}
+                    ${createInfoBox("🌐", "Idiomas", candidate.languages)}
+                    ${createInfoBox("💰", "Compensación actual", candidate.currentComp)}
+                    ${createInfoBox("💵", "Compensación deseada", candidate.desiredComp)}
+                    ${createInfoBox("🏢", "Empresa actual", candidate.company)}
                 </div>
-
 
             </section>
 
 
-
             <section class="sheet-section">
 
+                <h3>Currículum · visor embebido</h3>
 
-                <h3>
-                    Currículum · visor embebido
-                </h3>
-
-
-                <div
-                    id="cvViewerContainer"
-                >
-                </div>
-
+                <div id="cvViewerContainer"></div>
 
             </section>
 
 
+            ${evaluationHtml}
+
 
             <section class="sheet-section">
 
-
-                <h3>
-                    Resultados AssessFirst
-                </h3>
-
-
+                <h3>Resultados AssessFirst</h3>
 
                 <div class="assess-card">
 
-
                     <div class="assess-main">
 
-
-                        <div
-                            class="
-                                compatibility-circle
-                            "
-                        >
-
-                            ${candidate.compatibility}%
-
-                        </div>
-
-
+                        <div class="compatibility-circle">${candidate.compatibility}%</div>
 
                         <div class="dimensions">
 
-
                             <div class="dimension">
 
-
-                                <div
-                                    class="
-                                        dimension-header
-                                    "
-                                >
-
-                                    <span>
-
-                                        Compatibilidad general
-
-                                    </span>
-
-                                    <strong>
-
-                                        ${candidate.compatibility}%
-
-                                    </strong>
-
+                                <div class="dimension-header">
+                                    <span>Compatibilidad general</span>
+                                    <strong>${candidate.compatibility}%</strong>
                                 </div>
-
-
 
                                 <div class="progress">
-
-
-                                    <div
-                                        class="progress-fill"
-
-                                        style="
-                                            width:
-                                            ${candidate.compatibility}%;
-                                        "
-                                    >
-                                    </div>
-
-
+                                    <div class="progress-fill" style="width: ${candidate.compatibility}%;"></div>
                                 </div>
 
-
                             </div>
 
-
-                            <div class="summary-box">
-
-                                ${
-                                    candidate
-                                        .assess
-                                        .description
-                                }
-
-                            </div>
-
+                            <div class="summary-box">${candidate.assess.description}</div>
 
                         </div>
 
-
                     </div>
-
 
 
                     <div class="strengths-grid">
 
-
-                        <div
-                            class="
-                                strength-box
-                                good
-                            "
-                        >
-
-                            <strong>
-                                Fortalezas
-                            </strong>
-
-                            <ul>
-
-                                ${
-                                    candidate
-                                        .assess
-                                        .strengths
-                                        .map(
-
-                                            item => `
-
-                                                <li>
-                                                    ${item}
-                                                </li>
-
-                                            `
-
-                                        )
-                                        .join("")
-                                }
-
-                            </ul>
-
+                        <div class="strength-box good">
+                            <strong>Fortalezas</strong>
+                            <ul>${candidate.assess.strengths.map(item => `<li>${item}</li>`).join("")}</ul>
                         </div>
 
-
-
-                        <div
-                            class="
-                                strength-box
-                                opportunity
-                            "
-                        >
-
-                            <strong>
-                                Áreas de oportunidad
-                            </strong>
-
-                            <ul>
-
-                                ${
-                                    candidate
-                                        .assess
-                                        .opportunities
-                                        .map(
-
-                                            item => `
-
-                                                <li>
-                                                    ${item}
-                                                </li>
-
-                                            `
-
-                                        )
-                                        .join("")
-                                }
-
-                            </ul>
-
+                        <div class="strength-box opportunity">
+                            <strong>Áreas de oportunidad</strong>
+                            <ul>${candidate.assess.opportunities.map(item => `<li>${item}</li>`).join("")}</ul>
                         </div>
-
 
                     </div>
-
 
 
                     <div class="info-grid">
-
-
-                        ${
-                            createInfoBox(
-                                "👥",
-                                "Estilo de liderazgo",
-                                candidate
-                                    .assess
-                                    .leadershipStyle
-                            )
-                        }
-
-
-                        ${
-                            createInfoBox(
-                                "🎯",
-                                "Visión estratégica",
-                                candidate
-                                    .assess
-                                    .strategicVision
-                            )
-                        }
-
-
-                        ${
-                            createInfoBox(
-                                "🧠",
-                                "Toma de decisiones",
-                                candidate
-                                    .assess
-                                    .decisionMaking
-                            )
-                        }
-
-
+                        ${createInfoBox("👥", "Estilo de liderazgo", candidate.assess.leadershipStyle)}
+                        ${createInfoBox("🎯", "Visión estratégica", candidate.assess.strategicVision)}
+                        ${createInfoBox("🧠", "Toma de decisiones", candidate.assess.decisionMaking)}
                     </div>
-
 
 
                     <div class="recommendation">
-
-
-                        <strong>
-
-                            Recomendación interna:
-
-                        </strong>
-
-
-                        ${
-                            candidate
-                                .assess
-                                .recommendation
-                        }
-
-
+                        <strong>Recomendación interna:</strong>
+                        ${candidate.assess.recommendation}
                     </div>
 
-
                 </div>
-
 
             </section>
 
 
+            ${closingHtml}
 
             ${justificationHtml}
 
 
-
             <section class="sheet-section">
 
-
-                <h3>
-                    Historial de entrevistas
-                </h3>
-
+                <h3>Historial de entrevistas</h3>
 
                 ${interviewsHtml}
 
-
             </section>
 
-
         </div>
-
     `;
 
-
-    document
-        .getElementById(
-            "closeCandidateButton"
-        )
-        ?.addEventListener(
-
-            "click",
-
-            closeCandidate
-
-        );
-
+    el("closeCandidateButton")?.addEventListener("click", closeCandidate);
 
     renderCvViewer();
 
@@ -2934,945 +1683,277 @@ function renderCandidateSheet() {
 
 function renderCvViewer() {
 
-    const container =
-        document.getElementById(
-            "cvViewerContainer"
-        );
+    const container = el("cvViewerContainer");
 
-
-    if (
-        !container ||
-        !currentCandidate
-    ) {
-
+    if (!container || !currentCandidate) {
         return;
-
     }
 
-
-    const pages =
-        currentCandidate
-            .cv
-            .pages;
-
-
-    const page =
-        pages[cvPage];
-
+    const pages = currentCandidate.cv.pages;
+    const page = pages[cvPage];
 
     container.innerHTML = `
 
-
         <div class="cv-viewer">
-
 
             <div class="cv-toolbar">
 
+                <span>${currentCandidate.cv.fileName}</span>
 
-                <span>
-
-                    ${
-                        currentCandidate
-                            .cv
-                            .fileName
-                    }
-
-                </span>
-
-
-
-                <div
-                    class="
-                        cv-toolbar-actions
-                    "
-                >
-
-
-                    <button
-                        id="cvPrevious"
-                        type="button"
-                    >
-                        ←
-                    </button>
-
-
-                    <span>
-
-                        ${cvPage + 1}
-
-                        /
-
-                        ${pages.length}
-
-                    </span>
-
-
-                    <button
-                        id="cvNext"
-                        type="button"
-                    >
-                        →
-                    </button>
-
-
-                    <button
-                        id="cvZoomOut"
-                        type="button"
-                    >
-                        −
-                    </button>
-
-
-                    <button
-                        id="cvZoomIn"
-                        type="button"
-                    >
-                        +
-                    </button>
-
-
+                <div class="cv-toolbar-actions">
+                    <button id="cvPrevious" type="button">←</button>
+                    <span>${cvPage + 1} / ${pages.length}</span>
+                    <button id="cvNext" type="button">→</button>
+                    <button id="cvZoomOut" type="button">−</button>
+                    <button id="cvZoomIn" type="button">+</button>
                 </div>
 
-
             </div>
-
 
 
             <div class="cv-paper-wrap">
 
+                <div class="cv-paper" style="transform: scale(${cvZoom}); width: ${100 / cvZoom}%;">
 
-                <div
-                    class="cv-paper"
+                    <h4>${page.title}</h4>
 
-                    style="
-                        transform:
-                        scale(${cvZoom});
-
-                        width:
-                        ${100 / cvZoom}%;
-                    "
-                >
-
-
-                    <h4>
-
-                        ${page.title}
-
-                    </h4>
-
-
-
-                    ${
-                        page.blocks
-                            .map(
-
-                                block => `
-
-                                    <div
-                                        class="cv-block"
-                                    >
-
-                                        ${block}
-
-                                    </div>
-
-                                `
-
-                            )
-                            .join("")
-                    }
-
+                    ${page.blocks.map(block => `<div class="cv-block">${block}</div>`).join("")}
 
                 </div>
 
-
             </div>
 
-
         </div>
-
     `;
 
+    el("cvPrevious")?.addEventListener("click", () => {
 
-    document
-        .getElementById(
-            "cvPrevious"
-        )
-        ?.addEventListener(
+        if (cvPage > 0) {
+            cvPage--;
+            renderCvViewer();
+        }
 
-            "click",
+    });
 
-            () => {
+    el("cvNext")?.addEventListener("click", () => {
 
+        if (cvPage < pages.length - 1) {
+            cvPage++;
+            renderCvViewer();
+        }
 
-                if (
-                    cvPage >
-                    0
-                ) {
+    });
 
-                    cvPage--;
+    el("cvZoomOut")?.addEventListener("click", () => {
 
-                    renderCvViewer();
+        cvZoom = Math.max(0.7, cvZoom - 0.1);
+        renderCvViewer();
 
-                }
+    });
 
-            }
+    el("cvZoomIn")?.addEventListener("click", () => {
 
-        );
+        cvZoom = Math.min(1.5, cvZoom + 0.1);
+        renderCvViewer();
 
-
-    document
-        .getElementById(
-            "cvNext"
-        )
-        ?.addEventListener(
-
-            "click",
-
-            () => {
-
-
-                if (
-                    cvPage <
-                    pages.length - 1
-                ) {
-
-                    cvPage++;
-
-                    renderCvViewer();
-
-                }
-
-            }
-
-        );
-
-
-    document
-        .getElementById(
-            "cvZoomOut"
-        )
-        ?.addEventListener(
-
-            "click",
-
-            () => {
-
-
-                cvZoom =
-                    Math.max(
-                        0.7,
-                        cvZoom - 0.1
-                    );
-
-
-                renderCvViewer();
-
-            }
-
-        );
-
-
-    document
-        .getElementById(
-            "cvZoomIn"
-        )
-        ?.addEventListener(
-
-            "click",
-
-            () => {
-
-
-                cvZoom =
-                    Math.min(
-                        1.5,
-                        cvZoom + 0.1
-                    );
-
-
-                renderCvViewer();
-
-            }
-
-        );
+    });
 
 }
 
 
 
 // ==========================================================
-// ARENA
+// ARENA · COMPARADOR
 // ==========================================================
 
 function openArena() {
 
-    if (
-        selectedIds.length <
-        2
-    ) {
-
+    if (selectedIds.length < 2) {
         return;
-
     }
-
-
-    arenaFinalists =
-        [];
-
 
     renderArena();
 
-
-    document
-        .getElementById(
-            "arenaOverlay"
-        )
-        ?.classList
-        .add(
-            "active"
-        );
+    el("arenaOverlay")?.classList.add("active");
 
 }
-
 
 
 function closeArena() {
 
-    document
-        .getElementById(
-            "arenaOverlay"
-        )
-        ?.classList
-        .remove(
-            "active"
-        );
+    el("arenaOverlay")?.classList.remove("active");
+
+}
+
+
+function renderArena() {
+
+    const arenaContent = el("arenaContent");
+
+    if (!arenaContent) {
+        return;
+    }
+
+    const selected = candidates.filter(candidate => selectedIds.includes(candidate.id));
+
+    const rows = [
+        { label: "Puesto actual", render: c => c.currentRole },
+        { label: "Empresa actual", render: c => c.company },
+        { label: "Escolaridad", render: c => c.education },
+        { label: "Otros estudios", render: c => c.otherStudies },
+        { label: "Idiomas", render: c => c.languages },
+        { label: "Compensación actual", render: c => c.currentComp },
+        { label: "Compensación deseada", render: c => c.desiredComp },
+        { label: "Estilo de liderazgo", render: c => c.assess.leadershipStyle },
+        { label: "Visión estratégica", render: c => c.assess.strategicVision },
+        { label: "Toma de decisiones", render: c => c.assess.decisionMaking },
+        { label: "Fortalezas", render: c => c.assess.strengths.join(" · ") },
+        { label: "Áreas de oportunidad", render: c => c.assess.opportunities.join(" · ") },
+        {
+            label: "Evaluación de Atracción de Talento",
+            render: c =>
+                c.flow.evaluacionAT
+                    ? `Hard Skills ${c.flow.evaluacionAT.hard}/5 · Soft Skills ${c.flow.evaluacionAT.soft}/5`
+                    : "Sin evaluar"
+        },
+        {
+            label: "Comentario de la entrevista",
+            render: c => c.flow.evaluacionAT?.comentario || "Sin comentario"
+        },
+        { label: "Estado en el proceso", render: c => c.status }
+    ];
+
+    arenaContent.innerHTML = `
+
+        <table class="arena-table">
+
+            <thead>
+
+                <tr>
+
+                    <th class="criterion">Criterio</th>
+
+                    ${selected
+                        .map(
+                            candidate => `
+                                <th>
+                                    <div class="arena-candidate">
+
+                                        <span class="candidate-avatar">${initials(candidate.name)}</span>
+
+                                        <div>
+                                            <strong>${candidate.name}</strong>
+                                            <div>${candidate.compatibility}% AssessFirst</div>
+                                        </div>
+
+                                    </div>
+                                </th>
+                            `
+                        )
+                        .join("")}
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr class="compat-row">
+
+                    <td class="criterion">Compatibilidad</td>
+
+                    ${selected
+                        .map(candidate => `<td><strong>${candidate.compatibility}%</strong></td>`)
+                        .join("")}
+
+                </tr>
+
+                ${rows
+                    .map(
+                        row => `
+                            <tr>
+                                <td class="criterion">${row.label}</td>
+                                ${selected.map(candidate => `<td>${row.render(candidate)}</td>`).join("")}
+                            </tr>
+                        `
+                    )
+                    .join("")}
+
+            </tbody>
+
+        </table>
+
+
+        <div class="arena-footer">
+
+            <p>
+                La decisión de a quién entrevistar la registra el Hiring Manager
+                con estas mismas evaluaciones.
+            </p>
+
+            <button id="closeArenaFooterButton" class="send-finalists" type="button">
+                Cerrar comparación
+            </button>
+
+        </div>
+    `;
+
+    el("closeArenaFooterButton")?.addEventListener("click", closeArena);
 
 }
 
 
 
 // ==========================================================
-// RENDER ARENA
+// NAVEGACIÓN POR SECCIONES
 // ==========================================================
 
-function renderArena() {
+function setView(view) {
 
-    const selected =
-        candidates.filter(
+    currentView = view;
 
-            candidate =>
-                selectedIds.includes(
-                    candidate.id
-                )
+    document.querySelectorAll(".at-view").forEach(section => {
+        section.hidden = section.id !== `at-view-${view}`;
+    });
 
-        );
+    document.querySelectorAll(".at-nav__link").forEach(link => {
+        link.classList.toggle("is-active", link.dataset.view === view);
+    });
 
+}
 
-    const rows = [
 
-        {
+function renderNavBadges() {
 
-            label:
-                "Puesto actual",
+    const estado = EDAT.estado();
 
-            render:
-                candidate =>
-                    candidate.currentRole
+    const pendientesEntrevista = EDAT.candidatosActivos().filter(
+        candidato => candidato.entrevistaAT && candidato.entrevistaAT.estado !== "Finalizada"
+    ).length;
 
-        },
+    const pendientesEvaluacion = EDAT.etapaAlcanzada("entrevistas_at") && !estado.evaluacionesEnviadas
+        ? EDAT.evaluacionesPendientes().length
+        : 0;
 
+    const pendientesCierre = estado.oferta?.estado === "Aceptada" && !estado.incorporacion
+        ? 1
+        : 0;
 
-        {
-
-            label:
-                "Empresa actual",
-
-            render:
-                candidate =>
-                    candidate.company
-
-        },
-
-
-        {
-
-            label:
-                "Escolaridad",
-
-            render:
-                candidate =>
-                    candidate.education
-
-        },
-
-
-        {
-
-            label:
-                "Otros estudios",
-
-            render:
-                candidate =>
-                    candidate.otherStudies
-
-        },
-
-
-        {
-
-            label:
-                "Idiomas",
-
-            render:
-                candidate =>
-                    candidate.languages
-
-        },
-
-
-        {
-
-            label:
-                "Compensación actual",
-
-            render:
-                candidate =>
-                    candidate.currentComp
-
-        },
-
-
-        {
-
-            label:
-                "Compensación deseada",
-
-            render:
-                candidate =>
-                    candidate.desiredComp
-
-        },
-
-
-        {
-
-            label:
-                "Estilo de liderazgo",
-
-            render:
-                candidate =>
-                    candidate
-                        .assess
-                        .leadershipStyle
-
-        },
-
-
-        {
-
-            label:
-                "Visión estratégica",
-
-            render:
-                candidate =>
-                    candidate
-                        .assess
-                        .strategicVision
-
-        },
-
-
-        {
-
-            label:
-                "Toma de decisiones",
-
-            render:
-                candidate =>
-                    candidate
-                        .assess
-                        .decisionMaking
-
-        },
-
-
-        {
-
-            label:
-                "Fortalezas",
-
-            render:
-                candidate =>
-                    candidate
-                        .assess
-                        .strengths
-                        .join(
-                            " · "
-                        )
-
-        },
-
-
-        {
-
-            label:
-                "Áreas de oportunidad",
-
-            render:
-                candidate =>
-                    candidate
-                        .assess
-                        .opportunities
-                        .join(
-                            " · "
-                        )
-
-        }
-
+    const badges = [
+        ["atInterviewBadge", pendientesEntrevista],
+        ["atEvalBadge", pendientesEvaluacion],
+        ["atCloseBadge", pendientesCierre]
     ];
 
+    badges.forEach(([id, total]) => {
 
-    const arenaContent =
-        document.getElementById(
-            "arenaContent"
-        );
+        const badge = el(id);
 
+        badge.textContent = total;
+        badge.hidden = total === 0;
 
-    if (!arenaContent) {
-
-        return;
-
-    }
-
-
-    arenaContent.innerHTML = `
-
-
-        <table class="arena-table">
-
-
-            <thead>
-
-
-                <tr>
-
-
-                    <th class="criterion">
-
-                        Criterio
-
-                    </th>
-
-
-
-                    ${
-                        selected
-                            .map(
-
-                                candidate => `
-
-                                    <th>
-
-
-                                        <div
-                                            class="
-                                                arena-candidate
-                                            "
-                                        >
-
-
-                                            <span
-                                                class="
-                                                    candidate-avatar
-                                                "
-                                            >
-
-                                                ${
-                                                    initials(
-                                                        candidate.name
-                                                    )
-                                                }
-
-                                            </span>
-
-
-                                            <div>
-
-                                                <strong>
-
-                                                    ${candidate.name}
-
-                                                </strong>
-
-                                                <div>
-
-                                                    ${candidate.compatibility}%
-                                                    AssessFirst
-
-                                                </div>
-
-                                            </div>
-
-
-                                        </div>
-
-
-                                    </th>
-
-                                `
-
-                            )
-                            .join("")
-                    }
-
-
-                </tr>
-
-
-            </thead>
-
-
-
-            <tbody>
-
-
-                <tr class="compat-row">
-
-
-                    <td class="criterion">
-
-                        Compatibilidad
-
-                    </td>
-
-
-                    ${
-                        selected
-                            .map(
-
-                                candidate => `
-
-                                    <td>
-
-                                        <strong>
-
-                                            ${candidate.compatibility}%
-
-                                        </strong>
-
-                                    </td>
-
-                                `
-
-                            )
-                            .join("")
-                    }
-
-
-                </tr>
-
-
-
-                ${
-                    rows
-                        .map(
-
-                            row => `
-
-                                <tr>
-
-
-                                    <td class="criterion">
-
-                                        ${row.label}
-
-                                    </td>
-
-
-                                    ${
-                                        selected
-                                            .map(
-
-                                                candidate => `
-
-                                                    <td>
-
-                                                        ${
-                                                            row.render(
-                                                                candidate
-                                                            )
-                                                        }
-
-                                                    </td>
-
-                                                `
-
-                                            )
-                                            .join("")
-                                    }
-
-
-                                </tr>
-
-                            `
-
-                        )
-                        .join("")
-                }
-
-
-
-                <tr class="final-row">
-
-
-                    <td class="criterion">
-
-                        Pasar a ronda final con HM
-
-                    </td>
-
-
-                    ${
-                        selected
-                            .map(
-
-                                candidate => {
-
-
-                                    const isSelected =
-                                        arenaFinalists
-                                            .includes(
-                                                candidate.id
-                                            );
-
-
-                                    return `
-
-                                        <td>
-
-
-                                            <button
-                                                class="
-                                                    finalist-button
-                                                    ${
-                                                        isSelected
-                                                            ?
-                                                            "selected"
-                                                            :
-                                                            ""
-                                                    }
-                                                "
-
-                                                data-finalist="${candidate.id}"
-
-                                                type="button"
-                                            >
-
-                                                ${
-                                                    isSelected
-                                                        ?
-                                                        "Seleccionado ✓"
-                                                        :
-                                                        "Seleccionar"
-                                                }
-
-                                            </button>
-
-
-                                        </td>
-
-                                    `;
-
-                                }
-
-                            )
-                            .join("")
-                    }
-
-
-                </tr>
-
-
-            </tbody>
-
-
-        </table>
-
-
-
-        <div class="arena-footer">
-
-
-            <p>
-
-                ${
-                    arenaFinalists.length ===
-                    0
-
-                        ?
-
-                        "Selecciona los perfiles que avanzarán a la ronda final."
-
-                        :
-
-                        `${arenaFinalists.length} perfil(es) listos para enviar al Hiring Manager.`
-                }
-
-            </p>
-
-
-
-            <button
-                id="sendFinalistsButton"
-
-                class="send-finalists"
-
-                type="button"
-
-                ${
-                    arenaFinalists.length ===
-                    0
-                        ?
-                        "disabled"
-                        :
-                        ""
-                }
-            >
-
-                Enviar a ronda final con HM
-
-            </button>
-
-
-        </div>
-
-    `;
-
-
-    document
-        .querySelectorAll(
-            "[data-finalist]"
-        )
-        .forEach(
-
-            button => {
-
-
-                button.addEventListener(
-
-                    "click",
-
-                    () => {
-
-
-                        const id =
-                            button
-                                .dataset
-                                .finalist;
-
-
-                        if (
-                            arenaFinalists.includes(
-                                id
-                            )
-                        ) {
-
-                            arenaFinalists =
-                                arenaFinalists.filter(
-
-                                    finalistId =>
-                                        finalistId !==
-                                        id
-
-                                );
-
-                        }
-                        else {
-
-                            arenaFinalists.push(
-                                id
-                            );
-
-                        }
-
-
-                        renderArena();
-
-                    }
-
-                );
-
-            }
-
-        );
-
-
-    document
-        .getElementById(
-            "sendFinalistsButton"
-        )
-        ?.addEventListener(
-
-            "click",
-
-            () => {
-
-
-                if (
-                    arenaFinalists.length ===
-                    0
-                ) {
-
-                    return;
-
-                }
-
-
-                arenaFinalists.forEach(
-
-                    id => {
-
-
-                        const candidate =
-                            candidates.find(
-
-                                candidate =>
-                                    candidate.id ===
-                                    id
-
-                            );
-
-
-                        if (candidate) {
-
-                            candidate.status =
-                                "Finalista";
-
-                        }
-
-                    }
-
-                );
-
-
-                showToast(
-                    `${arenaFinalists.length} candidato(s) enviados al Hiring Manager.`
-                );
-
-
-                closeArena();
-
-
-                renderKPIs();
-
-                renderFilters();
-
-                renderCandidates();
-
-            }
-
-        );
+    });
 
 }
 
@@ -3884,212 +1965,101 @@ function renderArena() {
 
 function configureEvents() {
 
-    const searchInput =
-        document.getElementById(
-            "searchInput"
-        );
+    el("searchInput")?.addEventListener("input", event => {
 
+        searchTerm = event.target.value;
 
-    if (searchInput) {
+        renderCandidates();
 
-        searchInput.addEventListener(
+    });
 
-            "input",
+    el("alertsButton")?.addEventListener("click", () => {
 
-            event => {
+        const panel = el("alertsPanel");
 
+        panel?.classList.toggle("hidden");
 
-                searchTerm =
-                    event.target.value;
-
-
-                renderCandidates();
-
-            }
-
-        );
-
-    }
-
-
-
-    const alertsButton =
-        document.getElementById(
-            "alertsButton"
-        );
-
-
-    if (alertsButton) {
-
-        alertsButton.addEventListener(
-
-            "click",
-
-            () => {
-
-
-                document
-                    .getElementById(
-                        "alertsPanel"
-                    )
-                    ?.classList
-                    .toggle(
-                        "hidden"
-                    );
-
-            }
-
-        );
-
-    }
-
-
-
-    const closeAlertsButton =
-        document.getElementById(
-            "closeAlertsButton"
-        );
-
-
-    if (closeAlertsButton) {
-
-        closeAlertsButton.addEventListener(
-
-            "click",
-
-            () => {
-
-
-                document
-                    .getElementById(
-                        "alertsPanel"
-                    )
-                    ?.classList
-                    .add(
-                        "hidden"
-                    );
-
-            }
-
-        );
-
-    }
-
-
-
-    const arenaButton =
-        document.getElementById(
-            "arenaButton"
-        );
-
-
-    if (arenaButton) {
-
-        arenaButton.addEventListener(
-
-            "click",
-
-            openArena
-
-        );
-
-    }
-
-
-
-    const closeArenaButton =
-        document.getElementById(
-            "closeArenaButton"
-        );
-
-
-    if (closeArenaButton) {
-
-        closeArenaButton.addEventListener(
-
-            "click",
-
-            closeArena
-
-        );
-
-    }
-
-
-
-    const sheetOverlay =
-        document.getElementById(
-            "sheetOverlay"
-        );
-
-
-    if (sheetOverlay) {
-
-        sheetOverlay.addEventListener(
-
-            "click",
-
-            closeCandidate
-
-        );
-
-    }
-
-
-
-    const arenaOverlay =
-        document.getElementById(
-            "arenaOverlay"
-        );
-
-
-    if (arenaOverlay) {
-
-        arenaOverlay.addEventListener(
-
-            "click",
-
-            event => {
-
-
-                if (
-                    event.target.id ===
-                    "arenaOverlay"
-                ) {
-
-                    closeArena();
-
-                }
-
-            }
-
-        );
-
-    }
-
-
-
-    document.addEventListener(
-
-        "keydown",
-
-        event => {
-
-
-            if (
-                event.key ===
-                "Escape"
-            ) {
-
-                closeCandidate();
-
-                closeArena();
-
-            }
-
+        if (panel && !panel.classList.contains("hidden")) {
+            EDAT.marcarLeidas(AT_ACTOR);
         }
 
-    );
+    });
+
+    el("closeAlertsButton")?.addEventListener("click", () => {
+        el("alertsPanel")?.classList.add("hidden");
+    });
+
+    el("arenaButton")?.addEventListener("click", openArena);
+
+    el("closeArenaButton")?.addEventListener("click", closeArena);
+
+    el("sheetOverlay")?.addEventListener("click", closeCandidate);
+
+    el("arenaOverlay")?.addEventListener("click", event => {
+
+        if (event.target.id === "arenaOverlay") {
+            closeArena();
+        }
+
+    });
+
+    document.addEventListener("keydown", event => {
+
+        if (event.key === "Escape") {
+            closeCandidate();
+            closeArena();
+        }
+
+    });
+
+    document.querySelectorAll(".at-nav__link").forEach(link => {
+        link.addEventListener("click", () => setView(link.dataset.view));
+    });
+
+    el("atLogoutButton")?.addEventListener("click", EDAT.cerrarSesion);
+
+    const sesion = EDAT.sesion();
+
+    if (sesion?.email) {
+        el("atUserEmail").textContent = sesion.email;
+    }
+
+}
+
+
+
+// ==========================================================
+// RENDER GENERAL
+// ==========================================================
+
+function render() {
+
+    candidates = buildCandidates();
+
+    renderVacancyHeader();
+    renderNotifications();
+    renderTimeline();
+    renderRequisition();
+    renderAlignment();
+    renderKPIs();
+    renderFilters();
+    renderCandidates();
+    renderInterviews();
+    renderEvaluations();
+    renderSelection();
+    renderClosing();
+    renderNavBadges();
+    updateArenaButton();
+
+    if (currentCandidate) {
+
+        currentCandidate = candidates.find(candidate => candidate.id === currentCandidate.id);
+
+        if (currentCandidate && el("candidateSheet").classList.contains("active")) {
+            renderCandidateSheet();
+        }
+
+    }
 
 }
 
@@ -4101,26 +2071,19 @@ function configureEvents() {
 
 function init() {
 
-    renderKPIs();
-
-    renderAlerts();
-
-    renderTimeline();
-
-    renderFilters();
-
-    renderCandidates();
-
-    updateArenaButton();
-
     configureEvents();
+    configureAlignment();
+    configureInterviews();
+    configureEvaluations();
+    configureClosing();
+
+    EDAT.suscribir(render);
+
+    setView(currentView);
+
+    render();
 
 }
 
-
-
-// ==========================================================
-// EJECUTAR APLICACIÓN
-// ==========================================================
 
 init();

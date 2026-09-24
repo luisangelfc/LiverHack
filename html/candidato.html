@@ -35,51 +35,46 @@
     >
 
     <script
+        src="../js/candidatos-db.js"
+        defer
+    ></script>
+
+    <script
+        src="../js/edat-flow.js"
+        defer
+    ></script>
+
+    <script
         src="../js/candidato.js"
         defer
     ></script>
 </head>
 
-
-<body>
-
-
-    <!-- =====================================================
-         NAVBAR
-    ====================================================== -->
+<body class="edat-candidate-page">
 
     <header class="topbar">
 
         <div class="topbar-inner">
 
-
-            <!-- MARCA -->
-
             <div class="brand-group">
-
 
                 <div class="puerto-brand">
 
-                    <div class="puerto-icon"><img class="talento-logo-image" src="../recursos/el-puerto-de-liverpool-sab-de-cv--600.png" alt="Liverpool"></div>
+                    <div class="puerto-icon"><img class="talento-logo-image" src="../recursos/Logo%20EDAT.png" alt="EDAT"></div>
 
                     <div class="puerto-copy">
                         <strong>
-                            Liverpool
+                            EDAT
                         </strong>
 
                         <span>
-                            EDAT
+                            LIVERHACK 2026
                         </span>
                     </div>
 
                 </div>
 
-
             </div>
-
-
-
-            <!-- NAVEGACIÓN -->
 
             <nav class="main-nav">
 
@@ -101,16 +96,21 @@
                 <button
                     class="nav-link"
                     type="button"
+                    id="noticesNav"
+                >
+                    Notificaciones
+                    <span id="noticesBadge" hidden>0</span>
+                </button>
+
+                <button
+                    class="nav-link"
+                    type="button"
                     id="faqNav"
                 >
                     Ayuda y FAQs
                 </button>
 
             </nav>
-
-
-
-            <!-- USUARIO -->
 
             <div class="nav-user">
 
@@ -126,43 +126,31 @@
 
                 </div>
 
-                <button class="nav-avatar" id="edatAccountButton" type="button" aria-label="Abrir opciones de sesión" aria-expanded="false" aria-controls="edatAccountPanel">
+                <button class="nav-avatar" id="navAvatar" type="button" aria-label="Opciones de sesión" aria-expanded="false" aria-controls="edatAccountPanel">
                     S
                 </button>
-                <div class="edat-account-panel" id="edatAccountPanel" hidden>
-                    <button id="edatLogoutButton" type="button">Cerrar sesión</button>
-                </div>
+
+                <div class="edat-account-panel" id="edatAccountPanel" hidden><button
+                    class="nav-link"
+                    type="button"
+                    id="exitButton"
+                >Cerrar sesión</button></div>
 
             </div>
-
 
         </div>
 
     </header>
 
-
-
-    <!-- =====================================================
-         CONTENIDO
-    ====================================================== -->
-
     <main class="page-container">
-
-
-        <!-- =================================================
-             BIENVENIDA
-        ================================================== -->
 
         <section class="welcome-card">
 
-
             <div class="welcome-copy">
-
 
                 <span class="welcome-label">
                     ● Portal Oficial de Aspirantes Liverpool
                 </span>
-
 
                 <h1>
                     Hola,
@@ -172,17 +160,13 @@
                     
                 </h1>
 
-
                 <p>
                     Aquí puedes dar seguimiento en tiempo real al
                     estatus de tu postulación y conocer con absoluta
                     claridad tus próximos pasos en El Puerto de Liverpool.
                 </p>
 
-
             </div>
-
-
 
             <div class="folio-card">
 
@@ -190,8 +174,8 @@
                     FOLIO DE CANDIDATURA
                 </span>
 
-                <strong>
-                    #REQ-84920
+                <strong id="candidateFolio">
+                    #REQ-2841
                 </strong>
 
                 <small>
@@ -200,41 +184,29 @@
 
             </div>
 
-
         </section>
-
-
-
-        <!-- =================================================
-             VACANTE
-        ================================================== -->
 
         <section class="job-card">
 
-
             <div class="job-header">
-
 
                 <div>
 
-
                     <div class="job-badges">
 
-                        <span class="pill pink-soft">
-                            Tech Liverpool Omnicanal
+                        <span class="pill pink-soft" id="jobStatusPill">
+                            En Proceso
                         </span>
 
-                        <span class="pill green-soft">
-                            ● En Proceso Activo · Etapa 05
+                        <span class="pill green-soft" id="jobStagePill">
+                            ● Etapa 01 · Requisición
                         </span>
 
                     </div>
 
-
-                    <h2>
+                    <h2 id="jobTitle">
                         Lead Fullstack Engineer Omnicanal
                     </h2>
-
 
                     <div class="job-metadata">
 
@@ -253,10 +225,7 @@
 
                     </div>
 
-
                 </div>
-
-
 
                 <button
                     class="primary-small-button"
@@ -266,103 +235,16 @@
                     <svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18M7 14h3M14 14h3M7 17h3"/></svg> Ver Próxima Cita
                 </button>
 
-
             </div>
 
-
-
-            <!-- MÉTRICAS -->
-
-            <div class="job-stats">
-
-
-                <article class="job-stat">
-
-                    <span>
-                        PROGRESO TOTAL
-                    </span>
-
-                    <strong>
-                        83%
-                    </strong>
-
-                    <small>
-                        5 de 6 etapas concluidas o activas
-                    </small>
-
-                </article>
-
-
-
-                <article class="job-stat pink-stat">
-
-                    <span>
-                        PRÓXIMO HITO
-                    </span>
-
-                    <strong class="pink-text">
-                        Panel Técnico
-                    </strong>
-
-                    <small>
-                        Jueves 24 Septiembre
-                    </small>
-
-                </article>
-
-
-
-                <article class="job-stat">
-
-                    <span>
-                        TIEMPO EN PROCESO
-                    </span>
-
-                    <strong>
-                        26 Días
-                    </strong>
-
-                    <small>
-                        Ritmo óptimo de selección
-                    </small>
-
-                </article>
-
-
-
-                <article class="job-stat">
-
-                    <span>
-                        SOPORTE CANDIDATO
-                    </span>
-
-                    <strong>
-                        Daniela M.
-                    </strong>
-
-                    <small>
-                        Reclutadora en línea
-                    </small>
-
-                </article>
-
-
+            <div class="job-stats" id="jobStats">
             </div>
-
 
         </section>
 
-
-
-        <!-- =================================================
-             TIMELINE
-        ================================================== -->
-
         <section class="timeline-card">
 
-
             <div class="section-heading timeline-heading">
-
 
                 <div>
 
@@ -376,291 +258,59 @@
 
                 </div>
 
-
-                <span class="last-update">
-                    Última actualización: Hoy · Hace 2 horas
+                <span class="last-update" id="lastUpdate">
+                    Sin movimientos registrados
                 </span>
 
-
             </div>
 
-
-
-            <div class="timeline">
-
-
-                <!-- PASO 1 -->
-
-                <article class="timeline-step completed">
-
-                    <div class="timeline-marker">
-                        <svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m5 12 4 4L19 6"/></svg>
-                    </div>
-
-                    <div class="timeline-content">
-
-                        <div class="timeline-title-row">
-
-                            <strong>
-                                1. Postulación Recibida
-                            </strong>
-
-                            <span class="step-done">
-                                Completado · 20 Ago
-                            </span>
-
-                        </div>
-
-                        <p>
-                            CV registrado satisfactoriamente en EDAT y asignado al equipo de ingeniería.
-                        </p>
-
-                        <span class="timeline-settings">
-                            <svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l3 3M16 16l3 3M5 19l3-3M16 8l3-3"/></svg>
-                        </span>
-
-                    </div>
-
-                </article>
-
-
-
-                <!-- PASO 2 -->
-
-                <article class="timeline-step completed">
-
-                    <div class="timeline-marker">
-                        <svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m5 12 4 4L19 6"/></svg>
-                    </div>
-
-                    <div class="timeline-content">
-
-                        <div class="timeline-title-row">
-
-                            <strong>
-                                2. Revisión de Perfil & Match
-                            </strong>
-
-                            <span class="step-done">
-                                Completado · 25 Ago
-                            </span>
-
-                        </div>
-
-                        <p>
-                            Validación de trayectoria y stack tecnológico
-                            (Node, React, Microservicios y Cloud Architecture).
-                        </p>
-
-                        <span class="timeline-settings">
-                            <svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l3 3M16 16l3 3M5 19l3-3M16 8l3-3"/></svg>
-                        </span>
-
-                    </div>
-
-                </article>
-
-
-
-                <!-- PASO 3 -->
-
-                <article class="timeline-step completed">
-
-                    <div class="timeline-marker">
-                        <svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m5 12 4 4L19 6"/></svg>
-                    </div>
-
-                    <div class="timeline-content">
-
-                        <div class="timeline-title-row">
-
-                            <strong>
-                                3. Evaluación Inicial & Assessfirst
-                            </strong>
-
-                            <span class="step-done">
-                                Completado · 31 Ago
-                            </span>
-
-                        </div>
-
-                        <p>
-                            Completaste las pruebas de razonamiento,
-                            motivaciones y estilo colaborativo Liverpool.
-                        </p>
-
-                        <span class="timeline-settings">
-                            <svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l3 3M16 16l3 3M5 19l3-3M16 8l3-3"/></svg>
-                        </span>
-
-                    </div>
-
-                </article>
-
-
-
-                <!-- PASO 4 -->
-
-                <article class="timeline-step completed">
-
-                    <div class="timeline-marker">
-                        <svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m5 12 4 4L19 6"/></svg>
-                    </div>
-
-                    <div class="timeline-content">
-
-                        <div class="timeline-title-row">
-
-                            <strong>
-                                4. Entrevista Inicial con Reclutamiento
-                            </strong>
-
-                            <span class="step-done">
-                                Completado · 12 Sep
-                            </span>
-
-                        </div>
-
-                        <p>
-                            Conversación de alineación cultural y
-                            expectativas profesionales con Daniela Morales.
-                        </p>
-
-                        <span class="timeline-settings">
-                            <svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l3 3M16 16l3 3M5 19l3-3M16 8l3-3"/></svg>
-                        </span>
-
-                    </div>
-
-                </article>
-
-
-
-                <!-- PASO 5 -->
-
-                <article class="timeline-step current">
-
-                    <div class="timeline-marker">
-                        <svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="6" width="12" height="12" rx="2"/><path d="m15 10 6-3v10l-6-3"/></svg>
-                    </div>
-
-                    <div class="timeline-content current-content">
-
-                        <div class="timeline-current-top">
-
-                            <div class="timeline-title-row">
-
-                                <strong>
-                                    5. Panel Técnico y de Competencias
-                                </strong>
-
-                                <span class="current-pill">
-                                    EN CURSO
-                                </span>
-
-                            </div>
-
-
-                            <span class="scheduled-label">
-                                <svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg> Cita Agendada: Jueves 24 Sep · 11:00 AM CST
-                            </span>
-
-                        </div>
-
-
-                        <p>
-                            Conversación estructurada con el Director de
-                            Tecnología y People Partner sobre arquitectura,
-                            escalabilidad omnicanal y liderazgo técnico.
-                        </p>
-
-
-                        <div class="timeline-actions">
-
-                            <button
-                                class="timeline-primary-button"
-                                type="button"
-                                id="viewSessionButton"
-                            >
-                                <svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z"/><circle cx="12" cy="10" r="2"/></svg> Ver Detalles de la Sesión
-                            </button>
-
-
-                            <button
-                                class="timeline-secondary-button"
-                                type="button"
-                                id="addCalendarButton"
-                            >
-                                <svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18M7 14h3M14 14h3M7 17h3"/></svg> Agregar a Google / Outlook
-                            </button>
-
-                        </div>
-
-
-                    </div>
-
-                </article>
-
-
-
-                <!-- PASO 6 -->
-
-                <article class="timeline-step pending">
-
-                    <div class="timeline-marker">
-                        <svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg>
-                    </div>
-
-                    <div class="timeline-content">
-
-                        <div class="timeline-title-row">
-
-                            <strong>
-                                6. Decisión Colegiada y Oferta Formal
-                            </strong>
-
-                            <span class="step-next">
-                                Próximo
-                            </span>
-
-                        </div>
-
-                        <p>
-                            Resolución del panel. En caso de selección favorable,
-                            recibirás la propuesta formal de compensación integral
-                            Liverpool.
-                        </p>
-
-                        <span class="resolution-time">
-                            Resolución en 3–5 días hábiles
-                        </span>
-
-                    </div>
-
-                </article>
-
-
+            <div class="timeline" id="candidateTimeline">
             </div>
-
 
         </section>
 
+        <section class="content-card" id="offerSection" hidden>
 
+            <div class="card-title-row">
 
-        <!-- =================================================
-             ENTREVISTA + CONSEJOS
-        ================================================== -->
+                <div class="title-with-icon">
+
+                    <span class="pink-icon">
+                        <svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 3H5v18h14V8ZM14 3v5h5M8 12h8M8 16h8"/></svg>
+                    </span>
+
+                    <div>
+                        <h2>
+                            Tu Oferta Liverpool
+                        </h2>
+
+                        <p id="offerSubtitle">
+                            Revisa la propuesta y confirma tu disponibilidad de ingreso.
+                        </p>
+                    </div>
+
+                </div>
+
+                <span class="confirmed-pill" id="offerPill">
+                    Oferta recibida
+                </span>
+
+            </div>
+
+            <div class="candidate-info-grid" id="offerDetail">
+            </div>
+
+            <div class="recruiter-actions" id="offerActions">
+            </div>
+
+        </section>
 
         <div class="two-column-layout">
-
-
-            <!-- ENTREVISTA -->
 
             <section
                 class="content-card"
                 id="interviewSection"
             >
-
 
                 <div class="card-title-row">
 
@@ -682,104 +332,87 @@
 
                     </div>
 
-
-                    <span class="confirmed-pill">
+                    <span class="confirmed-pill" id="interviewPill">
                         Confirmada
                     </span>
 
                 </div>
 
-
-
                 <div class="interview-date-card">
-
 
                     <div class="calendar-box">
 
-                        <span>
+                        <span id="interviewMonth">
                             SEP
                         </span>
 
-                        <strong>
+                        <strong id="interviewDay">
                             24
                         </strong>
 
                     </div>
 
-
                     <div class="interview-time">
 
-                        <strong>
+                        <strong id="interviewDate">
                             Jueves, 24 de Septiembre 2026
                         </strong>
 
-                        <span>
+                        <span id="interviewHour">
                             11:00 AM – 12:15 PM CST (75 minutos)
                         </span>
 
                     </div>
 
-
                     <span class="teams-label">
                         <svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18M7 14h3M14 14h3M7 17h3"/></svg> Microsoft Teams
                     </span>
 
-
                 </div>
-
-
 
                 <span class="small-section-label">
                     TU PANEL EVALUADOR
                 </span>
 
-
-
                 <div class="evaluators">
-
 
                     <article class="evaluator-card">
 
                         <div class="person-avatar avatar-roberto">
-                            RG
+                            DR
                         </div>
 
                         <div>
                             <strong>
-                                Roberto Garza
+                                Daniel Ramírez
                             </strong>
 
                             <span>
-                                Hiring Manager · Director Tech
+                                Hiring Manager · Dirección Digital
                             </span>
                         </div>
 
                     </article>
-
-
 
                     <article class="evaluator-card">
 
                         <div class="person-avatar avatar-mariana">
-                            MM
+                            KM
                         </div>
 
                         <div>
                             <strong>
-                                Mariana Morales
+                                Karla Méndez
                             </strong>
 
                             <span>
-                                People Partner Liverpool Tech
+                                Atracción de Talento Liverpool
                             </span>
                         </div>
 
                     </article>
 
-
                 </div>
-
-
 
                 <div class="interview-bottom">
 
@@ -787,7 +420,6 @@
                         <svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18M7 14h3M14 14h3M7 17h3"/></svg> El enlace de Teams se activará
                         15 minutos antes.
                     </span>
-
 
                     <button
                         class="disabled-meeting-button"
@@ -799,18 +431,12 @@
 
                 </div>
 
-
             </section>
-
-
-
-            <!-- CONSEJOS -->
 
             <section
                 class="content-card tips-card"
                 id="tipsSection"
             >
-
 
                 <div class="card-title-row">
 
@@ -834,10 +460,7 @@
 
                 </div>
 
-
-
                 <div class="tips-list">
-
 
                     <article class="tip-item">
 
@@ -859,8 +482,6 @@
 
                     </article>
 
-
-
                     <article class="tip-item">
 
                         <span class="tip-number">
@@ -881,8 +502,6 @@
 
                     </article>
 
-
-
                     <article class="tip-item">
 
                         <span class="tip-number">
@@ -895,18 +514,15 @@
                             </strong>
 
                             <p>
-                                La entrevista es mutua. Pregunta a Roberto y
-                                Mariana sobre la visión del equipo, los
-                                microservicios y nuestras tecnologías.
+                                La entrevista es mutua. Pregunta al Hiring Manager
+                                y al equipo de Talento sobre la visión del área,
+                                el equipo y los retos del puesto.
                             </p>
                         </div>
 
                     </article>
 
-
                 </div>
-
-
 
                 <div class="tip-footer">
 
@@ -921,25 +537,13 @@
 
                 </div>
 
-
             </section>
-
 
         </div>
 
-
-
-        <!-- =================================================
-             CV + RECLUTADORA
-        ================================================== -->
-
         <div class="two-column-layout lower-layout">
 
-
-            <!-- CV -->
-
             <section class="content-card resume-card">
-
 
                 <div class="card-title-row">
 
@@ -961,7 +565,6 @@
 
                     </div>
 
-
                     <button
                         class="update-cv-button"
                         type="button"
@@ -979,14 +582,11 @@
 
                 </div>
 
-
-
                 <div class="file-row">
 
                     <span class="file-icon">
                         <svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 3H5v18h14V8ZM14 3v5h5M8 12h8M8 16h8"/></svg>
                     </span>
-
 
                     <div class="file-copy">
 
@@ -999,7 +599,6 @@
                         </span>
 
                     </div>
-
 
                     <div class="file-actions">
 
@@ -1023,10 +622,7 @@
 
                 </div>
 
-
-
                 <div class="candidate-info-grid">
-
 
                     <article>
 
@@ -1040,8 +636,6 @@
 
                     </article>
 
-
-
                     <article>
 
                         <span>
@@ -1053,8 +647,6 @@
                         </strong>
 
                     </article>
-
-
 
                     <article>
 
@@ -1068,8 +660,6 @@
 
                     </article>
 
-
-
                     <article>
 
                         <span>
@@ -1082,28 +672,19 @@
 
                     </article>
 
-
                 </div>
-
-
 
                 <p class="privacy-note">
                     <svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6Z"/></svg> Tus datos personales están protegidos conforme
                     al Aviso de Privacidad de Liverpool.
                 </p>
 
-
             </section>
-
-
-
-            <!-- RECLUTADORA -->
 
             <section
                 class="content-card recruiter-card"
                 id="recruiterSection"
             >
-
 
                 <div class="card-title-row">
 
@@ -1126,24 +707,20 @@
 
                 </div>
 
-
-
                 <div class="recruiter-profile">
 
-
                     <div class="recruiter-avatar">
-                        DM
+                        KM
                     </div>
-
 
                     <div>
 
                         <strong>
-                            Daniela Morales
+                            Karla Méndez
                         </strong>
 
                         <span class="recruiter-role">
-                            Talent Attraction Specialist
+                            Atracción de Talento
                         </span>
 
                         <small>
@@ -1152,20 +729,10 @@
 
                     </div>
 
-
                 </div>
 
-
-
-                <p class="recruiter-message">
-
-                    “¡Hola Sofía! Estamos muy entusiasmados por la sesión
-                    del jueves con Roberto. Cualquier imprevisto de horario
-                    o duda técnica, avísame de inmediato por este canal.”
-
+                <p class="recruiter-message" id="recruiterMessage">
                 </p>
-
-
 
                 <div class="recruiter-actions">
 
@@ -1177,7 +744,6 @@
                         <svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 3h18v14H8l-5 4ZM7 8h10M7 12h7"/></svg> Enviar Mensaje
                     </button>
 
-
                     <button
                         class="secondary-action"
                         type="button"
@@ -1187,8 +753,6 @@
                     </button>
 
                 </div>
-
-
 
                 <div class="response-time">
 
@@ -1202,20 +766,11 @@
 
                 </div>
 
-
             </section>
-
 
         </div>
 
-
-
-        <!-- =================================================
-             CULTURA
-        ================================================== -->
-
         <section class="culture-card">
-
 
             <div>
 
@@ -1223,12 +778,10 @@
                     CULTURA LIVERPOOL
                 </span>
 
-
                 <h2>
                     Transformando la experiencia de millones
                     de familias mexicanas
                 </h2>
-
 
                 <p>
                     Conoce más sobre nuestros centros de desarrollo
@@ -1239,7 +792,6 @@
 
             </div>
 
-
             <button
                 type="button"
                 id="benefitsButton"
@@ -1247,17 +799,9 @@
                 Explorar Beneficios <svg class="talento-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 12h16m-6-6 6 6-6 6"/></svg>
             </button>
 
-
         </section>
 
-
     </main>
-
-
-
-    <!-- =====================================================
-         FOOTER
-    ====================================================== -->
 
     <footer class="footer">
 
@@ -1273,7 +817,6 @@
                 </span>
             </div>
 
-
             <nav>
 
                 <button
@@ -1281,6 +824,10 @@
                     id="footerFaqButton"
                 >
                     Preguntas Frecuentes
+                </button>
+
+                <button type="button" id="footerExitButton">
+                    Volver al login
                 </button>
 
                 <button type="button">
@@ -1296,12 +843,6 @@
         </div>
 
     </footer>
-
-
-
-    <!-- =====================================================
-         MODAL
-    ====================================================== -->
 
     <div
         class="modal-overlay"
@@ -1325,18 +866,11 @@
 
     </div>
 
-
-
-    <!-- =====================================================
-         TOAST
-    ====================================================== -->
-
     <div
         class="toast"
         id="toast"
     >
     </div>
-
 
 </body>
 
