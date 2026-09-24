@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Hiring Manager (HM) | Ecosistema de Atracción de Talento</title>
+
+    <link rel="stylesheet" href="../css/hm-styles.css">
+
+    <script src="../js/hm-db.js" defer></script>
+    <script src="../js/hm-app.js" defer></script>
+
+</head>
+
+<body>
+
+    <div class="hm-shell">
+
+        <!-- Navegación del Hiring Manager -->
+        <aside class="hm-sidebar">
+
+            <div class="hm-brand">
+                <span class="hm-brand__mark">L</span>
+                <span class="hm-brand__name">
+                    <strong>Talento</strong>
+                    <span>HIRING MANAGER</span>
+                </span>
+            </div>
+
+            <nav class="hm-nav">
+
+                <button class="hm-nav__link is-active" type="button" data-view="vacantes">
+                    <span class="hm-nav__icon">▤</span>
+                    Mis Vacantes
+                </button>
+
+                <button class="hm-nav__link" type="button" data-view="entrevistas">
+                    <span class="hm-nav__icon">◷</span>
+                    Mis Entrevistas
+                    <span class="hm-badge" id="hm-pending-badge">0</span>
+                </button>
+
+            </nav>
+
+            <div class="hm-sidebar__user">
+                <span class="hm-avatar hm-avatar--sm" id="hm-user-initials">DR</span>
+                <span>
+                    <strong id="hm-user-name">Daniel Ramírez</strong>
+                    <small id="hm-user-role">Hiring Manager</small>
+                </span>
+            </div>
+
+        </aside>
+
+        <div class="hm-main">
+
+            <header class="hm-topbar">
+
+                <div class="hm-topbar__title">
+                    <span class="hm-eyebrow" id="hm-vacancy-folio">VACANTE ACTIVA</span>
+                    <h1 id="hm-vacancy-title">Gerente de E-commerce</h1>
+                    <p id="hm-vacancy-meta"></p>
+                </div>
+
+                <div class="hm-topbar__actions">
+
+                    <div class="hm-bell-wrap">
+
+                        <button class="hm-icon-button" type="button" id="hm-bell" aria-expanded="false">
+                            🔔
+                            <span class="hm-badge hm-badge--float" id="hm-alert-count">0</span>
+                        </button>
+
+                        <div class="hm-alerts" id="hm-alerts" hidden>
+                            <div class="hm-alerts__head">
+                                <strong>Alertas de SLA</strong>
+                                <button class="hm-alerts__close" type="button" id="hm-alerts-close">×</button>
+                            </div>
+                            <div class="hm-alerts__list" id="hm-alerts-list"></div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </header>
+
+            <div class="hm-banner" id="hm-banner" hidden>
+                <span class="hm-banner__icon">◷</span>
+                <p id="hm-banner-text"></p>
+                <button class="hm-banner__close" type="button" id="hm-banner-close">×</button>
+            </div>
+
+            <main class="hm-content">
+
+                <section class="hm-view" id="hm-view-vacantes">
+
+                    <section class="hm-card">
+
+                        <div class="hm-card__head">
+                            <div>
+                                <h2>Flujo de la vacante · 6 etapas</h2>
+                                <p>Solo puedes intervenir en Alineación y Selección. El resto lo gestiona
+                                    reclutamiento.</p>
+                            </div>
+                            <span class="hm-pill hm-pill--flame" id="hm-sla-pill"></span>
+                        </div>
+
+                        <ol class="hm-timeline" id="hm-timeline"></ol>
+
+                        <div class="hm-stage-panel" id="hm-stage-panel" hidden></div>
+
+                    </section>
+
+                    <section class="hm-card" id="hm-shortlist-card">
+
+                        <div class="hm-card__head">
+                            <div>
+                                <h2>Shortlist · candidatos listos para ti</h2>
+                                <p id="hm-shortlist-counter"></p>
+                            </div>
+                            <span class="hm-pill" id="hm-shortlist-pill"></span>
+                        </div>
+
+                        <div class="hm-bento" id="hm-shortlist"></div>
+
+                        <div class="hm-arena" id="hm-arena" hidden></div>
+
+                    </section>
+
+                </section>
+
+                <section class="hm-view" id="hm-view-entrevistas" hidden>
+
+                    <section class="hm-card">
+
+                        <div class="hm-card__head">
+                            <div>
+                                <h2>Mis Entrevistas</h2>
+                                <p>Sesiones agendadas y veredictos que aún no has registrado.</p>
+                            </div>
+                        </div>
+
+                        <div class="hm-interviews" id="hm-interviews"></div>
+
+                    </section>
+
+                </section>
+
+            </main>
+
+        </div>
+
+    </div>
+
+    <button class="hm-fab" type="button" id="hm-fab">
+        ⚖ Comparar Candidatos
+        <span class="hm-fab__count" id="hm-fab-count">0</span>
+    </button>
+
+    <div class="hm-overlay" id="hm-overlay"></div>
+
+    <!-- Cajón de entrevista: CV + decisión final -->
+    <aside class="hm-sheet" id="hm-sheet">
+
+        <header class="hm-sheet__head">
+
+            <span class="hm-avatar" id="hm-sheet-initials"></span>
+
+            <div class="hm-sheet__id">
+                <h2 id="hm-sheet-name"></h2>
+                <p id="hm-sheet-role"></p>
+                <div class="hm-chips" id="hm-sheet-chips"></div>
+            </div>
+
+            <button class="hm-sheet__close" type="button" id="hm-sheet-close">×</button>
+
+        </header>
+
+        <div class="hm-sheet__scroll">
+
+            <section class="hm-sheet__section">
+
+                <h3>Currículum</h3>
+
+                <div class="hm-cv">
+                    <div class="hm-cv__bar">
+                        <span id="hm-cv-file"></span>
+                        <span class="hm-cv__tag">Visor PDF</span>
+                    </div>
+                    <iframe class="hm-cv__frame" id="hm-cv-frame" title="Visor de CV"></iframe>
+                </div>
+
+            </section>
+
+            <section class="hm-sheet__section">
+
+                <h3>Feedback previo del panel</h3>
+
+                <div class="hm-history" id="hm-history"></div>
+
+            </section>
+
+            <section class="hm-sheet__section">
+
+                <h3>Tu decisión final</h3>
+
+                <form class="hm-form" id="hm-feedback-form" novalidate>
+
+                    <fieldset class="hm-fieldset">
+
+                        <legend>Veredicto</legend>
+
+                        <label class="hm-radio">
+                            <input type="radio" name="hm-verdict" value="Recomendado" required>
+                            <span>Recomendado</span>
+                        </label>
+
+                        <label class="hm-radio">
+                            <input type="radio" name="hm-verdict" value="No recomendado">
+                            <span>No recomendado</span>
+                        </label>
+
+                    </fieldset>
+
+                    <label class="hm-label" for="hm-feedback">Justificación de la decisión</label>
+
+                    <textarea
+                        id="hm-feedback"
+                        name="justificacion"
+                        rows="4"
+                        required
+                        placeholder="Explica el sustento técnico de tu decisión para dejar trazabilidad del proceso."
+                    ></textarea>
+
+                    <p class="hm-hint" id="hm-hint"></p>
+
+                    <div class="hm-form__actions">
+                        <button class="hm-button hm-button--ghost" type="submit" data-decision="descartar" disabled>
+                            Descartar
+                        </button>
+                        <button class="hm-button hm-button--primary" type="submit" data-decision="finalista" disabled>
+                            Marcar Finalista
+                        </button>
+                    </div>
+
+                </form>
+
+            </section>
+
+        </div>
+
+    </aside>
+
+    <div class="hm-toast" id="hm-toast"></div>
+
+</body>
+
+</html>

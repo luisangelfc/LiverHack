@@ -1477,3 +1477,58 @@ input {
     }
 
 }
+/* CENTRAR EL CONTENIDO DE AMBOS BLOQUES */
+
+
+.login-brand {
+    justify-content: center;
+    align-items: stretch;
+    text-align: left;
+}
+
+.brand-logo,
+.brand-stages {
+    justify-content: flex-start;
+}
+
+.brand-content h1,
+.brand-content p {
+    margin-inline: 0;
+}
+
+.login-form-side {
+    align-items: center;
+}
+
+.login-container {
+    height: auto;
+    padding-block: 0;
+    text-align: center;
+}
+
+.step-heading {
+    justify-content: center;
+}
+
+.form-group input {
+    text-align: center;
+}
+
+/* Mantener espacio alrededor del contenido en celular */
+@media (max-width: 900px) {
+    .login-brand {
+        padding-block: 45px;
+    }
+}
+
+.brand-logo-box {
+    overflow: hidden;
+}
+
+.brand-logo-box img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 5px;
+}
