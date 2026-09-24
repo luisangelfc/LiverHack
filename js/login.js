@@ -27,13 +27,8 @@ const profiles = {
 
 
     recruiter: {
-
-        name:
-            "Recruiter / AT",
-
-        page:
-            "recruiter.html"
-
+        name: "Recruiter / AT",
+        page: "index.html"
     },
 
 
@@ -54,7 +49,7 @@ const profiles = {
             "Hiring Manager",
 
         page:
-            "index.html"
+            "hiring-manager.html"
 
     },
 
@@ -582,3 +577,4 @@ function hideMessage() {
 
 
 }
+
